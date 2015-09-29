@@ -77,10 +77,10 @@ function changeScreen(html){
 	//document.getElementById('wrapper').innerHTML = html;
 	
 	var asd = $($('#wrapper').wrapInner('<div>')[0].children);
-	asd.animate({left: '50%'}, 1000, 
-		function(){
-			//$(this).remove();
-		});
+	//asd.animate({left: '50%'}, 1000, 
+	//	function(){
+	//		//$(this).remove();
+	//	});
 
 	init();
 	window.location.hash = '';
