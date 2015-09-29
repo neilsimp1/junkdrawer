@@ -1,0 +1,84 @@
+﻿<div class="main-container outputwrap col-xs-12 col-sm-5">
+    <div id="output" class="shadow"></div>
+</div>
+<div class="middlebar unselectable col-xs-12 col-sm-2">
+    <div class="resize">
+        <a class="hoverbtn" onclick="resize('lu');">
+            <span class="glyphicon glyphicon-menu-left"></span>
+        </a>
+        <a class="hoverbtn" onclick="resize('rd');">
+            <span class="glyphicon glyphicon-menu-right"></span>
+        </a>
+    </div>
+</div>
+<div class="main-container inputwrap col-xs-12 col-sm-5">
+    <div class="textcontainer shadow col-xs-12" style="padding:0;">
+        <div class="toolbar unselectable col-xs-12">
+            <div id="wysihtml5-toolbar">
+                <div class="pull-left">
+                    <button type="button" class="hoverbtn btn-glyph" data-wysihtml5-command="fontSize" data-wysihtml5-command-value="small" title="Small">
+                        <span class="glyphicon glyphicon-font" style="font-size:0.8em;"></span>
+                    </button>
+                    <button type="button" class="hoverbtn btn-glyph" data-wysihtml5-command="fontSize" data-wysihtml5-command-value="large" title="Large">
+                        <span class="glyphicon glyphicon-font"></span>
+                    </button>
+                    <button type="button" class="hoverbtn btn-glyph" data-wysihtml5-command="bold" title="Bold">
+                        <span class="glyphicon glyphicon-bold"></span>
+                    </button>
+                    <button type="button" class="hoverbtn btn-glyph" data-wysihtml5-command="italic" title="Italic">
+                        <span class="glyphicon glyphicon-italic"></span>
+                    </button>
+                    <button type="button" class="hoverbtn btn-glyph" data-wysihtml5-command="underline" title="Underline">
+                        <span style="font-weight:bold;text-decoration:underline;font-size:1.1em;">U</span>
+                    </button>
+                    <button type="button" class="hoverbtn btn-glyph" data-wysihtml5-command="insertUnorderedList" title="Unordered List">
+                        <span class="glyphicon glyphicon-list"></span>
+                    </button>
+                    <button type="button" class="hoverbtn btn-glyph" data-wysihtml5-command="insertOrderedList" title="Ordered List">
+                        <span class="glyphicon glyphicon-list-alt"></span>
+                    </button>
+                </div>
+                <div class="pull-right">
+                    <button type="button" class="hoverbtn btn-glyph" title="Clear" onclick="clearInput();">
+                        <span class="glyphicon glyphicon-trash" style="font-size:0.8em;"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="inputcontainer">
+            <textarea id="input" class="input" placeholder="Enter your text ..."></textarea>
+        </div>
+    </div>
+</div>
+<div class="bottombar unselectable col-xs-12">
+    <div class="container-fluid" style="padding:0;">
+        <div class="menubtncontainer col-xs-5 col-sm-6">
+            <div class="btn-group dropup">
+                <button type="button" id="button_menu" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="glyphicon glyphicon-menu-hamburger"></span>
+                </button>
+                <ul class="mainmenu dropdown-menu">
+                    <li>
+                        <a href="#">Settings<span class="glyphicon glyphicon-user"></span></a>
+                    </li>
+                    <li>
+                        <a href="#">Folders<span class="glyphicon glyphicon-folder-open"></span></a>
+                    </li>
+                    <li role="separator" class="divider"></li>
+                    <li>
+                        <a href="./logout">Logout<span class="glyphicon glyphicon-log-out"></span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-xs-5 col-sm-3">
+            <input type="file" id="fileinput" name="fileinput[]" multiple="multiple" />
+        </div>
+        <div class="text-right col-xs-2 col-sm-3">
+            <a id="post" class="hoverbtn">
+                <span class="glyphicon glyphicon-chevron-right" style="font-size:2em;"></span>
+            </a>
+        </div>
+    </div>
+</div>

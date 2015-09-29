@@ -1,0 +1,34 @@
+﻿<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Junk Drawer</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,Chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/bootstrap-theme.min.css" rel="stylesheet" />
+    <link href="css/style.css" rel="stylesheet" />
+
+    <script src="js/jquery-1.11.3.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/wysihtml/dist/wysihtml5x.min.js"></script>
+    <script src="js/wysihtml/dist/wysihtml5x-toolbar.min.js"></script>
+    <script src="js/wysihtml/parser_rules/advanced_and_extended.js"></script>
+    <script src="js/jqdl.min.js"></script>
+    <script src="js/jd.js" defer="defer"></script>
+</head>
+<body>
+    <div id="wrapper"class="container-fluid">
+        <% if(locals.isLoggedIn){%>
+            <%- include('main')%>
+        <% }else{ %>
+            <%- include('login')%>
+        <% } %>
+        <input type="hidden" id="user" value="<%= locals.user? JSON.stringify(locals.user): '' %>" />
+        <input type="hidden" id="hidden_error" value="<%= locals.error? JSON.stringify(locals.error): '' %>" />
+    </div>
+</body>
+</html>

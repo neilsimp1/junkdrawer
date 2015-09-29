@@ -1,0 +1,128 @@
+﻿<div style="height:10vh;display:block;"></div>
+<div id="div_logincontainer" class="shadow col-xs-12 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4" style="padding:0;">
+    <div class="logobar">
+        <img src="favicon.ico"/>
+        <label for="textbox_username_login" class="control-label">Junk Drawer</label>
+    </div>
+    <div class="div_loginregister">
+        <h3 id="h3_loginregister">
+            <span id="span_backToLogin">
+                <a href="#login"><span class="loginhelp">Back</span></a>
+                <span style="font-size: 1.2em;">&nbsp;|&nbsp;</span>
+                <span>Forget something?</span>
+            </span>
+            <span id="span_loginregister">
+                <span id="span_login" class="loginreg">Login</span>
+                <span style="font-size: 1.2em;">&nbsp;|&nbsp;</span>
+                <a href="#register"><span id="span_register" class="loginreg">Register</span></a>
+            </span>
+        </h3>
+        <div id="div_needhelp">
+            <div class="container-fluid">
+                <form>
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <label for="textbox_username_help" class="control-label">Username</label><br />
+                            <input type="text" id="textbox_username_help" name="username" class="form-control" placeholder="Username..." required="required" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <label for="textbox_email_help" class="control-label">Email</label><br />
+                            <input type="text" id="textbox_email_help" name="username" class="form-control" placeholder="Email..." required="required" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="container-fluid">
+                            <br />
+                            <div class="col-xs-12 text-right">
+                                <button type="button" id="button_resetpassword" class="btn btn-default" disabled="disabled">Reset Password</button>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+                </form>
+            </div>
+        </div>
+        <div id="div_loginform">
+            <div class="container-fluid">
+                <form>
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <label for="textbox_username_login" class="control-label">Username</label><br />
+                            <input type="text" id="textbox_username_login" name="username" class="form-control" placeholder="Username..." required="required" />
+                            <% if(error && error.page === 'login' && error.origin === 'username'){ %>
+                                <span class="error-message"><%= error.errMess %></span>
+                            <% } %>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <label for="textbox_username_login" class="control-label">Password</label><br />
+                            <input type="password" id="textbox_username_login" name="password" class="form-control" placeholder="Password..." required="required" />
+                            <% if(error && error.page === 'login' && error.origin === 'password'){ %>
+                                <span class="error-message"><%= error.errMess %></span>
+                            <% } %>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="container-fluid">
+                            <br />
+                            <div class="col-xs-7" style="padding-top:8px;">
+                                <a href="#help" id="a_needhelp" class="loginhelp">Need Help?</a>
+                            </div>
+                            <div class="col-xs-5 text-right">
+                                <button type="button" id="button_login" class="btn btn-default">Login</button>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+                </form>
+            </div>
+        </div>
+        <div id="div_registerform">
+            <div class="container-fluid">
+                <form>
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <label for="textbox_username_register" class="control-label">Username</label><br />
+                            <input type="text" id="textbox_username_register" name="username" class="form-control" placeholder="Username..." required="required" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <label for="textbox_email_register" class="control-label">Email</label><br />
+                            <input type="email" id="textbox_email_register" name="email" class="form-control" placeholder="Email..." required="required" />
+                            <% if(error && error.page === 'register' && error.origin === 'usernameemail'){ %>
+                                <span class="error-message"><%= error.errMess %></span>
+                            <% } %>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <label for="textbox_password_register" class="control-label">Password</label><br />
+                            <input type="password" id="textbox_username_register" name="password" class="form-control" placeholder="Password..." required="required" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <label for="textbox_confirmpassword_register" class="control-label">Confirm Password</label><br />
+                            <input type="password" id="textbox_confirmpassword_register" name="confirmpassword" class="form-control" placeholder="Confirm Password..." required="required" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="container-fluid">
+                            <br />
+                            <div class="col-xs-12 text-right">
+                                <button type="button" id="button_register" class="btn btn-default">Register</button>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="js/login.js"></script>
