@@ -7,7 +7,7 @@ var utils = require('../utils');
 var router = express.Router();
 
 //POST: /register
-router.post('/register', function (req, res){
+router.post('/register', function(req, res){
 	var salt = bcrypt.genSaltSync(10);
 	var hash = bcrypt.hashSync(req.body.password, salt);
 

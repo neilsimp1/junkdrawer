@@ -29,6 +29,8 @@ filter:progid:DXImageTransform.Microsoft.gradient( startColorstr='#3f3f3f', endC
     .resize{left:-7px;top:45%;padding:8px 0;}
     .inputwrap, .outputwrap{width:calc(50% - 2px);}
 }
+#wrapper_login{position:relative;height:100%;width:100%;}
+#div_logincontainer{position:absolute;top:30%;transform:translateY(-30%);padding:0;}
 #output{
 background-color:#EFEFEF;
 opacity:0.8;
