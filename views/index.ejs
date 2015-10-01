@@ -24,11 +24,11 @@
     <div id="wrapper"class="container-fluid">
         <% if(locals.isLoggedIn){%>
             <%- include('main')%>
-        <% }else{ %>
+        <% }else{%>
             <%- include('login')%>
-        <% } %>
+        <% }%>
         <input type="hidden" id="user" value="<%= locals.user? JSON.stringify(locals.user): '' %>" />
-        <input type="hidden" id="hidden_error" value="<%= locals.error? JSON.stringify(locals.error): '' %>" />
+        <input type="hidden" id="error" value="<%= locals.error? JSON.stringify(locals.error): '' %>" />
     </div>
 </body>
 </html>

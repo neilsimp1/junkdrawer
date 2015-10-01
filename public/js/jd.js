@@ -74,28 +74,42 @@ function setDraggerIcons(){
 function clearInput(){document.querySelector('.wysihtml5-sandbox').contentDocument.body.innerHTML = '';}
 
 function changeScreen(html){
-	//document.getElementById('wrapper').innerHTML = html;
-	
-	var asd = $($('#wrapper').wrapInner('<div>')[0].children);
-	//asd.animate({left: '50%'}, 1000, 
-	//	function(){
-	//		//$(this).remove();
-	//	});
+	var wrapper = document.getElementById('wrapper');
+	$($(wrapper).wrapInner('<div style="position:relative;">')[0].children).animate({top: '-5000px'}, 500 
+		,function(){this.innerHTML = '';}
+	);
+	var div = $('<div style="position:relative;top:5000px;">').html(html)[0];
+	wrapper.appendChild(div);
+	$(div).animate({top: '0'}, 500
+		,function(){
+			init();
+			$(this).replaceWith(function(){return $(this.children, this);});
+		}
+	);
 
-	init();
 	window.location.hash = '';
 }
 
 function post(){
 	var text = document.querySelector('.wysihtml5-sandbox').contentDocument.body.innerHTML
 		,files = document.getElementById('fileinput').files
-		,user = JSON.parse(document.getElementById('user').value);
+		,user = getUser();
 
 	var asd = 123;
-	//$.post('/post', {
-	//		id: user._id
-	//	})
+	$.post('/post', {
+			id: user._id
+			,text: text
+			,files: files
+		}
+		,function(ret){
+			console.log(ret);
+		}
+	).fail(function(){
+		alert('what the fuck');
+	});
 }
+
+function getUser(){return JSON.parse(document.getElementById('user').value);}
 
 //BELOW, not needed, but keeping for possible future reference
 //insertTextAtCursor is from SO, but passing in iframeDoc to show how to get that element in JS

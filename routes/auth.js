@@ -34,16 +34,18 @@ router.post('/register', function(req, res){
 			utils.createFolder(req, res, user, 'Home', function(folders){
 				user._doc.folders = folders;
 				utils.createUserSession(req, res, user, function(){
-					res.render('main.ejs', {isLoggedIn: true, csrfToken: req.csrfToken(), user: user},
-						function(err, html){
-							var ret = {
-								html: html
-							}
+					utils.sanitizeUser(user, function(user){
+						res.render('main.ejs', {isLoggedIn: true, csrfToken: req.csrfToken(), user: user, renderJSON: true}
+							,function(err, html){
+								var ret = {
+									html: html
+								}
 
-							res.setHeader('Content-Type', 'application/json');
-							res.status(200).send(ret);
-						}
-					);
+								res.setHeader('Content-Type', 'application/json');
+								res.status(200).send(ret);
+							}
+						);
+					});
 				});
 			});
 		}
@@ -64,17 +66,19 @@ router.post('/login', function(req, res){
 			if(bcrypt.compareSync(req.body.password, user.password)){
 				utils.getUser(req, res, function(user){
 					utils.createUserSession(req, res, user, function(){
-						res.render('main.ejs', {isLoggedIn: true, csrfToken: req.csrfToken(), user: user},
-							function(err, html){
-								var ret = {
-									html: html
-									,user: user
-								}
+						utils.sanitizeUser(user, function(user){
+							res.render('main.ejs', {isLoggedIn: true, csrfToken: req.csrfToken(), user: user, renderJSON: true},
+								function(err, html){
+									var ret = {
+										html: html
+										,user: user
+									}
 
-								res.setHeader('Content-Type', 'application/json');
-								res.status(200).send(ret);
-							}
-						);
+									res.setHeader('Content-Type', 'application/json');
+									res.status(200).send(ret);
+								}
+							);
+						});
 					});
 				});
 			}

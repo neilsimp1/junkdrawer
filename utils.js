@@ -122,6 +122,7 @@ module.exports.getUser = function(req, res, callback){
 module.exports.sanitizeUser = function(user, callback){
 	if(user._doc.settings) delete user._doc.settings;
 	if(user._doc.password) delete user._doc.password;
+	
 	typeof callback === 'function' && callback(user);
 }
 
