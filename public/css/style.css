@@ -147,13 +147,14 @@ form .control-label{color:#373737;font-size:0.85em;}
 /*Menu*/
 #button_menu{
 border:0;
-background-color:#854277;
+background-color:#854277;/*//MAKE THIS LESS INTENSE*/
 opacity:0.7;
 padding:4px;
 width:32px;
 height:32px;
 }
 .menubtncontainer{padding:0;}
+.menubtncontainer div.open #button_menu{background-color:#CDCDCD;}
 .mainmenu{
 border-radius:0;
 background-color:#D8D8D8;
