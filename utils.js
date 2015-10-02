@@ -14,17 +14,26 @@ var middleware = require('./middleware');
 var models = require('./models');
 
 module.exports.createUserSession = function(req, res, user, callback){
-	var cleanUser = {
-		id: user._id.id
-		,username: user.username
-		,email: user.email
-	};
+	// var cleanUser = {
+		// id: user._id.id
+		// ,username: user.username
+		// ,email: user.email
+	// };
 	
-	req.session.user = cleanUser;
-	req.user = cleanUser;
-	res.locals.user = cleanUser;
+	// req.session.user = cleanUser;
+	// req.user = cleanUser;
+	// res.locals.user = cleanUser;
 
-	typeof callback === 'function' && callback();
+	// typeof callback === 'function' && callback();
+	
+	
+	module.exports.sanitizeUser(user, function(user){
+		req.session.user = user;
+		req.user = user;
+		res.locals.user = user;
+		
+		typeof callback === 'function' && callback();
+	});
 };
 
 module.exports.createApp = function(){
