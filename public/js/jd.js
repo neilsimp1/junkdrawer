@@ -111,6 +111,8 @@ function post(){
 
 function getUser(){return JSON.parse(document.getElementById('user').value);}
 
+function getCsrf(){return document.getElementById('_csrf').value;}
+
 //BELOW, not needed, but keeping for possible future reference
 //insertTextAtCursor is from SO, but passing in iframeDoc to show how to get that element in JS
 

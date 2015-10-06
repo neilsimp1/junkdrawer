@@ -83,6 +83,7 @@
     </div>
 </div>
 <% if(locals.renderJSON){%>
-    <input type="hidden" id="user" value="<%= locals.user? JSON.stringify(locals.user): '' %>" />
-    <input type="hidden" id="hidden_error" value="<%= locals.error? JSON.stringify(locals.error): '' %>" />
+    <input type="hidden" id="user" value="<%= locals.user? JSON.stringify(user): '' %>" />
+	<input type="hidden" id="error" value="<%= locals.error? JSON.stringify(error): '' %>" />
+    <input type="hidden" id="_csrf" value="<%= _csrf; %>" />
 <% }%>

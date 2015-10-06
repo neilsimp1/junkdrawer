@@ -9,20 +9,13 @@ var router = express.Router();
 
 //GET: /
 router.get('/', function (req, res){
-	//var isLoggedIn = utils.isLoggedIn(req);
-	//var csrfToken = req.csrfToken();
-	
-	//if(isLoggedIn) res.render('index', {isLoggedIn: true, csrfToken: csrfToken, user: utils.getUser(req, res), error: req.error});
-	//else res.render('index', {csrfToken: csrfToken, error: req.error});
-    
 	var isLoggedIn = utils.isLoggedIn(req);
-	var csrfToken = req.csrfToken();
-	if(!isLoggedIn) res.render('index', {csrfToken: csrfToken, error: req.error});
+	if(!isLoggedIn) res.render('index', {_csrf: req._csrf, error: req.error});
 	else{
 		utils.getUser(req, res, function(user){
 			var asd = 123;
 			utils.sanitizeUser(user, function(user){
-				res.render('index', {isLoggedIn: true, csrfToken: csrfToken, user: user, error: req.error});
+				res.render('index', {isLoggedIn: true, _csrf: req._csrf, user: user, error: req.error});
 			});
 		});	
 	}

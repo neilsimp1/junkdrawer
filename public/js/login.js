@@ -53,7 +53,7 @@
 		
 	});
 	$('#button_login').on('click', function(){
-		$.post('login', $(this.form).serialize())
+		$.post('login', $(this.form).serialize()+'&'+$.param({'_csrf': getCsrf()}))
 			.done(function(ret){
 				changeScreen(ret.html);
 			})
@@ -64,7 +64,7 @@
 
 	});
 	$('#button_register').on('click', function(){
-		$.post('register', $(this.form).serialize())
+		$.post('register', $(this.form).serialize()+'&'+$.param({'_csrf': getCsrf()}))
 			.done(function(ret){
 				changeScreen(ret.html);
 			})

@@ -40,7 +40,6 @@
 								</div>
 							</div>
 						</div>
-						<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
 					</form>
 				</div>
 			</div>
@@ -76,7 +75,6 @@
 								</div>
 							</div>
 						</div>
-						<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
 					</form>
 				</div>
 			</div>
@@ -118,7 +116,6 @@
 								</div>
 							</div>
 						</div>
-						<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
 					</form>
 				</div>
 			</div>
@@ -126,8 +123,9 @@
 	</div>
 </div>
 <% if(locals.renderJSON){%>
-<input type="hidden" id="user" value=""<%= locals.user? JSON.stringify(locals.user): '' %>" />
-<input type="hidden" id="hidden_error" value=""<%= locals.error? JSON.stringify(locals.error): '' %>" />
+	<input type="hidden" id="user" value=""<%= locals.user? JSON.stringify(locals.user): '' %>" />
+	<input type="hidden" id="error" value=""<%= locals.error? JSON.stringify(locals.error): '' %>" />
+	<input type="hidden" id="_csrf" value="<%= _csrf; %>" />
 <% }%>
 
 <script src="js/login.js"></script>

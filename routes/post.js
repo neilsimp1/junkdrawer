@@ -24,7 +24,7 @@ router.post('/post', function(req, res){
 			}
 			var error = new utils.Error('post', origin, errMess);
 
-			res.render('index.ejs', {csrfToken: req.csrfToken(), error: error});
+			res.render('index.ejs', {_csrf: req._csrf, error: error});
 		}
 		else{//post saved
 			utils.getFiles(req.files).forEach(function(file, index){
@@ -38,7 +38,7 @@ router.post('/post', function(req, res){
 						}
 						var error = new utils.Error('post', origin, errMess);
 
-						res.render('index.ejs', {csrfToken: req.csrfToken(), error: error});
+						res.render('index.ejs', {_csrf: req._csrf, error: error});
 					}
 				});
 			});

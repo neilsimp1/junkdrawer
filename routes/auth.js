@@ -28,17 +28,18 @@ router.post('/register', function(req, res){
 			}
 			var error = new utils.Error('register', origin, errMess);
 
-			res.render('index.ejs', {csrfToken: req.csrfToken(), error: error});
+			res.render('index.ejs', {_csrf: req._csrf, error: error});
 		}
 		else{//user created
 			utils.createFolder(req, res, user, 'Home', function(folders){
 				user._doc.folders = folders;
 				utils.createUserSession(req, res, user, function(){
 					utils.sanitizeUser(user, function(user){
-						res.render('main.ejs', {isLoggedIn: true, csrfToken: req.csrfToken(), user: user, renderJSON: true}
+						res.render('main.ejs', {isLoggedIn: true, _csrf: req._csrf, user: user, renderJSON: true}
 							,function(err, html){
 								var ret = {
 									html: html
+									,user: user
 								}
 
 								res.setHeader('Content-Type', 'application/json');
@@ -57,7 +58,7 @@ router.post('/login', function(req, res){
 	models.User.findOne({username: req.body.username}, '_id password', function(err, user){//check for user
 		if(!user){//error username
 			var error = new utils.Error('login', 'username', 'Invalid username.');
-			res.render('index.ejs', {csrfToken: req.csrfToken(), error: error});
+			res.render('index.ejs', {_csrf: req._csrf, error: error});
 		}
 		else{//password
 			if(!req.user) req.user = {};
@@ -67,7 +68,7 @@ router.post('/login', function(req, res){
 				utils.getUser(req, res, function(user){
 					utils.createUserSession(req, res, user, function(){
 						utils.sanitizeUser(user, function(user){
-							res.render('main.ejs', {isLoggedIn: true, csrfToken: req.csrfToken(), user: user, renderJSON: true},
+							res.render('main.ejs', {isLoggedIn: true, _csrf: req._csrf, user: user, renderJSON: true},
 								function(err, html){
 									var ret = {
 										html: html
@@ -84,7 +85,7 @@ router.post('/login', function(req, res){
 			}
 			else{//error password
 				var error = new utils.Error('login', 'password', 'Invalid password.');
-				res.render('index.ejs', {csrfToken: req.csrfToken(), error: error});
+				res.render('index.ejs', {_csrf: req._csrf, error: error});
 			}
 		}
 	});

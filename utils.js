@@ -1,32 +1,14 @@
 //var debug = require('debug')('junkdrawer');
-var bodyParser = require('body-parser');
-var csrf = require('csurf');
-var express = require('express');
-var mongoose = require('mongoose');
 var session = require('client-sessions');
 var cookieParser = require('cookie-parser');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
-var path = require('path');
 //var stylus = require('stylus');
-
-var middleware = require('./middleware');
 var models = require('./models');
 
-module.exports.createUserSession = function(req, res, user, callback){
-	// var cleanUser = {
-		// id: user._id.id
-		// ,username: user.username
-		// ,email: user.email
-	// };
-	
-	// req.session.user = cleanUser;
-	// req.user = cleanUser;
-	// res.locals.user = cleanUser;
+module.exports.session = session;
 
-	// typeof callback === 'function' && callback();
-	
-	
+module.exports.createUserSession = function(req, res, user, callback){
 	module.exports.sanitizeUser(user, function(user){
 		req.session.user = user;
 		req.user = user;
@@ -36,32 +18,32 @@ module.exports.createUserSession = function(req, res, user, callback){
 	});
 };
 
-module.exports.createApp = function(){
-	mongoose.connect('mongodb://localhost/junkdrawer');
+//module.exports.createApp = function(){
+//	mongoose.connect('mongodb://localhost/junkdrawer');
 
-	var app = express();
+//	var app = express();
 	
-	//Settings
-	app.set('view engine', 'ejs');
+//	//Settings
+//	app.set('view engine', 'ejs');
 	
-	//Middleware
-	app.use(bodyParser.urlencoded({extended: true}));
-	app.use(session({
-		cookieName: 'session'
-		,secret: 'keyboard cat'
-		,duration: 30 * 60 * 1000
-		,activeDuration: 5 * 60 * 1000
-	}));
-	app.use(csrf());
-    app.use(middleware.simpleAuth);
-    app.use(express.static(path.join(__dirname, 'public')));
+//	//Middleware
+//	app.use(bodyParser.urlencoded({extended: true}));
+//	app.use(session({
+//		cookieName: 'session'
+//		,secret: 'keyboard cat'
+//		,duration: 30 * 60 * 1000
+//		,activeDuration: 5 * 60 * 1000
+//	}));
+//	app.use(csrf());
+//    app.use(middleware.simpleAuth);
+//    app.use(express.static(path.join(__dirname, 'public')));
 	
-	//Routes
-	app.use(require('./routes/auth'));
-	app.use(require('./routes/index'));
+//	//Routes
+//	app.use(require('./routes/auth'));
+//	app.use(require('./routes/index'));
 	
-	return app;
-};
+//	return app;
+//};
 
 module.exports.Error = function(page, origin, errMess){
 	return {
