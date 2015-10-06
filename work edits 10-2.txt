@@ -1,6 +1,0 @@
-look at simple auth, may not be getting used currently
-
-
-utils.js
-
-createUserSession - line 16

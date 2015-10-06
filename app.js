@@ -23,6 +23,7 @@ app.use(utils.session({
 }));
 app.use(csrf());
 app.use(middleware.makeCsrf);
+app.use(middleware.csrfError);
 app.use(middleware.auth);
 app.use(express.static(path.join(__dirname, 'public')));
 	

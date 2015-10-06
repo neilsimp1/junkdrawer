@@ -18,3 +18,9 @@ module.exports.makeCsrf = function(req, res, next){
 	req._csrf = req.csrfToken();
 	next();
 };
+
+module.exports.csrfError = function(err, req, res, next){
+	if(err.code !== 'EBADCSRFTOKEN') return next(err);
+	res.status(403);
+	res.send('Potential CSRF attack');
+};
