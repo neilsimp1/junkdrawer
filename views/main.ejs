@@ -46,7 +46,7 @@
             </div>
         </div>
         <div id="inputcontainer">
-            <textarea id="input" class="input" placeholder="Enter your text ..."></textarea>
+            <textarea id="input" class="input" placeholder="Put stuff here bro..."></textarea>
         </div>
     </div>
 </div>
@@ -87,5 +87,4 @@
 	<input type="hidden" id="error" value="<%= locals.error? JSON.stringify(error): '' %>" />
     <input type="hidden" id="_csrf" value="<%= _csrf; %>" />
 <% }%>
-
-<script src="js/main.min.js"></script>
+<input type="hidden" id="_scripts" data-init="init_main" value="js/app.js" />

@@ -127,5 +127,4 @@
 	<input type="hidden" id="error" value=""<%= locals.error? JSON.stringify(locals.error): '' %>" />
 	<input type="hidden" id="_csrf" value="<%= _csrf; %>" />
 <% }%>
-
-<script src="js/login.min.js"></script>
+<input type="hidden" id="_scripts" data-init="init_login" value="js/login.js" />
