@@ -1,4 +1,4 @@
-﻿/// <binding BeforeBuild='default' />
+/// <binding BeforeBuild='dev' />
 module.exports = function(grunt){
 
 	//config
@@ -7,6 +7,8 @@ module.exports = function(grunt){
 		,babel: {
 			login: {files: {'dist/login.js': 'make/js/login.js'}}
 			,main: {files: {'dist/main.js': 'make/js/main.js'}}
+			,jd: {files: {'dist/jd.js': 'make/js/jd.js'}}
+			,files: {files: {'dist/files.js': 'make/js/files.js'}}
 		}
 		,concat: {
 			options: {
@@ -17,7 +19,7 @@ module.exports = function(grunt){
 				src: [
 						'make/js/jquery-1.11.3.min.js'
 						,'make/js/bootstrap.min.js'
-						,'make/js/jd.js'
+						,'dist/jd.js'
 					]
 				,dest: 'dist/<%= pkg.shortname %>.js'
 			}
@@ -25,10 +27,10 @@ module.exports = function(grunt){
 				src: [
 						'make/js/wysihtml/dist/wysihtml-toolbar.min.js'
 						,'make/js/wysihtml/parser_rules/advanced_and_extended.js'
-						,'make/js/jqdl.js'
+						,'dist/files.js'
 						,'dist/main.js'
 					]
-				,dest: 'dist/app.js'
+				,dest: 'dist/main.js'
 			}
 			//TODO: css concat here
 		}
@@ -42,15 +44,15 @@ module.exports = function(grunt){
 				,dest: 'dist/<%= pkg.shortname %>.js'
 			}
 			,extras: {
-				src: 'dist/app.js'
-				,dest: 'dist/app.js'
+				src: 'dist/main.js'
+				,dest: 'dist/main.js'
 			}
 		}
 		,copy: {
 			main: {
 				files: [
 					//local
-					{expand: true, cwd: 'dist', src: ['<%= pkg.shortname %>.js', 'app.js', 'login.js'], dest: 'public/js'}
+					{expand: true, cwd: 'dist', src: ['<%= pkg.shortname %>.js', 'main.js', 'login.js'], dest: 'public/js'}
 					//TODO: copy css files
 
 					////publish
@@ -63,6 +65,7 @@ module.exports = function(grunt){
 				]
 			}
 		}
+		,clean: {dist: ['dist/*']}
 	});
 
 	//load plugins
@@ -70,9 +73,10 @@ module.exports = function(grunt){
 	grunt.loadNpmTasks('grunt-babel');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-copy');
+	grunt.loadNpmTasks('grunt-contrib-clean');
   
 	//run tasks
-	grunt.registerTask('local', ['babel', 'concat', 'copy']);
-	grunt.registerTask('publish', ['babel', 'concat', 'uglify', 'copy']);
+	grunt.registerTask('dev', ['babel', 'concat', 'copy', 'clean']);
+	grunt.registerTask('prod', ['babel', 'concat', 'uglify', 'copy', 'clean']);
 
 };

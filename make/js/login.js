@@ -53,12 +53,12 @@
 		
 	});
 	$('#button_login').on('click', function(){
-		$.post('login', $(this.form).serialize()+'&'+$.param({'_csrf': csrf()}))
+		$.post('login', $(this.form).serialize()+'&'+$.param({'_csrf': jd.csrf}))
 			.done(function(ret){
-				changeScreen(ret.html);
+				jd.changeScreen(ret.html);
 			})
 			.fail(function(ret){
-				var asd = 123;
+				alert('what the fuck');
 			}
 		);
 
@@ -66,10 +66,10 @@
 	$('#button_register').on('click', function(){
 		$.post('register', $(this.form).serialize()+'&'+$.param({'_csrf': csrf()}))
 			.done(function(ret){
-				changeScreen(ret.html);
+				jd.changeScreen(ret.html);
 			})
 			.fail(function(ret){
-				var asd = 123;
+				alert('what the fuck');
 			}
 		);
 	});

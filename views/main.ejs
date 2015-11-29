@@ -3,10 +3,10 @@
 </div>
 <div class="middlebar unselectable col-xs-12 col-sm-2">
     <div class="resize">
-        <a class="hoverbtn" onclick="resize('lu');">
+        <a class="hoverbtn" data-dir="lu">
             <span class="glyphicon glyphicon-menu-left"></span>
         </a>
-        <a class="hoverbtn" onclick="resize('rd');">
+        <a class="hoverbtn" data-dir="rd">
             <span class="glyphicon glyphicon-menu-right"></span>
         </a>
     </div>
@@ -39,7 +39,7 @@
                     </button>
                 </div>
                 <div class="pull-right">
-                    <button type="button" class="hoverbtn btn-glyph" title="Clear" onclick="clearInput();">
+                    <button type="button" class="hoverbtn btn-glyph" title="Clear" onclick="jd.page.clearInput();">
                         <span class="glyphicon glyphicon-trash" style="font-size:0.8em;"></span>
                     </button>
                 </div>
@@ -72,10 +72,8 @@
                 </ul>
             </div>
         </div>
-        <div class="col-xs-5 col-sm-3">
-            <input type="file" id="fileinput" name="fileinput[]" multiple="multiple" />
-        </div>
-        <div class="text-right col-xs-2 col-sm-3">
+        <div class="text-right col-xs-5 col-sm-6">
+			<input type="file" id="fileinput" name="fileinput[]" multiple="multiple" style="display:none;" />
             <a id="post" class="hoverbtn">
                 <span class="glyphicon glyphicon-chevron-right" style="font-size:2em;"></span>
             </a>
@@ -83,8 +81,8 @@
     </div>
 </div>
 <% if(locals.renderJSON){%>
-    <input type="hidden" id="user" value="<%= locals.user? JSON.stringify(user): '' %>" />
-	<input type="hidden" id="error" value="<%= locals.error? JSON.stringify(error): '' %>" />
+    <input type="hidden" id="_user" value="<%= locals.user? JSON.stringify(user): '' %>" />
+	<input type="hidden" id="_error" value="<%= locals.error? JSON.stringify(error): '' %>" />
     <input type="hidden" id="_csrf" value="<%= _csrf; %>" />
 <% }%>
-<input type="hidden" id="_scripts" data-init="init_main" value="js/app.js" />
+<input type="hidden" id="_scripts" data-init="init_main" value="js/main.js" />
