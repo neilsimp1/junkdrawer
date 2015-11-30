@@ -39,7 +39,7 @@
                     </button>
                 </div>
                 <div class="pull-right">
-                    <button type="button" class="hoverbtn btn-glyph" title="Clear" onclick="jd.page.clearInput();">
+                    <button type="button" id="button_clear" class="hoverbtn btn-glyph" title="Clear">
                         <span class="glyphicon glyphicon-trash" style="font-size:0.8em;"></span>
                     </button>
                 </div>
@@ -52,9 +52,9 @@
 </div>
 <div class="bottombar unselectable col-xs-12">
     <div class="container-fluid" style="padding:0;">
-        <div class="menubtncontainer col-xs-5 col-sm-6">
+        <div class="menubtncontainer col-xs-6">
             <div class="btn-group dropup">
-                <button type="button" id="button_menu" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button type="button" id="button_menu" class="dropdown-toggle menubtn hoverbtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="glyphicon glyphicon-menu-hamburger"></span>
                 </button>
@@ -72,11 +72,11 @@
                 </ul>
             </div>
         </div>
-        <div class="text-right col-xs-5 col-sm-6">
+        <div class="menubtncontainer text-right col-xs-6">
 			<input type="file" id="fileinput" name="fileinput[]" multiple="multiple" style="display:none;" />
-            <a id="post" class="hoverbtn">
-                <span class="glyphicon glyphicon-chevron-right" style="font-size:2em;"></span>
-            </a>
+            <button type="button" id="button_post" class="menubtn hoverbtn">
+				<span class="glyphicon glyphicon-chevron-right"></span>
+			</button>
         </div>
     </div>
 </div>

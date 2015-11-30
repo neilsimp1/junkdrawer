@@ -1,11 +1,16 @@
 ﻿function init_main(){
-	
-    jd.page.mainContainers = document.querySelectorAll('.main-container');
-	if(jd.page.mainContainers.length === 0) return;
-    jd.controls.resizers = document.querySelectorAll('.resize a');
+
+	//controls
+	jd.controls.clear = $I('button_clear');
+	jd.controls.resizers = document.querySelectorAll('.resize a');
     jd.controls.resizers.state = 2;
 
-	jd.page.setDraggerIcons = function(){
+	//page
+    jd.page.mainContainers = document.querySelectorAll('.main-container');
+	if(jd.page.mainContainers.length === 0) return;
+    
+	//functions
+	(jd.page.setDraggerIcons = function(){
 		if(window.innerWidth > 767){
 			jd.controls.resizers[0].children[0].className = jd.controls.resizers[0].children[0].className.replace('up', 'left');
 			jd.controls.resizers[1].children[0].className = jd.controls.resizers[1].children[0].className.replace('down', 'right');
@@ -14,14 +19,17 @@
 			jd.controls.resizers[0].children[0].className = jd.controls.resizers[0].children[0].className.replace('left', 'up');
 			jd.controls.resizers[1].children[0].className = jd.controls.resizers[1].children[0].className.replace('right', 'down');
 		}
-	};
-
+	})();
+	
 	jd.page.resize = function(e){
-		let dir = $(e.currentTarget).data('dir');
 		let outputW, outputH, inputW, inputH;
-		if(dir){
-			if(dir === 'rd'){if(jd.controls.resizers.state < 4) jd.controls.resizers.state++;}
-			else if(jd.controls.resizers.state > 0) jd.controls.resizers.state--;
+		if(e.type === 'resize') var dir = 'default';
+		else{
+			var dir = $(e.currentTarget).data('dir');
+			if(dir){
+				if(dir === 'rd'){if(jd.controls.resizers.state < 4) jd.controls.resizers.state++;}
+				else if(jd.controls.resizers.state > 0) jd.controls.resizers.state--;
+			}
 		}
 		if(dir === 'default'){
 			if(window.innerWidth > 767){
@@ -75,12 +83,11 @@
 		});
 	};
 	
-    jd.page.setDraggerIcons();
-    window.onresize = function(){jd.page.setDraggerIcons(); jd.page.resize('default');};
-	
 	//bindings
+	window.onresize = function(e){jd.page.setDraggerIcons(); jd.page.resize(e);};
     $('#input').bind('dragover drop', function(e){e.preventDefault(); return false;});
 	$('#post').on('click', jd.page.post);
+	$('#button_clear').on('click', jd.page.clear);
 	$(jd.controls.resizers).on('click', jd.page.resize);
 
 	//wysihtml
@@ -89,6 +96,6 @@
         ,parserRules:  wysihtml5ParserRules
         ,stylesheets: ['css/wysihtml.css']
     });
-	jd.page.editor.clearInput = function(){document.querySelector('.wysihtml5-sandbox').contentDocument.body.innerHTML = '';};
+	jd.page.editor.clear = function(){document.querySelector('.wysihtml5-sandbox').contentDocument.body.innerHTML = '';};
 
 }

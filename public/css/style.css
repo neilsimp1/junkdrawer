@@ -61,12 +61,13 @@ a.hoverbtn, a.hoverbtn:hover, a.hoverbtn:focus, a.hoverbtn:active, a.hoverbtn:vi
 
 span.error-message{color:#FB0404;font-style:italic;}
 
+#wysihtml5-toolbar{font-size:1.3em;}
 .toolbar{
 padding:0 4px;
 background-color:#8D9B81;
 color:#5F5757;
 margin-bottom:2px;
-height:22px;
+height:28px;
 opacity:1;
 overflow:hidden;
 opacity:0.9;
@@ -77,7 +78,7 @@ opacity:0.9;
 
 #inputcontainer{
 width:100%;
-height:calc(100% - 24px);
+height:calc(100% - 29px);
 }
 .input{
 width:100%;
@@ -145,15 +146,16 @@ background-color:#EFEFEF;
 form .control-label{color:#373737;font-size:0.85em;}
 
 /*Menu*/
-#button_menu, #button_filemenu{
+.menubtn{
 border:0;
 background-color:#854277;/*//MAKE THIS LESS INTENSE*/
 opacity:0.7;
-padding:4px;
-width:32px;
-height:32px;
+width:36px;
+height:36px;
+font-size:1.5em;
+padding:5px;
 }
-.menubtncontainer{padding:0;}
+.menubtncontainer{padding:0;max-height:36px;}
 .menubtncontainer div.open #button_menu{background-color:#CDCDCD;}
 .mainmenu{
 border-radius:0;
@@ -169,5 +171,12 @@ font-weight:bold;
 }
 .mainmenu span.glyphicon{float:right;padding-top:2px;}
 
-.filemenu, .filemenu li{width:32px;min-width:32px;padding:0;margin:0;}
-.filemenu li{height:32px;padding:4px;padding:4px 0 0 4px;}
+.filemenu, .filemenu li, .filemenu li a{width:36px;min-width:36px;margin:0;padding:0;overflow:hidden;}
+.filemenu{margin-bottom:15px !important;}
+.filemenu li, .filemenu li a{height:36px;color:initial;}
+.filemenu span.glyphicon{font-size:1.5em;float:none;}
+#jqdl-add span.glyphicon{padding:6px 8px;}
+#jqdl-delete span.glyphicon{padding:7px 6px;}
+.dropup.open .glyphicon{opacity:1;}
+.filemenu li:hover{color:#46B94F;}
+ul.filemenu.dropdown-menu{border:0;}
