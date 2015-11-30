@@ -23,13 +23,13 @@
 						<div class="form-group">
 							<div class="col-xs-12">
 								<label for="textbox_username_help" class="control-label">Username</label><br />
-								<input type="text" id="textbox_username_help" name="username" class="form-control" placeholder="Username..." required="required" />
+								<input type="text" id="textbox_username_help" name="username" class="form-control" placeholder="Username..." required="required" autocapitalize="none" />
 							</div>
 						</div>
 						<div class="form-group">
 							<div class="col-xs-12">
 								<label for="textbox_email_help" class="control-label">Email</label><br />
-								<input type="text" id="textbox_email_help" name="username" class="form-control" placeholder="Email..." required="required" />
+								<input type="text" id="textbox_email_help" name="username" class="form-control" placeholder="Email..." required="required" autocapitalize="none" />
 							</div>
 						</div>
 						<div class="form-group">
@@ -49,7 +49,7 @@
 						<div class="form-group">
 							<div class="col-xs-12">
 								<label for="textbox_username_login" class="control-label">Username</label><br />
-								<input type="text" id="textbox_username_login" name="username" class="form-control" placeholder="Username..." required="required" />
+								<input type="text" id="textbox_username_login" name="username" class="form-control" placeholder="Username..." required="required" autocapitalize="none" />
 								<% if(error && error.page === 'login' && error.origin === 'username'){ %>
 									<span class="error-message"><%= error.errMess %></span>
 								<% } %>
@@ -84,13 +84,13 @@
 						<div class="form-group">
 							<div class="col-xs-12">
 								<label for="textbox_username_register" class="control-label">Username</label><br />
-								<input type="text" id="textbox_username_register" name="username" class="form-control" placeholder="Username..." required="required" />
+								<input type="text" id="textbox_username_register" name="username" class="form-control" placeholder="Username..." required="required" autocapitalize="none" />
 							</div>
 						</div>
 						<div class="form-group">
 							<div class="col-xs-12">
 								<label for="textbox_email_register" class="control-label">Email</label><br />
-								<input type="email" id="textbox_email_register" name="email" class="form-control" placeholder="Email..." required="required" />
+								<input type="email" id="textbox_email_register" name="email" class="form-control" placeholder="Email..." required="required" autocapitalize="none" />
 								<% if(error && error.page === 'register' && error.origin === 'usernameemail'){ %>
 									<span class="error-message"><%= error.errMess %></span>
 								<% } %>

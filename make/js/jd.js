@@ -5,7 +5,7 @@
 		this.page = {};
 		this._user = $I('_user');
 		this._error = $I('_error');
-		this._csrf = $I('_csrf');
+		this._csrf = $I('_csrf');		
 	}
 	
 	get user(){return JSON.parse(_user.value || null);}
@@ -32,6 +32,8 @@
 			if(cnt === scripts.length) window[_scripts.getAttribute('data-init')]();
 		}
 	}
+
+	static isMobile(){return window.innerWidth < 768;}
 
 	changeScreen(html){
 		var wrapper = $I('wrapper');

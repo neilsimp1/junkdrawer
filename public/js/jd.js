@@ -88,6 +88,11 @@ var JD = (function () {
 				if (cnt === scripts.length) window[_scripts.getAttribute('data-init')]();
 			}
 		}
+	}, {
+		key: 'isMobile',
+		value: function isMobile() {
+			return window.innerWidth < 768;
+		}
 	}]);
 
 	return JD;
