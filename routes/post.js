@@ -20,9 +20,9 @@ router.post('/post', function(req, res){
 			var errMess = 'Something bad happened! Please try again.';
 			if(err.code === 11000){
 				origin = 'post';
-				errMess = 'Error saving post.';
+				message = 'Error saving post';
 			}
-			var error = new utils.Error('post', origin, errMess);
+			var error = new utils.Error('post', origin, message);
 
 			res.render('index.ejs', {_csrf: req._csrf, error: error});
 		}
@@ -31,12 +31,12 @@ router.post('/post', function(req, res){
 				file.save(function(err){
 					if(err){//error
 						var origin = 'unknown';
-						var errMess = 'Something bad happened! Please try again.';
+						var message = 'Something bad happened! Please try again';
 						if(err.code === 11000){
 							origin = 'post';
-							errMess = 'Error saving file.';
+							message = 'Error saving file';
 						}
-						var error = new utils.Error('post', origin, errMess);
+						var error = new utils.Error('post', origin, message);
 
 						res.render('index.ejs', {_csrf: req._csrf, error: error});
 					}
@@ -46,7 +46,7 @@ router.post('/post', function(req, res){
 			//files, if any, saved
 			models.Folder.findOne({username: req.body.folderid}, '_id', function(err, folder){//get folder
 				if(!folder){//error username
-					var error = new utils.Error('post', 'folder', 'Invalid folder id.');
+					var error = new utils.Error('post', 'folder', 'Invalid folder id');
 					res.render('index.ejs', {csrfToken: req.csrfToken(), error: error});
 				}
 				else{//show folder

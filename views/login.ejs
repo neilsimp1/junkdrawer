@@ -32,9 +32,9 @@
 								<input type="text" id="textbox_email_help" name="username" class="form-control" placeholder="Email..." required="required" autocapitalize="none" />
 							</div>
 						</div>
+						<div class="vertspace"></div>
 						<div class="form-group">
 							<div class="container-fluid">
-								<br />
 								<div class="col-xs-12 text-right">
 									<button type="button" id="button_resetpassword" class="btn btn-default" disabled="disabled">Reset Password</button>
 								</div>
@@ -44,29 +44,36 @@
 				</div>
 			</div>
 			<div id="div_loginform">
-				<div class="container-fluid">
+				<div class="container-fluid login">
 					<form>
+						<div class="form-group" style="margin-bottom:8px;">
+							<label class="control-label loginwith">Log in with...</label><br />
+							<% var oauthMenu = 'login';%>
+							<% include templates/oauth%>
+						</div>
 						<div class="form-group">
+							<label class="control-label loginwith">Or use your own</label><br />
+						</div>
+						<div class="form-group error-show-login error-show-login-u">
 							<div class="col-xs-12">
 								<label for="textbox_username_login" class="control-label">Username</label><br />
 								<input type="text" id="textbox_username_login" name="username" class="form-control" placeholder="Username..." required="required" autocapitalize="none" />
-								<% if(error && error.page === 'login' && error.origin === 'username'){ %>
-									<span class="error-message"><%= error.errMess %></span>
-								<% } %>
+							</div>
+						</div>
+						<div class="form-group error-show-login error-show-login-pw">
+							<div class="col-xs-12">
+								<label for="textbox_password_login" class="control-label">Password</label><br />
+								<input type="password" id="textbox_password_login" name="password" class="form-control" placeholder="Password..." required="required" />
 							</div>
 						</div>
 						<div class="form-group">
 							<div class="col-xs-12">
-								<label for="textbox_username_login" class="control-label">Password</label><br />
-								<input type="password" id="textbox_username_login" name="password" class="form-control" placeholder="Password..." required="required" />
-								<% if(error && error.page === 'login' && error.origin === 'password'){ %>
-									<span class="error-message"><%= error.errMess %></span>
-								<% } %>
+								<span class="control-label error-container login-error error-min"></span>
 							</div>
 						</div>
+						<div class="vertspace"></div>
 						<div class="form-group">
 							<div class="container-fluid">
-								<br />
 								<div class="col-xs-7" style="padding-top:8px;">
 									<a href="#help" id="a_needhelp" class="loginhelp">Need Help?</a>
 								</div>
@@ -81,36 +88,46 @@
 			<div id="div_registerform">
 				<div class="container-fluid">
 					<form>
+						<div class="form-group" style="margin-bottom:8px;">
+							<label class="control-label loginwith">Register using...</label><br />
+							<% oauthMenu = 'register';%>
+							<% include templates/oauth%>
+						</div>
 						<div class="form-group">
+							<label class="control-label loginwith">Or create your own</label><br />
+						</div>
+						<div class="form-group error-show-register error-show-register-ue">
 							<div class="col-xs-12">
 								<label for="textbox_username_register" class="control-label">Username</label><br />
 								<input type="text" id="textbox_username_register" name="username" class="form-control" placeholder="Username..." required="required" autocapitalize="none" />
 							</div>
 						</div>
-						<div class="form-group">
+						<div class="form-group error-show-register error-show-register-ue">
 							<div class="col-xs-12">
 								<label for="textbox_email_register" class="control-label">Email</label><br />
 								<input type="email" id="textbox_email_register" name="email" class="form-control" placeholder="Email..." required="required" autocapitalize="none" />
-								<% if(error && error.page === 'register' && error.origin === 'usernameemail'){ %>
-									<span class="error-message"><%= error.errMess %></span>
-								<% } %>
 							</div>
 						</div>
-						<div class="form-group">
+						<div class="form-group error-show-register error-show-register-pw">
 							<div class="col-xs-12">
 								<label for="textbox_password_register" class="control-label">Password</label><br />
-								<input type="password" id="textbox_username_register" name="password" class="form-control" placeholder="Password..." required="required" />
+								<input type="password" id="textbox_password_register" name="password" class="form-control" placeholder="Password..." required="required" />
 							</div>
 						</div>
-						<div class="form-group">
+						<div class="form-group error-show-register error-show-register-pw">
 							<div class="col-xs-12">
 								<label for="textbox_confirmpassword_register" class="control-label">Confirm Password</label><br />
 								<input type="password" id="textbox_confirmpassword_register" name="confirmpassword" class="form-control" placeholder="Confirm Password..." required="required" />
 							</div>
 						</div>
 						<div class="form-group">
+							<div class="col-xs-12">
+								<span class="control-label error-container register-error error-min"></span>
+							</div>
+						</div>
+						<div class="vertspace"></div>
+						<div class="form-group">
 							<div class="container-fluid">
-								<br />
 								<div class="col-xs-12 text-right">
 									<button type="button" id="button_register" class="btn btn-default">Register</button>
 								</div>

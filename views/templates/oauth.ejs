@@ -1,0 +1,22 @@
+﻿<div class="oauth-menu">
+	<div class="col-xs-3 text-center" title="Google">
+		<input type="radio" id="radio_<%= oauthMenu%>-google" name="oauth_<%= oauthMenu%>" value="google" class="oauth-radio" data-form="<%= oauthMenu%>" />
+		<label for="radio_<%= oauthMenu%>-google" class="oauth-google" data-strategy="google"></label>
+	</div>
+	<div class="col-xs-3 text-center" title="Facebook">
+		<input type="radio" id="radio_<%= oauthMenu%>-facebook" name="oauth_<%= oauthMenu%>" value="facebook" class="oauth-radio" data-form="<%= oauthMenu%>" />
+		<label for="radio_<%= oauthMenu%>-facebook" class="oauth-facebook" data-strategy="facebook"></label>
+	</div>
+	<div class="col-xs-3 text-center" title="Twitter">
+		<input type="radio" id="radio_<%= oauthMenu%>-twitter" name="oauth_<%= oauthMenu%>" value="twitter" class="oauth-radio" data-form="<%= oauthMenu%>" />
+		<label for="radio_<%= oauthMenu%>-twitter" class="oauth-twitter" data-strategy="twitter"></label>
+	</div>
+	<div class="col-xs-3 text-center" title="GitHub">
+		<input type="radio" id="radio_<%= oauthMenu%>-github" name="oauth_<%= oauthMenu%>" value="github" class="oauth-radio" data-form="<%= oauthMenu%>" />
+		<label for="radio_<%= oauthMenu%>-github" class="oauth-github" data-strategy="github"></label>
+	</div>
+	<input type="hidden" name="oauth_<%= oauthMenu%>_use" class="oauth-use" value="false" />
+</div>
+<div class="chooserdot-container">
+	<span id="chooserdot-<%= oauthMenu%>" class="chooserdot">&#8226;</span>
+</div>

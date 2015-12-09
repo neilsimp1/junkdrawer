@@ -46,6 +46,52 @@ var JD = (function () {
 			window.location.hash = '';
 		}
 	}, {
+		key: 'showError',
+		value: function showError(error) {
+			jd.error = JSON.stringify(error);
+
+			switch (error.page) {
+				case 'login':
+					var errorContainer = document.querySelector('.login-error');
+					switch (error.origin) {
+						case 'u':
+							$('.error-show-login-u')[0].classList.add('has-error');break;
+						case 'pw':
+							$('.error-show-login-pw').addClass('has-error');break;
+						case 'up':
+							$('.error-show-login').addClass('has-error');break;
+					}
+					$('.error-show-login').on('click', function () {
+						this.classList.remove('has-error');
+						$(this).siblings('.form-group.has-error').removeClass('has-error');
+						errorContainer.className = errorContainer.className.replace('max', 'min');
+					});
+					break;
+				case 'register':
+					var errorContainer = document.querySelector('.register-error');
+					switch (error.origin) {
+						case 'u':
+							$('.error-show-register-ue')[0].classList.add('has-error');break;
+						case 'ue':
+							$('.error-show-register-ue').addClass('has-error');break;
+						case 'e':
+							$('.error-show-register-ue')[1].classList.add('has-error');break;
+						case 'pw':
+							$('.error-show-register-pw').addClass('has-error');break;
+					}
+					$('.error-show-register').on('click', function () {
+						this.classList.remove('has-error');
+						$(this).siblings('.form-group.has-error').removeClass('has-error');
+						errorContainer.className = errorContainer.className.replace('max', 'min');
+					});
+					break;
+			}
+
+			errorContainer.innerHTML = error.message;
+			errorContainer.className = errorContainer.className.replace('min', 'max');
+			console.log(error.message);
+		}
+	}, {
 		key: 'user',
 		get: function get() {
 			return JSON.parse(_user.value || null);

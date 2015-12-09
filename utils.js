@@ -45,11 +45,11 @@ module.exports.createUserSession = function(req, res, user, callback){
 //	return app;
 //};
 
-module.exports.Error = function(page, origin, errMess){
+module.exports.Error = function(page, origin, message){
 	return {
 		page: page
 		,origin: origin
-		,errMess: errMess
+		,message: message
 	};
 };
 

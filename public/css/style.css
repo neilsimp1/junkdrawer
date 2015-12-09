@@ -59,7 +59,11 @@ opacity:0.75;
 a.hoverbtn, a.hoverbtn:hover, a.hoverbtn:focus, a.hoverbtn:active, a.hoverbtn:visited{color:inherit;}
 .shadow{box-shadow:5px 5px 2px #101010;}
 
+div.vertspace{height:15px;display:inline-block;}
+
 span.error-message{color:#FB0404;font-style:italic;}
+
+div.hr{border-bottom:1px solid;margin:8px 5% 5px;color:#814080;}
 
 #wysihtml5-toolbar{font-size:1.3em;}
 .toolbar{
@@ -100,6 +104,20 @@ iframe.wysihtml5-sandbox{width:100% !important;height:100% !important;}
 .font-italic{font-style:italic;}
 .font-underline{text-decoration:underline;}
 
+
+.error-container{
+color:#B12525 !important;
+text-align:right;
+float:right;
+overflow:hidden;
+-webkit-transition:max-height 0.8s;
+-moz-transition:max-height 0.8s;
+transition max-height 0.8s;
+}
+.error-container.error-min{max-height:0;}
+.error-container.error-max{max-height:99px;}
+
+
 /*Login*/
 #h3_loginregister{
 color:#373737;
@@ -137,6 +155,33 @@ background-color:#9DC57E;
 #div_needhelp{display:none;}
 
 .divider{width:80%;margin:0 auto;border-bottom:1px solid #60005E;visibility:hidden;}
+
+.oauth-menu{margin:8px 0 12px;padding:0 0 20px;}
+.oauth-menu .col-xs-3{max-height:44px;}
+
+label.loginwith.control-label{margin-bottom:4px;color:initial;}
+input.oauth-radio{display:none;}
+input.oauth-radio + label{width:42px;height:42px;cursor:pointer;border:2px solid #9DC57E;}
+input.oauth-radio + label:hover{border-color:#075EBD;}
+input.oauth-radio:checked + label{border-color:#60005E;}
+label.oauth-google{background-image:url("/img/oauth-google.png");}
+label.oauth-facebook{background-image:url("/img/oauth-facebook.png");}
+label.oauth-twitter{background-image:url("/img/oauth-twitter.png");}
+label.oauth-github{background-image:url("/img/oauth-github.png");}
+
+.chooserdot-container{max-height:20px;display:inline-block;width:100%;overflow:hidden;}
+.chooserdot{
+color:#337AB7;
+font-size:1.5em;
+position:relative;
+left:-10px;
+/*-webkit-filter:blur(5px);
+-moz-filter:blur(5px);
+-o-filter:blur(5px);
+-ms-filter:blur(5px);
+filter:blur(5px);*/  /*TODO: make this blur/have a trail*/
+}
+
 
 /*Anti-BS*/
 .form-control{
