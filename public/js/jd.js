@@ -25,6 +25,7 @@ var JD = (function () {
 		this._user = $I('_user');
 		this._error = $I('_error');
 		this._csrf = $I('_csrf');
+		this._hash = window.location.hash;
 	}
 
 	_createClass(JD, [{
@@ -114,6 +115,14 @@ var JD = (function () {
 		},
 		set: function set(csrf) {
 			this._csrf.value = csrf;
+		}
+	}, {
+		key: 'hash',
+		get: function get() {
+			return _hash.value || null;
+		},
+		set: function set(hash) {
+			this._hash.value = hash;
 		}
 	}], [{
 		key: 'loadScripts',

@@ -6,6 +6,7 @@
 		this._user = $I('_user');
 		this._error = $I('_error');
 		this._csrf = $I('_csrf');
+		this._hash = window.location.hash;
 	}
 	
 	get user(){return JSON.parse(_user.value || null);}
@@ -16,6 +17,9 @@
 
 	get csrf(){return _csrf.value || null;}
 	set csrf(csrf){this._csrf.value = csrf;}
+
+	get hash(){return _hash.value || null;}
+	set hash(hash){this._hash.value = hash;}
 
 	static loadScripts(){
 		let scripts = $I('_scripts').value.split(' ');

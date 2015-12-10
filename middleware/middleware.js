@@ -1,5 +1,5 @@
-var models = require('./models');
-var utils = require('./utils');
+var models = require('../models')
+	,utils = require('../utils');
 
 module.exports.auth = function(req, res, next){
 	if(req.session && req.session.user){

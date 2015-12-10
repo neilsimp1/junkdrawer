@@ -9,15 +9,13 @@ var router = express.Router();
 
 //GET: /
 router.get('/', function (req, res){
-	var isLoggedIn = utils.isLoggedIn(req);
-	if(!isLoggedIn) res.render('index', {_csrf: req._csrf, error: req.error});
+	if(!req.user) res.render('index', {_csrf: req._csrf, error: req.error});
 	else{
-		utils.getUser(req, res, function(user){
-			var asd = 123;
-			utils.sanitizeUser(user, function(user){
-				res.render('index', {isLoggedIn: true, _csrf: req._csrf, user: user, error: req.error});
-			});
-		});	
+		utils.getFolders(req, res, function(folders){
+			req.user._doc.folders = folders;
+			req.user = utils.sanitizeUser(req.user);
+			res.render('index', {isLoggedIn: true, _csrf: req._csrf, user: req.user, error: req.error});
+		});
 	}
 });
 

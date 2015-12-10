@@ -6,9 +6,10 @@ var ObjectId = Schema.ObjectId;
 module.exports.User = mongoose.model('User'
 	,new Schema({
 		id: ObjectId
+		,oauthID: {type: Number, unique: true}
 		,username: {type: String, required: '{PATH} is required.', unique: true}
 		,email: {type: String, required: '{PATH} is required.', unique: true}
-		,password: {type: String, required: '{PATH} is required.'}
+		,password: {type: String}
 		,settings: {type: [Schema.Types.Mixed], required: '{PATH} is required.'}
 	})
 	,'user'
@@ -19,7 +20,7 @@ module.exports.Folder = mongoose.model('Folder'
 		id: ObjectId
 		,userid: {type: ObjectId, required: '{PATH} is required.', ref: 'User'}
 		,name: {type: String, required: '{PATH} is required.'}
-		,posts: {type: Array}
+		//,posts: {type: Array}
 	})
 	,'folder'
 );

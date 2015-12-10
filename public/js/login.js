@@ -51,53 +51,6 @@ function init_login() {
 			$($I('a_needhelp')).click();break;
 	}
 
-	//oauth
-	$('input.oauth-radio + label').on('click', function (e) {
-		var clear = false;
-		if (this.control.checked) {
-			clear = true;
-			this.control.checked = false;
-			e.preventDefault();
-		}
-		jd.chooserdot($(this).data('strategy'), $(this.control).data('form'), clear, false);
-	});
-	$(window).resize(function () {
-		var radio = document.querySelector('input.oauth-radio:checked');
-		if (radio) jd.chooserdot($(radio.labels[0]).data('strategy'), $(radio).data('form'), false, true);
-	});
-
-	jd.chooserdot = function (strategy, form, clear, fast) {
-		var chooserdot = $I('chooserdot-' + form),
-		    sectionWidth = document.querySelector('.oauth-menu').clientWidth / 4,
-		    //4 = num of auth options on screen
-		time = fast ? 0 : 250;
-
-		if (clear) {
-			$(chooserdot).animate({
-				left: sectionWidth * 4 + 10
-			}, time, function () {
-				this.style.left = '-10px';
-			});
-		} else {
-			var midpoint = sectionWidth / 2;
-			switch (strategy) {
-				case 'google':
-					var x = midpoint;break;
-				case 'facebook':
-					var x = sectionWidth + midpoint;break;
-				case 'twitter':
-					var x = sectionWidth * 2 + midpoint;break;
-				case 'github':
-					var x = sectionWidth * 3 + midpoint;break;
-			}
-			x -= 4; //minus 4 cause it looks better
-
-			$(chooserdot).animate({
-				left: x
-			}, time);
-		}
-	};
-
 	//form handling
 	$('#button_resetpassword').on('click', function () {});
 	$('#button_login').on('click', function () {
