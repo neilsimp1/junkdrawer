@@ -3,27 +3,13 @@
 	//login/register toggle
 	$('.loginreg').on('click', function(){
 		if(this.parentNode.tagName !== 'A') return;
-		var span_loginregister = $I('span_loginregister');
-		var thisWidth = span_loginregister.clientWidth;
-		var parentWidth = span_loginregister.parentNode.clientWidth;
-		if(this.id === 'span_login'){
-			$(span_loginregister).animate({left: '5%'}, 500);
-			$('#span_login').unwrap('<a>');
-			$('#span_register').wrap('<a href="#register">');
-			$('#div_loginform').animate({height: 'toggle'}, 500);
-			$('#div_registerform').animate({height: 'toggle'}, 500);
-		}
-		else{
-			$(span_loginregister).animate({left: (parentWidth * 0.95) - thisWidth + 'px'}, 500);
-			$('#span_login').wrap('<a href="#login">');
-			$('#span_register').unwrap('<a>');
-			$('#div_loginform').animate({height: 'toggle'}, 500);
-			$('#div_registerform').animate({height: 'toggle'}, 500);
-		}
+		let to = 'register';
+		if(this.id === 'span_login') to = 'login';
+		loginRegisterToggle(to, 500);
 	});
 
 	//login/need help toggle
-	$('.loginhelp').on('click', function(){
+	$('.loginhelp').on('click', function(){//TODO: put this in a toggle function
 		var span_loginregister = $I('span_loginregister');
 		var thisWidth = span_loginregister.clientWidth;
 		var parentWidth = span_loginregister.parentNode.clientWidth;
@@ -43,9 +29,11 @@
 	
 	//login/register click on load from #
 	switch(window.location.hash){
-		case '#login': $($I('span_login').click()); break;
-		case '#register': $($I('span_register')).click(); break;
-		case '#help': $($I('a_needhelp')).click(); break;
+		//case '#login': $('#span_login').click(); break;
+		//case '#register': $('#span_register').click(); break;
+		//case '#help': $('#a_needhelp').click(); break;
+		case '#register': loginRegisterToggle('register', 0); break;
+		case '#help': $('#a_needhelp').click(); break;
 	}
 
 	//form handling
@@ -87,6 +75,38 @@
 		}
 	});
 
+	//oauth return
+	if(jd.error){
+		jd.showError(jd.error);
+	}
+	if(jd.action && jd.html){
+		if(jd.action === 'register' || jd.action === 'login'){
+			jd.changeScreen(JSON.parse(jd.html))
+			jd.html = '';
+			jd.action = '';
+		}
+	}
+
+	function loginRegisterToggle(to, speed){
+		var span_loginregister = $I('span_loginregister');
+		var thisWidth = span_loginregister.clientWidth;
+		var parentWidth = span_loginregister.parentNode.clientWidth;
+		if(to === 'login'){
+			$(span_loginregister).animate({left: '5%'}, speed);
+			$('#span_login').unwrap('<a>');
+			$('#span_register').wrap('<a href="#register">');
+			$('#div_loginform').animate({height: 'toggle'}, speed);
+			$('#div_registerform').animate({height: 'toggle'}, speed);
+		}
+		else{
+			$(span_loginregister).animate({left: (parentWidth * 0.95) - thisWidth + 'px'}, speed);
+			$('#span_login').wrap('<a href="#login">');
+			$('#span_register').unwrap('<a>');
+			$('#div_loginform').animate({height: 'toggle'}, speed);
+			$('#div_registerform').animate({height: 'toggle'}, speed);
+		}
+	}
+	
 	function validateLogin(){
 		if($I('textbox_username_login').value === ''){
 			var error = {
@@ -136,6 +156,10 @@
 		}
 		
 		return false;
+	}
+
+	function changeMenu(){
+
 	}
 
 }

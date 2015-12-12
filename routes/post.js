@@ -6,7 +6,7 @@ var utils = require('../utils');
 
 var router = express.Router();
 
-//POST: /post
+//POST /post
 router.post('/post', function(req, res){
 	var post = new models.Post({
 		folderid: req.body.folderid

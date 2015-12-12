@@ -52,6 +52,11 @@
 							<% include templates/oauth%>
 						</div>
 						<div class="form-group">
+							<div class="col-xs-12">
+								<span class="control-label error-container login-error-oa error-min"></span>
+							</div>
+						</div>
+						<div class="form-group">
 							<label class="control-label loginwith">Or use your own</label><br />
 						</div>
 						<div class="form-group error-show-login error-show-login-u">
@@ -92,6 +97,11 @@
 							<label class="control-label loginwith">Register using...</label><br />
 							<% oauthMenu = 'register';%>
 							<% include templates/oauth%>
+						</div>
+						<div class="form-group">
+							<div class="col-xs-12">
+								<span class="control-label error-container register-error-oa error-min"></span>
+							</div>
 						</div>
 						<div class="form-group">
 							<label class="control-label loginwith">Or create your own</label><br />
@@ -139,9 +149,4 @@
 		</div>
 	</div>
 </div>
-<% if(locals.renderJSON){%>
-	<input type="hidden" id="_user" value=""<%= locals.user? JSON.stringify(locals.user): '' %>" />
-	<input type="hidden" id="_error" value=""<%= locals.error? JSON.stringify(locals.error): '' %>" />
-	<input type="hidden" id="_csrf" value="<%= _csrf; %>" />
-<% }%>
 <input type="hidden" id="_scripts" data-init="init_login" value="js/login.js" />

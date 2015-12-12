@@ -8,124 +8,107 @@ var passport = require('passport')
 
 var models = require('../models');
 
+function getOAuthCreds(provider, method){
+	var creds = config.oauth[provider];
+	//creds.callbackURL = method === 'login'? config.oauth[provider].loginCallbackURL: config.oauth[provider].registerCallbackURL;
+
+	return creds;
+}
+
+function oauthSuccess(profile, done){
+	if(profile.emails){
+		var username = profile.emails[0].value;
+		var email = profile.emails[0].value;
+	}
+	else{
+		var username = profile.username;
+		var email = null;
+	}
+
+	var ret = {
+		oauthID: profile.id
+		,username: username
+		,email: email
+		,password: null
+		,settings: {}//TODO: Get default settings json doc here
+	};
+	done(null, ret);
+}
+
+
+//serializers
 passport.serializeUser(function(user, done){
-	console.log('serializeUser: ' + user._id);
+	//console.log('serializeUser: ' + user._id);
 	done(null, user._id);
 });
 passport.deserializeUser(function(id, done){
 	models.User.findById(id, function(err, user){
-		console.log(user);
+		//console.log(user);
 		if(!err) done(null, user);
 		else done(err, null);
 	});
 });
 
-passport.use(new FacebookStrategy({
-		clientID: config.oauth.facebook.clientID,
-		clientSecret: config.oauth.facebook.clientSecret,
-		callbackURL: config.oauth.facebook.callbackURL
-	},
-	function(accessToken, refreshToken, profile, done) {
-    User.findOne({ oauthID: profile.id }, function(err, user) {
-      if(err) {
-        console.log(err);  // handle errors!
-      }
-      if (!err && user !== null) {
-        done(null, user);
-      } else {
-        user = new User({
-          oauthID: profile.id,
-          name: profile.displayName,
-          created: Date.now()
-        });
-        user.save(function(err) {
-          if(err) {
-            console.log(err);  // handle errors!
-          } else {
-            console.log("saving user ...");
-            done(null, user);
-          }
-        });
-      }
-    });
-  }
-));
 
-passport.use(new TwitterStrategy({
-  consumerKey: config.oauth.twitter.consumerKey,
-  consumerSecret: config.oauth.twitter.consumerSecret,
-  callbackURL: config.oauth.twitter.callbackURL
-  },
-  function(accessToken, refreshToken, profile, done) {
-    User.findOne({ oauthID: profile.id }, function(err, user) {
-      if(err) {
-        console.log(err);  // handle errors!
-      }
-      if (!err && user !== null) {
-        done(null, user);
-      } else {
-        user = new User({
-          oauthID: profile.id,
-          name: profile.displayName,
-          created: Date.now()
-        });
-        user.save(function(err) {
-          if(err) {
-            console.log(err);  // handle errors!
-          } else {
-            console.log("saving user ...");
-            done(null, user);
-          }
-        });
-      }
-    });
-  }
-));
+//		strategies
+//google
+//passport.use('google-login', new GoogleStrategy(getOAuthCreds('google', 'login')
+//	,function(request, accessToken, refreshToken, profile, done){
+//		oauthSuccess(profile, done);
+//	}
+//));
+//passport.use('google-register', new GoogleStrategy(getOAuthCreds('google', 'register')
+//	,function(request, accessToken, refreshToken, profile, done){
+//		oauthSuccess(profile, done);
+//	}
+//));
+passport.use(new GoogleStrategy(config.oauth.google, function(request, accessToken, refreshToken, profile, done){
+	oauthSuccess(profile, done);
+}));
 
-passport.use(new GithubStrategy({
-  clientID: config.oauth.github.clientID,
-  clientSecret: config.oauth.github.clientSecret,
-  callbackURL: config.oauth.github.callbackURL
-  },
-  function(accessToken, refreshToken, profile, done) {
-    User.findOne({ oauthID: profile.id }, function(err, user) {
-      if(err) {
-        console.log(err);  // handle errors!
-      }
-      if (!err && user !== null) {
-        done(null, user);
-      } else {
-        user = new User({
-          oauthID: profile.id,
-          name: profile.displayName,
-          created: Date.now()
-        });
-        user.save(function(err) {
-          if(err) {
-            console.log(err);  // handle errors!
-          } else {
-            console.log("saving user ...");
-            done(null, user);
-          }
-        });
-      }
-    });
-  }
-));
+//facebook
+//passport.use('facebook-login', new FacebookStrategy(getOAuthCreds('facebook', 'login')
+//	,function(accessToken, refreshToken, profile, done){
+//		oauthSuccess(profile, done);
+//	}
+//));
+//passport.use('facebook-register', new FacebookStrategy(getOAuthCreds('facebook', 'register')
+//	,function(accessToken, refreshToken, profile, done){
+//		oauthSuccess(profile, done);
+//	}
+//));
+passport.use(new FacebookStrategy(config.oauth.facebook, function(accessToken, refreshToken, profile, done){
+	oauthSuccess(profile, done);
+}));
 
-passport.use(new GoogleStrategy({
-		clientID: config.oauth.google.clientID
-		,clientSecret: config.oauth.google.clientSecret
-		,callbackURL: config.oauth.google.callbackURL
-	}
-	,function(request, accessToken, refreshToken, profile, done){
-		var user = {
-			oauthID: profile.id
-			,username: profile.emails[0].value
-			,email: profile.emails[0].value
-			,password: null
-			,settings: {}//TODO: Get default settings json doc here
-		};
-		done(null, user);
-	}
-));
+//twitter
+//passport.use('twitter-login', new TwitterStrategy(getOAuthCreds('twitter', 'login')
+//	,function(accessToken, refreshToken, profile, done){
+//		oauthSuccess(profile, done);
+//	}
+//));
+//passport.use('twitter-register', new TwitterStrategy(getOAuthCreds('twitter', 'register')
+//	,function(accessToken, refreshToken, profile, done){
+//		oauthSuccess(profile, done);
+//	}
+//));
+passport.use(new TwitterStrategy(config.oauth.twitter, function(accessToken, refreshToken, profile, done){
+	oauthSuccess(profile, done);
+}));
+
+//github
+passport.use('github', new GithubStrategy(config.oauth.github, function(accessToken, refreshToken, profile, done){
+	oauthSuccess(profile, done);
+}));
+
+////github
+//passport.use('github-login', new GithubStrategy(getOAuthCreds('github', 'login')
+//	,function(accessToken, refreshToken, profile, done){
+//		oauthSuccess(profile, done);
+//	}
+//));
+//passport.use('github-register', new GithubStrategy(getOAuthCreds('github', 'register')
+//	,function(accessToken, refreshToken, profile, done){
+//		oauthSuccess(profile, done);
+//	}
+//));

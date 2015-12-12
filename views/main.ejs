@@ -80,9 +80,4 @@
         </div>
     </div>
 </div>
-<% if(locals.renderJSON){%>
-    <input type="hidden" id="_user" value="<%= locals.user? JSON.stringify(user): '' %>" />
-	<input type="hidden" id="_error" value="<%= locals.error? JSON.stringify(error): '' %>" />
-    <input type="hidden" id="_csrf" value="<%= _csrf; %>" />
-<% }%>
 <input type="hidden" id="_scripts" data-init="init_main" value="js/main.js" />

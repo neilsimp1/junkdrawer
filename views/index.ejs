@@ -16,14 +16,18 @@
 </head>
 <body>
     <div id="wrapper"class="container-fluid">
-        <% if(locals.isLoggedIn){%>
+        <% if(locals.isLoggedIn && (locals.flash.action !== 'register' && locals.flash.action !== 'login')){%>
             <% include main%>
         <% }else{%>
             <% include login%>
         <% }%>
-        <input type="hidden" id="_user" value="<%= locals.user? JSON.stringify(locals.user): '' %>" />
+    </div>
+	<div style="display:none;">
+		<input type="hidden" id="_user" value="<%= locals.user? JSON.stringify(locals.user): '' %>" />
         <input type="hidden" id="_error" value="<%= locals.error? JSON.stringify(locals.error): '' %>" />
 		<input type="hidden" id="_csrf" value="<%= _csrf; %>" />
-    </div>
+		<input type="hidden" id="_action" value="<%= locals.flash.action? locals.flash.action: '' %>" />
+		<input type="hidden" id="_html" value="<%= locals.html? JSON.stringify(locals.html): '' %>" />
+	</div>
 </body>
 </html>

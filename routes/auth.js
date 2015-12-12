@@ -155,131 +155,380 @@ router.post('/login', function(req, res){
 	}
 });
 
+function oauthLoginReg(provider, req, res, next){
+	passport.authenticate(provider, function(err, profile, info){
+		if(err){return res.redirect('/?_=' + err);}
+		if(!profile){return res.redirect('/?_=u');}//TODO: something here, maybe???
+		
+		req.flash('action', 'register');
 
-//oauth
-//GET /register/google
-router.get('/register/google'
-	,passport.authenticate('google', {scope: [
-		'https://www.googleapis.com/auth/plus.login'
-		,'https://www.googleapis.com/auth/plus.profile.emails.read'
-	]})
-);
-//router.get('/register/google/callback'
-//	,passport.authenticate('google', function(err, user, info){
-//		res.redirect('/');
-//	})
-//);
-//router.get('/register/google/callback', function(req, res, next){
-//	passport.authenticate('google', function(err, user, info){
-//		res.redirect('/');
-//	});
-//});
-router.get('/register/google/callback', function(req, res, next){
-	passport.authenticate('google', function(err, user, info){
-		//if(err){return next(err);}
-		//if(!user){return res.redirect('/');}
-
-		//// req / res held in closure
-		//req.logIn(user, function(err){
-		//	if(err){return next(err);}
-		//	return res.send(user);
-		//});
-
-		if(err){return next(err);}
-		if(!user){return res.redirect('/');}
-
-		user = new models.User(user);
-
-		user.save(function(err){
-			if(err){//error
-				var origin = 'unknown';
-				var errMess = 'Something bad happened! Please try again';
-				if(err.code === 11000){//error un or email taken
-					origin = 'ue';
-					message = 'Username or email is already taken, please try another';
-				}
-				var error = new utils.Error('register', origin, message);
-				//res.status(403).json({error: error});
-				res.render('index', {_csrf: req._csrf, error: error});
+		models.User.findOne({oauthID: profile.oauthID}, function(err, user) {
+			if(err){
+				var origin = 'o';
+				var message = 'Something bad happened! Please try again';
+				console.log(message);
+				req.flash('error', JSON.stringify(new utils.Error('login', origin, message)));
 			}
-			else{//user created
-				utils.createFolder(req, res, user, 'Home', function(folders){
-					user._doc.folders = folders;
-					//user = utils.sanitizeUser(user);
-					//res.render('index.ejs', {isLoggedIn: true, _csrf: req._csrf, user: user, error: error});
+			if(!err && user !== null){//login
+				req.user = user;
+				utils.getFolders(req, res, function(folders){
+					req.user._doc.folders = folders;
 					req.login(user, function(err){
 						if(err){
-							//mysend(res, 500, 'Ups.');
-							var asd = 123;
+							var origin = 'unknown';
+							var message = 'Something bad happened! Please try again';
+							console.log(message);
+							req.flash('error', JSON.stringify(new utils.Error('login', origin, message)));
 						}
-						else{
-							//mysend(res, 200, JSON.stringify(user));
-							res.redirect('/');
-						}
+						res.redirect('/');
 					});
+				});
+			}
+			else{//register
+				user = new models.User(profile);
+				user.save(function(err){
+					if(err){//error
+						var origin = 'unknown';
+						var message = 'Something bad happened! Please try again';
+						if(err.code === 11000){//Account already registered, login??? right now, just give error
+							origin = 'o';
+							message = 'You have already signed up using this ' + provider + ' account';
+						}
+						console.log(message);
+						req.flash('error', new utils.Error('register', origin, message));
+						res.redirect('/#register');
+					}
+					else{//user created
+						utils.createFolder(req, res, user, 'Home', function(folders){
+							user._doc.folders = folders;
+							req.login(user, function(err){
+								if(err){
+									var origin = 'unknown';
+									var message = 'Something bad happened! Please try again';
+									console.log(message);
+									req.flash('error', JSON.stringify(new utils.Error('login', origin, message)));
+								}
+								res.redirect('/');
+							});
+						});
+					}
 				});
 			}
 		});
 		
 	})(req, res, next);
+}
+
+//		oauth
+//GET /auth/google
+router.get('/auth/google', passport.authenticate('google', {scope: 
+	['https://www.googleapis.com/auth/plus.login', 'https://www.googleapis.com/auth/plus.profile.emails.read']
+}));
+//GET /auth/google/callback
+router.get('/auth/google/callback', function(req, res, next){
+	oauthLoginReg('google', req, res, next);
 });
 
-//GET login/google
-router.get('/login/google'
-	,passport.authenticate('google', {scope: [
-		'https://www.googleapis.com/auth/plus.login'
-		,'https://www.googleapis.com/auth/plus.profile.emails.read'
-	]}
-));
-router.get('/login/google/callback'
-	,passport.authenticate('google', {failureRedirect: '/'})
-	,function(req, res){
-		res.redirect('/account');
-	}
-);
+
+//GET /auth/facebook
+router.get('/auth/facebook', passport.authenticate('facebook', {scope: ['email']}));
+//GET /auth/facebook/callback
+router.get('/auth/facebook/callback', function(req, res, next){
+	oauthLoginReg('facebook', req, res, next);
+});
 
 
+//GET /auth/twitter
+router.get('/auth/twitter', passport.authenticate('twitter'));
+//GET /auth/twitter/callback
+router.get('/auth/twitter/callback', function(req, res, next){
+	oauthLoginReg('twitter', req, res, next);
+});
 
 
-/////////////////////////
-//app.get('/auth/facebook',
-//  passport.authenticate('facebook'),
-//  function(req, res){});
-//app.get('/auth/facebook/callback',
-//  passport.authenticate('facebook', { failureRedirect: '/' }),
-//  function(req, res) {
-//    res.redirect('/account');
-//  });
+//GET /auth/github
+router.get('/auth/github', passport.authenticate('github', {scope: ['user:email']}));
+//GET /auth/github/callback
+router.get('/auth/github/callback', function(req, res, next){
+	oauthLoginReg('github', req, res, next);
+});
 
-//app.get('/auth/twitter',
-//  passport.authenticate('twitter'),
-//  function(req, res){});
-//app.get('/auth/twitter/callback',
-//  passport.authenticate('twitter', { failureRedirect: '/' }),
-//  function(req, res) {
-//    res.redirect('/account');
-//  });
+////GET login/facebook
+//router.get('/login/facebook', passport.authenticate('facebook-login'));
+//router.get('/login/facebook/callback', function(req, res, next){
+//	passport.authenticate('facebook-login', function(err, user, info){
+//		if(err){return res.redirect('/?_=' + err);}
+//		if(!user){return res.redirect('/?_=u');}//TODO: something here, maybe???
 
-//app.get('/auth/github',
-//  passport.authenticate('github'),
-//  function(req, res){});
-//app.get('/auth/github/callback',
-//  passport.authenticate('github', { failureRedirect: '/' }),
-//  function(req, res) {
-//    res.redirect('/account');
-//  });
+//		req.flash('action', 'login');
 
-//app.get('/logout', function(req, res){
-//  req.logout();
-//  res.redirect('/');
+//		models.User.findOne({oauthID: user.oauthID}, 'oauthID', function(err, user){//check for user
+//			if(!user){//error oauthID
+//				origin = 'o';
+//				message = 'You have not signed up using this Facebook account';
+//				console.log(message);
+//				req.flash('error', new utils.Error('login', origin, message));
+//				res.redirect('/#login');
+//			}
+//			else{
+//				req.user = user;
+//				utils.getUser(req, res, function(user){
+//					req.login(user, function(err){
+//						if(err){
+//							var origin = 'unknown';
+//							var message = 'Something bad happened! Please try again';
+//							console.log(message);
+//							req.flash('error', JSON.stringify(new utils.Error('login', origin, message)));
+//						}
+//						res.redirect('/');
+//					});
+//				});
+//			}
+//		});
+		
+//	})(req, res, next);
 //});
-////////////////
+////GET /register/facebook
+//router.get('/register/facebook', passport.authenticate('facebook-register', { scope: [ 'email' ]}));
+//router.get('/register/facebook/callback', function(req, res, next){
+//	passport.authenticate('facebook-register', function(err, user, info){
+//		if(err){return res.redirect('/?_=' + err);}
+//		if(!user){return res.redirect('/?_=u');}//TODO: something here, maybe???
+
+//		req.flash('action', 'register');
+
+//		user = new models.User(user);
+
+//		user.save(function(err){
+//			if(err){//error
+//				var origin = 'unknown';
+//				var message = 'Something bad happened! Please try again';
+//				if(err.code === 11000){//Account already registered, login??? right now, just give error
+//					origin = 'o';
+//					message = 'You have already signed up using this Facebook account';
+//				}
+//				console.log(message);
+//				req.flash('error', new utils.Error('register', origin, message));
+//				res.redirect('/#register');
+//			}
+//			else{//user created
+//				utils.createFolder(req, res, user, 'Home', function(folders){
+//					user._doc.folders = folders;
+//					req.login(user, function(err){
+//						if(err){
+//							var origin = 'unknown';
+//							var message = 'Something bad happened! Please try again';
+//							console.log(message);
+//							req.flash('error', JSON.stringify(new utils.Error('login', origin, message)));
+//						}
+//						res.redirect('/');
+//					});
+//				});
+//			}
+//		});
+		
+//	})(req, res, next);
+//});
 
 
-//:GET: /logout
+////GET login/twitter
+//router.get('/login/twitter', passport.authenticate('twitter-login'));
+//router.get('/login/twitter/callback', function(req, res, next){
+//	passport.authenticate('twitter-login', function(err, user, info){
+//		if(err){return res.redirect('/?_=' + err);}
+//		if(!user){return res.redirect('/?_=u');}//TODO: something here, maybe???
+
+//		req.flash('action', 'login');
+
+//		models.User.findOne({oauthID: user.oauthID}, 'oauthID', function(err, user){//check for user
+//			if(!user){//error oauthID
+//				origin = 'o';
+//				message = 'You have not signed up using this Twitter account';
+//				console.log(message);
+//				req.flash('error', new utils.Error('login', origin, message));
+//				res.redirect('/#login');
+//			}
+//			else{
+//				req.user = user;
+//				utils.getUser(req, res, function(user){
+//					req.login(user, function(err){
+//						if(err){
+//							var origin = 'unknown';
+//							var message = 'Something bad happened! Please try again';
+//							console.log(message);
+//							req.flash('error', JSON.stringify(new utils.Error('login', origin, message)));
+//						}
+//						res.redirect('/');
+//					});
+//				});
+//			}
+//		});
+		
+//	})(req, res, next);
+//});
+////GET /register/twitter
+//router.get('/register/twitter', passport.authenticate('twitter-register'));
+//router.get('/register/twitter/callback', function(req, res, next){
+//	passport.authenticate('twitter-register', function(err, user, info){
+//		if(err){return res.redirect('/?_=' + err);}
+//		if(!user){return res.redirect('/?_=u');}//TODO: something here, maybe???
+
+//		req.flash('action', 'register');
+
+//		user = new models.User(user);
+
+//		user.save(function(err){
+//			if(err){//error
+//				var origin = 'unknown';
+//				var message = 'Something bad happened! Please try again';
+//				if(err.code === 11000){//Account already registered, login??? right now, just give error
+//					origin = 'o';
+//					message = 'You have already signed up using this Twitter account';
+//				}
+//				console.log(message);
+//				req.flash('error', new utils.Error('register', origin, message));
+//				res.redirect('/#register');
+//			}
+//			else{//user created
+//				utils.createFolder(req, res, user, 'Home', function(folders){
+//					user._doc.folders = folders;
+//					req.login(user, function(err){
+//						if(err){
+//							var origin = 'unknown';
+//							var message = 'Something bad happened! Please try again';
+//							console.log(message);
+//							req.flash('error', JSON.stringify(new utils.Error('login', origin, message)));
+//						}
+//						res.redirect('/');
+//					});
+//				});
+//			}
+//		});
+		
+//	})(req, res, next);
+//});
+
+
+////GET login/github
+//router.get('/login/github', function(req, res, next){
+//	req.flash('action__', 'login')
+//	}, passport.authenticate('github'));
+//router.get('/auth/github/callback', function(req, res, next){
+//	passport.authenticate('github', function(err, user, info){
+//		if(err){return res.redirect('/?_=' + err);}
+//		if(!user){return res.redirect('/?_=u');}//TODO: something here, maybe???
+//		var asd = req.flash('action__');
+//		//req.flash('action', 'login');
+
+//		models.User.findOne({oauthID: user.oauthID}, 'oauthID', function(err, user){//check for user
+//			if(!user){//error oauthID
+//				origin = 'o';
+//				message = 'You have not signed up using this Github account';
+//				console.log(message);
+//				req.flash('error', new utils.Error('login', origin, message));
+//				res.redirect('/#login');
+//			}
+//			else{
+//				req.user = user;
+//				utils.getUser(req, res, function(user){
+//					req.login(user, function(err){
+//						if(err){
+//							var origin = 'unknown';
+//							var message = 'Something bad happened! Please try again';
+//							console.log(message);
+//							req.flash('error', JSON.stringify(new utils.Error('login', origin, message)));
+//						}
+//						res.redirect('/');
+//					});
+//				});
+//			}
+//		});
+		
+//	})(req, res, next);
+//});
+
+//////GET login/github
+////router.get('/login/github', passport.authenticate('github-login'));
+////router.get('/login/github/callback', function(req, res, next){
+////	passport.authenticate('github-login', function(err, user, info){
+////		if(err){return res.redirect('/?_=' + err);}
+////		if(!user){return res.redirect('/?_=u');}//TODO: something here, maybe???
+
+////		req.flash('action', 'login');
+
+////		models.User.findOne({oauthID: user.oauthID}, 'oauthID', function(err, user){//check for user
+////			if(!user){//error oauthID
+////				origin = 'o';
+////				message = 'You have not signed up using this Github account';
+////				console.log(message);
+////				req.flash('error', new utils.Error('login', origin, message));
+////				res.redirect('/#login');
+////			}
+////			else{
+////				req.user = user;
+////				utils.getUser(req, res, function(user){
+////					req.login(user, function(err){
+////						if(err){
+////							var origin = 'unknown';
+////							var message = 'Something bad happened! Please try again';
+////							console.log(message);
+////							req.flash('error', JSON.stringify(new utils.Error('login', origin, message)));
+////						}
+////						res.redirect('/');
+////					});
+////				});
+////			}
+////		});
+		
+////	})(req, res, next);
+////});
+//////GET /register/github
+////router.get('/register/github', passport.authenticate('github-register'));
+////router.get('/register/github/callback', function(req, res, next){
+////	passport.authenticate('github-register', function(err, user, info){
+////		if(err){return res.redirect('/?_=' + err);}
+////		if(!user){return res.redirect('/?_=u');}//TODO: something here, maybe???
+
+////		req.flash('action', 'register');
+
+////		user = new models.User(user);
+
+////		user.save(function(err){
+////			if(err){//error
+////				var origin = 'unknown';
+////				var message = 'Something bad happened! Please try again';
+////				if(err.code === 11000){//Account already registered, login??? right now, just give error
+////					origin = 'o';
+////					message = 'You have already signed up using this Github account';
+////				}
+////				console.log(message);
+////				req.flash('error', new utils.Error('register', origin, message));
+////				res.redirect('/#register');
+////			}
+////			else{//user created
+////				utils.createFolder(req, res, user, 'Home', function(folders){
+////					user._doc.folders = folders;
+////					req.login(user, function(err){
+////						if(err){
+////							var origin = 'unknown';
+////							var message = 'Something bad happened! Please try again';
+////							console.log(message);
+////							req.flash('error', JSON.stringify(new utils.Error('login', origin, message)));
+////						}
+////						res.redirect('/');
+////					});
+////				});
+////			}
+////		});
+		
+////	})(req, res, next);
+////});
+
+
+//GET /logout
 router.get('/logout', function(req, res){
-	if(req.session) req.session.reset();
-	res.redirect('/');
+  req.logout();
+  res.redirect('/');
 });
 
 module.exports = router;

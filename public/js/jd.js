@@ -25,6 +25,8 @@ var JD = (function () {
 		this._user = $I('_user');
 		this._error = $I('_error');
 		this._csrf = $I('_csrf');
+		this._html = $I('_html');
+		this._action = $I('_action');
 		this._hash = window.location.hash;
 	}
 
@@ -51,6 +53,7 @@ var JD = (function () {
 		value: function showError(error) {
 			jd.error = JSON.stringify(error);
 
+			var divName = '#div_' + error.page + 'form';
 			switch (error.page) {
 				case 'login':
 					var errorContainer = document.querySelector('.login-error');
@@ -61,6 +64,10 @@ var JD = (function () {
 							$('.error-show-login-pw').addClass('has-error');break;
 						case 'up':
 							$('.error-show-login').addClass('has-error');break;
+						case 'o':
+							errorContainer = document.querySelector('.login-error-oa');
+							$(divName + ' .loginwith')[0].classList.add('has-error');
+							break;
 					}
 					$('.error-show-login').on('click', function () {
 						this.classList.remove('has-error');
@@ -79,10 +86,15 @@ var JD = (function () {
 							$('.error-show-register-ue')[1].classList.add('has-error');break;
 						case 'pw':
 							$('.error-show-register-pw').addClass('has-error');break;
+						case 'o':
+							errorContainer = document.querySelector('.register-error-oa');
+							$(divName + ' .loginwith')[0].classList.add('has-error');
+							break;
 					}
 					$('.error-show-register').on('click', function () {
 						this.classList.remove('has-error');
 						$(this).siblings('.form-group.has-error').removeClass('has-error');
+						$(divName + ' .loginwith').removeClass('has-error');
 						errorContainer.className = errorContainer.className.replace('max', 'min');
 					});
 					break;
@@ -115,6 +127,22 @@ var JD = (function () {
 		},
 		set: function set(csrf) {
 			this._csrf.value = csrf;
+		}
+	}, {
+		key: 'html',
+		get: function get() {
+			return _html.value || null;
+		},
+		set: function set(html) {
+			this._html.value = html;
+		}
+	}, {
+		key: 'action',
+		get: function get() {
+			return _action.value || null;
+		},
+		set: function set(action) {
+			this._action.value = action;
 		}
 	}, {
 		key: 'hash',

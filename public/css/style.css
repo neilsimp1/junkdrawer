@@ -151,7 +151,7 @@ font-size:1.2em;
 background-color:#9DC57E;
 }
 
-#div_registerform, #div_needhelp, #div_oauthcontainer{display:none;}
+#div_registerform, #div_needhelp{display:none;}
 
 .divider{width:80%;margin:0 auto;border-bottom:1px solid #60005E;visibility:hidden;}
 

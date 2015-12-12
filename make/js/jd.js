@@ -6,6 +6,8 @@
 		this._user = $I('_user');
 		this._error = $I('_error');
 		this._csrf = $I('_csrf');
+		this._html = $I('_html');
+		this._action = $I('_action');
 		this._hash = window.location.hash;
 	}
 	
@@ -17,6 +19,12 @@
 
 	get csrf(){return _csrf.value || null;}
 	set csrf(csrf){this._csrf.value = csrf;}
+
+	get html(){return _html.value || null;}
+	set html(html){this._html.value = html;}
+
+	get action(){return _action.value || null;}
+	set action(action){this._action.value = action;}
 
 	get hash(){return _hash.value || null;}
 	set hash(hash){this._hash.value = hash;}
@@ -59,6 +67,7 @@
 	showError(error){
 		jd.error = JSON.stringify(error);
 
+		let divName = '#div_' + error.page + 'form';
 		switch(error.page){
 			case 'login':
 				var errorContainer = document.querySelector('.login-error');
@@ -66,6 +75,10 @@
 					case 'u': $('.error-show-login-u')[0].classList.add('has-error'); break;
 					case 'pw': $('.error-show-login-pw').addClass('has-error'); break;
 					case 'up': $('.error-show-login').addClass('has-error'); break;
+					case 'o':
+						errorContainer = document.querySelector('.login-error-oa');
+						$(divName + ' .loginwith')[0].classList.add('has-error');
+						break;
 				}
 				$('.error-show-login').on('click', function(){
 					this.classList.remove('has-error');
@@ -80,10 +93,15 @@
 					case 'ue': $('.error-show-register-ue').addClass('has-error'); break;
 					case 'e': $('.error-show-register-ue')[1].classList.add('has-error'); break;
 					case 'pw': $('.error-show-register-pw').addClass('has-error'); break;
+					case 'o':
+						errorContainer = document.querySelector('.register-error-oa');
+						$(divName + ' .loginwith')[0].classList.add('has-error');
+						break;
 				}
 				$('.error-show-register').on('click', function(){
 					this.classList.remove('has-error');
 					$(this).siblings('.form-group.has-error').removeClass('has-error');
+					$(divName + ' .loginwith').removeClass('has-error');
 					errorContainer.className = errorContainer.className.replace('max', 'min');
 				});
 				break;

@@ -8,7 +8,7 @@ module.exports.User = mongoose.model('User'
 		id: ObjectId
 		,oauthID: {type: Number, unique: true}
 		,username: {type: String, required: '{PATH} is required.', unique: true}
-		,email: {type: String, required: '{PATH} is required.', unique: true}
+		,email: {type: String, unique: true}
 		,password: {type: String}
 		,settings: {type: [Schema.Types.Mixed], required: '{PATH} is required.'}
 	})
