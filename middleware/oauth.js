@@ -1,5 +1,4 @@
 var passport = require('passport')
-	,LocalStrategy = require('passport-local').Strategy
 	,GoogleStrategy = require('passport-google-oauth2').Strategy
 	,FacebookStrategy = require('passport-facebook').Strategy
 	,TwitterStrategy = require('passport-twitter').Strategy

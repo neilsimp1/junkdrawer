@@ -12,7 +12,7 @@ router.get('/', function (req, res){
 	var error = req.error;
 	if(res.locals.flash.error) error = res.locals.flash.error;
 
-	if(!req.user) res.render('index', {_csrf: req._csrf, error: error});
+	if(!req.user) res.render('index', {user: null, error: error, action: null, html: null, _csrf: req._csrf});
 	else{
 		utils.getFolders(req, res, function(folders){
 			req.user._doc.folders = folders;
@@ -22,9 +22,9 @@ router.get('/', function (req, res){
 				res.render('main', function(err, html){
 					res.render('index', {
 						isLoggedIn: true
-						,html: html
 						,user: req.user
 						,error: error
+						,html: html
 						,_csrf: req._csrf
 					});
 				});
@@ -34,6 +34,7 @@ router.get('/', function (req, res){
 					isLoggedIn: true
 					,user: req.user
 					,error: error
+					,html: null
 					,_csrf: req._csrf
 				});
 			}

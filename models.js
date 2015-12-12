@@ -20,7 +20,6 @@ module.exports.Folder = mongoose.model('Folder'
 		id: ObjectId
 		,userid: {type: ObjectId, required: '{PATH} is required.', ref: 'User'}
 		,name: {type: String, required: '{PATH} is required.'}
-		//,posts: {type: Array}
 	})
 	,'folder'
 );

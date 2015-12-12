@@ -108,6 +108,7 @@ function init_login() {
 	}
 
 	function validateLogin() {
+		return false;
 		if ($I('textbox_username_login').value === '') {
 			var error = {
 				'page': 'login',

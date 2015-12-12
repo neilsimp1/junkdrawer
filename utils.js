@@ -1,7 +1,5 @@
 var favicon = require('serve-favicon');
-var logger = require('morgan');
 var passport = require('passport')
-	,LocalStrategy = require('passport-local').Strategy
 	,GoogleStrategy = require('passport-google-oauth2').Strategy
 	,FacebookStrategy = require('passport-facebook').Strategy
 	,TwitterStrategy = require('passport-twitter').Strategy
@@ -20,11 +18,10 @@ module.exports.Error = function(page, origin, message){
 
 module.exports.isLoggedIn = function(req){return !!req.user;};
 
-module.exports.createFolder = function(req, res, user, folderName, callback){
+module.exports.createFolder = function(req, res, folderName, callback){
 	var folder = new models.Folder({
-		userid: user._id
+		userid: req.user._id
 		,name: folderName
-		,posts: []
 	});
 
 	folder.save(function(err){
@@ -36,7 +33,7 @@ module.exports.createFolder = function(req, res, user, folderName, callback){
 			callback(error, null);
 		}
 		else{//folder created
-			models.Folder.findOne({userid: user._id, name: folderName})
+			models.Folder.findOne({userid: req.user._id, name: folderName})
 				.populate('userid')
 				.exec(function(err, folder){
 					if(err){//error
@@ -83,6 +80,7 @@ module.exports.sanitizeUser = function(user){
 	if(user._doc.hasOwnProperty('oauthID')) delete user._doc.oauthID;
 	if(user._doc.hasOwnProperty('settings')) delete user._doc.settings;
 	if(user._doc.hasOwnProperty('password')) delete user._doc.password;
+	if(user._doc.hasOwnProperty('__v')) delete user._doc.__v;
 
 	return user;
 }
