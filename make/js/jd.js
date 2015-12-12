@@ -67,7 +67,6 @@
 	showError(error){
 		jd.error = JSON.stringify(error);
 
-		let divName = '#div_' + error.page + 'form';
 		switch(error.page){
 			case 'login':
 				var errorContainer = document.querySelector('.login-error');
@@ -75,10 +74,7 @@
 					case 'u': $('.error-show-login-u')[0].classList.add('has-error'); break;
 					case 'pw': $('.error-show-login-pw').addClass('has-error'); break;
 					case 'up': $('.error-show-login').addClass('has-error'); break;
-					case 'o':
-						errorContainer = document.querySelector('.login-error-oa');
-						$(divName + ' .loginwith')[0].classList.add('has-error');
-						break;
+					case 'o': errorContainer = document.querySelector('.login-error-oa'); break;
 				}
 				$('.error-show-login').on('click', function(){
 					this.classList.remove('has-error');
@@ -93,15 +89,11 @@
 					case 'ue': $('.error-show-register-ue').addClass('has-error'); break;
 					case 'e': $('.error-show-register-ue')[1].classList.add('has-error'); break;
 					case 'pw': $('.error-show-register-pw').addClass('has-error'); break;
-					case 'o':
-						errorContainer = document.querySelector('.register-error-oa');
-						$(divName + ' .loginwith')[0].classList.add('has-error');
-						break;
+					case 'o': errorContainer = document.querySelector('.register-error-oa'); break;
 				}
 				$('.error-show-register').on('click', function(){
 					this.classList.remove('has-error');
 					$(this).siblings('.form-group.has-error').removeClass('has-error');
-					$(divName + ' .loginwith').removeClass('has-error');
 					errorContainer.className = errorContainer.className.replace('max', 'min');
 				});
 				break;

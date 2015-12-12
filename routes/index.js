@@ -18,15 +18,25 @@ router.get('/', function (req, res){
 			req.user._doc.folders = folders;
 			req.user = utils.sanitizeUser(req.user);
 			
-			res.render('main', function(err, html){
+			if(res.locals.flash.action === 'login' || res.locals.flash.action === 'register'){
+				res.render('main', function(err, html){
+					res.render('index', {
+						isLoggedIn: true
+						,html: html
+						,user: req.user
+						,error: error
+						,_csrf: req._csrf
+					});
+				});
+			}
+			else{
 				res.render('index', {
 					isLoggedIn: true
-					,html: html
 					,user: req.user
 					,error: error
 					,_csrf: req._csrf
 				});
-			});
+			}
 		});
 	}
 });

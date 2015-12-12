@@ -11,19 +11,21 @@
 	//login/need help toggle
 	$('.loginhelp').on('click', function(){//TODO: put this in a toggle function
 		var span_loginregister = $I('span_loginregister');
-		var thisWidth = span_loginregister.clientWidth;
-		var parentWidth = span_loginregister.parentNode.clientWidth;
+		let thisWidth = span_loginregister.clientWidth;
+		let parentWidth = span_loginregister.parentNode.clientWidth;
 		if(this.id === 'a_needhelp'){
 			$(span_loginregister).animate({width: 'toggle', left: (parentWidth * 0.95) - thisWidth + 'px'}, 500);
 			$('#span_backToLogin').animate({width: 'toggle'}, 500);
 			$('#div_loginform').animate({height: 'toggle'}, 500);
 			$('#div_needhelp').animate({height: 'toggle'}, 500);
+			$('#div_oauthwrapper').animate({height: 'toggle'}, 500);
 		}
 		else{
 			$(span_loginregister).animate({width: 'toggle', left: '5%'}, 500);
 			$('#span_backToLogin').animate({width: 'toggle'}, 500);
 			$('#div_loginform').animate({height: 'toggle'}, 500);
 			$('#div_needhelp').animate({height: 'toggle'}, 500);
+			$('#div_oauthwrapper').animate({height: 'toggle'}, 500);
 		}
 	});
 	
@@ -88,13 +90,15 @@
 	}
 
 	function loginRegisterToggle(to, speed){
-		var span_loginregister = $I('span_loginregister');
-		var thisWidth = span_loginregister.clientWidth;
-		var parentWidth = span_loginregister.parentNode.clientWidth;
+		let span_loginregister = $I('span_loginregister');
+		let thisWidth = span_loginregister.clientWidth;
+		let parentWidth = span_loginregister.parentNode.clientWidth;
+		let loginregister = document.querySelector('.loginregister');
 		if(to === 'login'){
 			$(span_loginregister).animate({left: '5%'}, speed);
 			$('#span_login').unwrap('<a>');
 			$('#span_register').wrap('<a href="#register">');
+			loginregister.innerHTML = loginregister.innerHTML.replace('Register using', 'Log in with');
 			$('#div_loginform').animate({height: 'toggle'}, speed);
 			$('#div_registerform').animate({height: 'toggle'}, speed);
 		}
@@ -102,6 +106,7 @@
 			$(span_loginregister).animate({left: (parentWidth * 0.95) - thisWidth + 'px'}, speed);
 			$('#span_login').wrap('<a href="#login">');
 			$('#span_register').unwrap('<a>');
+			loginregister.innerHTML = loginregister.innerHTML.replace('Log in with', 'Register using');
 			$('#div_loginform').animate({height: 'toggle'}, speed);
 			$('#div_registerform').animate({height: 'toggle'}, speed);
 		}

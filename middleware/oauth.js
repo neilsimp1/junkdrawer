@@ -8,13 +8,6 @@ var passport = require('passport')
 
 var models = require('../models');
 
-function getOAuthCreds(provider, method){
-	var creds = config.oauth[provider];
-	//creds.callbackURL = method === 'login'? config.oauth[provider].loginCallbackURL: config.oauth[provider].registerCallbackURL;
-
-	return creds;
-}
-
 function oauthSuccess(profile, done){
 	if(profile.emails){
 		var username = profile.emails[0].value;
@@ -52,46 +45,16 @@ passport.deserializeUser(function(id, done){
 
 //		strategies
 //google
-//passport.use('google-login', new GoogleStrategy(getOAuthCreds('google', 'login')
-//	,function(request, accessToken, refreshToken, profile, done){
-//		oauthSuccess(profile, done);
-//	}
-//));
-//passport.use('google-register', new GoogleStrategy(getOAuthCreds('google', 'register')
-//	,function(request, accessToken, refreshToken, profile, done){
-//		oauthSuccess(profile, done);
-//	}
-//));
 passport.use(new GoogleStrategy(config.oauth.google, function(request, accessToken, refreshToken, profile, done){
 	oauthSuccess(profile, done);
 }));
 
 //facebook
-//passport.use('facebook-login', new FacebookStrategy(getOAuthCreds('facebook', 'login')
-//	,function(accessToken, refreshToken, profile, done){
-//		oauthSuccess(profile, done);
-//	}
-//));
-//passport.use('facebook-register', new FacebookStrategy(getOAuthCreds('facebook', 'register')
-//	,function(accessToken, refreshToken, profile, done){
-//		oauthSuccess(profile, done);
-//	}
-//));
 passport.use(new FacebookStrategy(config.oauth.facebook, function(accessToken, refreshToken, profile, done){
 	oauthSuccess(profile, done);
 }));
 
 //twitter
-//passport.use('twitter-login', new TwitterStrategy(getOAuthCreds('twitter', 'login')
-//	,function(accessToken, refreshToken, profile, done){
-//		oauthSuccess(profile, done);
-//	}
-//));
-//passport.use('twitter-register', new TwitterStrategy(getOAuthCreds('twitter', 'register')
-//	,function(accessToken, refreshToken, profile, done){
-//		oauthSuccess(profile, done);
-//	}
-//));
 passport.use(new TwitterStrategy(config.oauth.twitter, function(accessToken, refreshToken, profile, done){
 	oauthSuccess(profile, done);
 }));
@@ -100,15 +63,3 @@ passport.use(new TwitterStrategy(config.oauth.twitter, function(accessToken, ref
 passport.use('github', new GithubStrategy(config.oauth.github, function(accessToken, refreshToken, profile, done){
 	oauthSuccess(profile, done);
 }));
-
-////github
-//passport.use('github-login', new GithubStrategy(getOAuthCreds('github', 'login')
-//	,function(accessToken, refreshToken, profile, done){
-//		oauthSuccess(profile, done);
-//	}
-//));
-//passport.use('github-register', new GithubStrategy(getOAuthCreds('github', 'register')
-//	,function(accessToken, refreshToken, profile, done){
-//		oauthSuccess(profile, done);
-//	}
-//));
