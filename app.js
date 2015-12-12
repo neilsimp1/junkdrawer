@@ -1,5 +1,4 @@
 ﻿var bodyParser = require('body-parser')
-	//,cookieParser = require('cookie-parser')
 	,mongoose = require('mongoose')
 	,csrf = require('csurf')
 	,express = require('express')

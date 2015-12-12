@@ -1,6 +1,5 @@
 var favicon = require('serve-favicon');
 var logger = require('morgan');
-//var stylus = require('stylus');
 var passport = require('passport')
 	,LocalStrategy = require('passport-local').Strategy
 	,GoogleStrategy = require('passport-google-oauth2').Strategy
