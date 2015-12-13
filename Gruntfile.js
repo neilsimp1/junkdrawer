@@ -78,15 +78,9 @@ module.exports = function(grunt){
 					//local
 					{expand: true, cwd: 'dist', src: ['<%= pkg.shortname %>.js', 'main.js', 'login.js'], dest: 'public/js'}
 					,{expand: true, cwd: 'dist', src: ['<%= pkg.shortname %>.css', 'wysyhtml.css'], dest: 'public/css'}
-					//TODO: copy css files
 
-					////publish
-					//,{expand: true, cwd: 'public/css', src: ['**'], dest: 'build/css'}
-					//,{expand: true, cwd: 'public/fonts', src: ['**'], dest: 'build/fonts'}
-					//,{expand: true, cwd: 'dist', src: ['<%= pkg.shortname %>.js', 'app.js'], dest: 'build/js'}
-					//,{expand: true, cwd: 'dist', src: ['jd.js'], dest: 'build/js'}
-					//,{expand: true, cwd: 'public/', src: ['favicon.ico'], dest: 'build/'}
-					//TODO: this ^^^
+					//publish
+
 				]
 			}
 		}

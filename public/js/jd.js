@@ -22,6 +22,8 @@ var JD = (function () {
 
 		this.controls = {};
 		this.page = {};
+		this.validator = {};
+		this.login = {};
 		this._user = $I('_user');
 		this._error = $I('_error');
 		this._csrf = $I('_csrf');
@@ -179,12 +181,6 @@ $(document).ready(function () {
 	JD.loadScripts();
 	jd = new JD();
 });
-
 function $I(i) {
 	return document.getElementById(i);
-}
-
-//temp bullshit
-function validateFiles() {
-	return true;
 }

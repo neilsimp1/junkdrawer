@@ -2,113 +2,7 @@
 
 function init_login() {
 
-	//login/register toggle
-	$('.loginreg').on('click', function () {
-		if (this.parentNode.tagName !== 'A') return;
-		var to = 'register';
-		if (this.id === 'span_login') to = 'login';
-		loginRegisterToggle(to, 500);
-	});
-
-	//login/need help toggle
-	$('.loginhelp').on('click', function () {
-		//TODO: put this in a toggle function
-		var span_loginregister = $I('span_loginregister');
-		var thisWidth = span_loginregister.clientWidth;
-		var parentWidth = span_loginregister.parentNode.clientWidth;
-		if (this.id === 'a_needhelp') {
-			$(span_loginregister).animate({ width: 'toggle', left: parentWidth * 0.95 - thisWidth + 'px' }, 500);
-			$('#span_backToLogin').animate({ width: 'toggle' }, 500);
-			$('#div_loginform').animate({ height: 'toggle' }, 500);
-			$('#div_needhelp').animate({ height: 'toggle' }, 500);
-			$('#div_oauthwrapper').animate({ height: 'toggle' }, 500);
-		} else {
-			$(span_loginregister).animate({ width: 'toggle', left: '5%' }, 500);
-			$('#span_backToLogin').animate({ width: 'toggle' }, 500);
-			$('#div_loginform').animate({ height: 'toggle' }, 500);
-			$('#div_needhelp').animate({ height: 'toggle' }, 500);
-			$('#div_oauthwrapper').animate({ height: 'toggle' }, 500);
-		}
-	});
-
-	//login/register click on load from #
-	switch (window.location.hash) {
-		//case '#login': $('#span_login').click(); break;
-		//case '#register': $('#span_register').click(); break;
-		//case '#help': $('#a_needhelp').click(); break;
-		case '#register':
-			loginRegisterToggle('register', 0);break;
-		case '#help':
-			$('#a_needhelp').click();break;
-	}
-
-	//form handling
-	$('#button_resetpassword').on('click', function () {});
-	$('#button_login').on('click', function () {
-		var error = validateLogin();
-		if (error) jd.showError(error);else {
-			$.post('login', $(this.form).serialize() + '&' + $.param({ '_csrf': jd.csrf })).done(function (ret) {
-				jd.changeScreen(ret.html);
-			}).fail(function (ret) {
-				if (typeof ret.responseJSON !== 'undefined') {
-					if (typeof ret.responseJSON.error === 'object') {
-						jd.showError(ret.responseJSON.error);
-					}
-				}
-			});
-		}
-	});
-	$('#button_register').on('click', function () {
-		var error = validateRegister();
-		if (error) jd.showError(error);else {
-			$.post('register', $(this.form).serialize() + '&' + $.param({ '_csrf': jd.csrf })).done(function (ret) {
-				jd.changeScreen(ret.html);
-			}).fail(function (ret) {
-				if (typeof ret.responseJSON !== 'undefined') {
-					if (typeof ret.responseJSON.error === 'object') {
-						jd.showError(ret.responseJSON.error);
-					}
-				}
-			});
-		}
-	});
-
-	//oauth return
-	if (jd.error) {
-		jd.showError(jd.error);
-	}
-	if (jd.action && jd.html) {
-		if (jd.action === 'register' || jd.action === 'login') {
-			jd.changeScreen(JSON.parse(jd.html));
-			jd.html = '';
-			jd.action = '';
-		}
-	}
-
-	function loginRegisterToggle(to, speed) {
-		var span_loginregister = $I('span_loginregister');
-		var thisWidth = span_loginregister.clientWidth;
-		var parentWidth = span_loginregister.parentNode.clientWidth;
-		var loginregister = document.querySelector('.loginregister');
-		if (to === 'login') {
-			$(span_loginregister).animate({ left: '5%' }, speed);
-			$('#span_login').unwrap('<a>');
-			$('#span_register').wrap('<a href="#register">');
-			loginregister.innerHTML = loginregister.innerHTML.replace('Register using', 'Log in with');
-			$('#div_loginform').animate({ height: 'toggle' }, speed);
-			$('#div_registerform').animate({ height: 'toggle' }, speed);
-		} else {
-			$(span_loginregister).animate({ left: parentWidth * 0.95 - thisWidth + 'px' }, speed);
-			$('#span_login').wrap('<a href="#login">');
-			$('#span_register').unwrap('<a>');
-			loginregister.innerHTML = loginregister.innerHTML.replace('Log in with', 'Register using');
-			$('#div_loginform').animate({ height: 'toggle' }, speed);
-			$('#div_registerform').animate({ height: 'toggle' }, speed);
-		}
-	}
-
-	function validateLogin() {
-		return false;
+	jd.validator.login = function () {
 		if ($I('textbox_username_login').value === '') {
 			var error = {
 				'page': 'login',
@@ -126,9 +20,9 @@ function init_login() {
 		}
 
 		return false;
-	}
+	};
 
-	function validateRegister() {
+	jd.validator.register = function () {
 		return false;
 		if ($I('textbox_username_register').value === '') {
 			var error = {
@@ -154,7 +48,96 @@ function init_login() {
 		}
 
 		return false;
+	};
+
+	jd.login.changeMenu = function (speed, to, from) {
+		var span_loginregister = $I('span_loginregister'),
+		    loginregwith = document.querySelector('.loginregwith'),
+		    thisWidth = span_loginregister.clientWidth,
+		    parentWidth = span_loginregister.parentNode.clientWidth;
+
+		$('.login-toggle.active').removeClass('active');
+		$('.login-toggle[data-form=' + to + ']').addClass('active');
+
+		if (to === 'needhelp') {
+			//from login to needhelp
+			$(span_loginregister).animate({ width: 'toggle', left: parentWidth * 0.95 - thisWidth + 'px' }, speed);
+			$('#span_backToLogin').animate({ width: 'toggle' }, speed);
+			$('#div_loginform, #div_needhelp, #div_oauthwrapper').animate({ height: 'toggle' }, speed);
+		} else {
+			if (to === 'login') {
+				if (from === 'needhelp') {
+					//from needhelp to login
+					$(span_loginregister).animate({ width: 'toggle', left: '5%' }, speed);
+					$('#span_backToLogin').animate({ width: 'toggle' }, speed);
+					$('#div_loginform, #div_needhelp, #div_oauthwrapper').animate({ height: 'toggle' }, speed);
+				} else {
+					//from reg to login
+					$(span_loginregister).animate({ left: '5%' }, speed);
+					$('#span_login').unwrap('<a>');
+					$('#span_register').wrap('<a href="#register">');
+					loginregwith.innerHTML = loginregwith.innerHTML.replace('Register using', 'Log in with');
+					$('#div_loginform, #div_registerform').animate({ height: 'toggle' }, speed);
+				}
+			} else {
+				//from login to register
+				$(span_loginregister).animate({ left: parentWidth * 0.95 - thisWidth + 'px' }, speed);
+				$('#span_login').wrap('<a href="#login">');
+				$('#span_register').unwrap('<a>');
+				loginregwith.innerHTML = loginregwith.innerHTML.replace('Log in with', 'Register using');
+				$('#div_loginform, #div_registerform').animate({ height: 'toggle' }, speed);
+			}
+		}
+	};
+
+	jd.login.login = function () {
+		var error = jd.validator.login();
+		if (error) jd.showError(error);else {
+			$.post('login', $(this.form).serialize() + '&' + $.param({ '_csrf': jd.csrf })).done(function (ret) {
+				jd.changeScreen(ret.html);
+			}).fail(function (ret) {
+				if (typeof ret.responseJSON !== 'undefined') {
+					if (typeof ret.responseJSON.error === 'object') jd.showError(ret.responseJSON.error);
+				}
+			});
+		}
+	};
+
+	jd.login.register = function () {
+		var error = jd.validator.register();
+		if (error) jd.showError(error);else {
+			$.post('register', $(this.form).serialize() + '&' + $.param({ '_csrf': jd.csrf })).done(function (ret) {
+				jd.changeScreen(ret.html);
+			}).fail(function (ret) {
+				if (typeof ret.responseJSON !== 'undefined') {
+					if (typeof ret.responseJSON.error === 'object') jd.showError(ret.responseJSON.error);
+				}
+			});
+		}
+	};
+
+	//login/register click on load from #
+	switch (window.location.hash) {
+		case '#register':
+			jd.login.changeMenu(0, 'register', 'login');break;
+		case '#help':
+			jd.login.changeMenu(0, 'needhelp', 'login');break;
 	}
 
-	function changeMenu() {}
+	//bindings
+	$('.changeMenu').on('click', function () {
+		if (this.parentNode.tagName === 'A') jd.login.changeMenu(500, $(this).data('form'), $('.login-toggle.active').data('form'));
+	});$('#button_resetpassword').on('click', function () {});
+	$('#button_login').on('click', jd.login.login);
+	$('#button_register').on('click', jd.login.register);
+
+	//oauth return, show error or load app
+	if (jd.error) jd.showError(jd.error);
+	if (jd.action && jd.html) {
+		if (jd.action === 'register' || jd.action === 'login') {
+			jd.changeScreen(JSON.parse(jd.html));
+			jd.html = '';
+			jd.action = '';
+		}
+	}
 }

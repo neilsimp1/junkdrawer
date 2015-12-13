@@ -7,17 +7,17 @@
 		<div class="div_loginregister">
 			<h3 id="h3_loginregister">
 				<span id="span_backToLogin">
-					<a href="#login"><span class="loginhelp">Back</span></a>
+					<a href="#login"><span class="changeMenu" data-form="login">Back<span></span></a>
 					<span style="font-size: 1.2em;">&nbsp;|&nbsp;</span>
 					<span>Forget something?</span>
 				</span>
 				<span id="span_loginregister">
-					<span id="span_login" class="loginreg">Login</span>
+					<span id="span_login" class="changeMenu" data-form="login">Login</span>
 					<span style="font-size: 1.2em;">&nbsp;|&nbsp;</span>
-					<a href="#register"><span id="span_register" class="loginreg">Register</span></a>
+					<a href="#register"><span id="span_register" class="changeMenu" data-form="register">Register</span></a>
 				</span>
 			</h3>
-			<div id="div_needhelp">
+			<div id="div_needhelp" class="login-toggle" data-form="needhelp">
 				<div class="container-fluid">
 					<form>
 						<div class="form-group">
@@ -45,12 +45,11 @@
 			</div>
 			<div id="div_oauthwrapper" class="container-fluid">
 				<div class="form-group" style="margin-bottom:8px;">
-					<label class="control-label loginwith loginregister">Log in with...</label>
-					<br />
+					<label class="control-label loginwith loginregwith">Log in with...</label><br />
 					<% include templates/oauth %>
 				</div>
 			</div>
-			<div id="div_loginform">
+			<div id="div_loginform" class="login-toggle active" data-form="login">
 				<div class="container-fluid login">
 					<form>
 						<div class="form-group">
@@ -82,7 +81,7 @@
 						<div class="form-group">
 							<div class="container-fluid">
 								<div class="col-xs-7" style="padding-top:8px;">
-									<a href="#help" id="a_needhelp" class="loginhelp">Need Help?</a>
+									<a href="#help" id="a_needhelp"><span class="changeMenu" data-form="needhelp">Need Help?</span></a>
 								</div>
 								<div class="col-xs-5 text-right">
 									<button type="button" id="button_login" class="btn btn-default">Login</button>
@@ -92,7 +91,7 @@
 					</form>
 				</div>
 			</div>
-			<div id="div_registerform">
+			<div id="div_registerform" class="login-toggle" data-form="register">
 				<div class="container-fluid">
 					<form>
 						<div class="form-group">
