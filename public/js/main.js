@@ -683,43 +683,108 @@ var wysihtml5ParserRules = {
 
 })();
 ;
+//(function(jd){
+//	jd.files = function(){
+
+//		for(var index = 0; index < this.length; index++){
+//			let _ctrl = this[index]
+//				,id = _ctrl.id
+//				,addText = _ctrl.getAttribute('data-addtext')? _ctrl.getAttribute('data-addtext'): 'Add Files';
+
+//			//Controls
+//			let fileBtn = $('<button type="button" id="button_filemenu" class="dropdown-toggle menubtn hoverbtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>')
+//			fileBtn.append($('<span class="sr-only">Toggle menu</span>'));
+//			fileBtn.append($('<span class="glyphicon glyphicon-paperclip"></span>'));
+
+//			let fileMenu = $('<ul class="mainmenu filemenu dropdown-menu"></ul>');
+//			fileMenu.append($('<li style="display:none;"><a href="#" id="jqdl-delete" class="hoverbtn" data-id="' + id + '"><span class="glyphicon glyphicon-trash"></span></a></li>'));
+//			fileMenu.append($('<li><a href="#" id="jqdl-add" class="hoverbtn" data-id="' + id + '"><span class="glyphicon glyphicon-plus"></span></a></li>'));
+
+//			let span_label = document.createElement('span');
+//			span_label.setAttribute('id', 'span_display_' + id);
+//			span_label.setAttribute('data-toggle', 'tooltip');
+//			span_label.style['margin-right'] = '8px';
+//            span_label.style['font-size'] = '0.85em';
+//			span_label.style['font-style'] = 'italic';
+
+//			//Dom changes
+//			$(_ctrl).after(fileMenu).after(fileBtn);
+//			$(_ctrl).parent().parent().prepend(span_label);
+//		}
+
+//		//Functions
+//		jd.files.btnAdd_click = function(input){$(input).click();}
+//		jd.files.btnRemove_click = function(input){
+//            input.value = '';
+//            input.type = 'text'; input.type = 'file';
+//            jd.files.fileInput_change(input);
+//            $(input).trigger('blur');
+//		}
+//		jd.files.fileInput_change = function(input){
+//            if(!validateFiles(input)){jd.files.btnRemove_click(input); return;}
+
+//			let span_label = document.getElementById('span_display_' + input.id);
+//			if(input.files.length === 0){
+//				span_label.innerHTML = '';
+//				span_label.setAttribute('title', '');
+//                span_label.setAttribute('data-original-title', '');
+//			}
+//			else{
+//				let file_files = input.files.length === 1? 'file': 'files';
+//				span_label.innerHTML = input.files.length + ' ' + file_files;
+//				let fileNames = [];
+//				for(var i = 0; i < input.files.length; i++) fileNames.push(input.files[i].name);
+//                let filesNamesStr = fileNames.join('\r\n');
+//				span_label.setAttribute('title', filesNamesStr);
+//                span_label.setAttribute('data-original-title', filesNamesStr);
+//			}
+//		}
+//		jd.files.clearAllFiles = function(){
+//            $('input[type=file]').each(function(){$(this.nextElementSibling.nextElementSibling.children[1]).click();});
+//        }
+
+//		//Bindings
+//		$(this).change(function(){jd.files.fileInput_change(this);});
+//		$('#jqdl-add').on('click', function(){jd.files.btnAdd_click($I($(this).data('id')));});
+//		$('#jqdl-delete').on('click', function(){jd.files.btnRemove_click($I($(this).data('id')));});
+
+//		return this;
+//	};
+
+//	$.fn.files = jd.files;
+
+//}(jd));
+
 'use strict';
 
 (function (jd) {
 	jd.files = function () {
 
-		for (var index = 0; index < this.length; index++) {
-			var _ctrl = this[index],
-			    id = _ctrl.id,
-			    addText = _ctrl.getAttribute('data-addtext') ? _ctrl.getAttribute('data-addtext') : 'Add Files';
+		var _ctrl = this[0];
 
-			//Controls
-			var fileDD = $('<button type="button" id="button_filemenu" class="dropdown-toggle menubtn hoverbtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>');
-			fileDD.append($('<span class="sr-only">Toggle menu</span>'));
-			fileDD.append($('<span class="glyphicon glyphicon-paperclip"></span>'));
+		//Controls
+		var fileBtn = $('<button type="button" id="button_filemenu" class="dropdown-toggle menubtn hoverbtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>');
+		fileBtn.append($('<span class="sr-only">Toggle menu</span>'));
+		fileBtn.append($('<span class="glyphicon glyphicon-paperclip"></span>'));
 
-			var fileMenu = $('<ul class="mainmenu filemenu dropdown-menu"></ul>');
-			fileMenu.append($('<li><a href="#" id="jqdl-add" class="hoverbtn" data-id="' + id + '"><span class="glyphicon glyphicon-plus"></span></a></li>'));
-			fileMenu.append($('<li><a href="#" id="jqdl-delete" class="hoverbtn" data-id="' + id + '"><span class="glyphicon glyphicon-trash"></span></a></li>'));
+		var fileMenu = $('<ul class="mainmenu filemenu dropdown-menu"></ul>');
+		fileMenu.append($('<li style="display:none;"><a href="#" id="jqdl-delete" class="hoverbtn" data-id="' + _ctrl.id + '"><span class="glyphicon glyphicon-trash"></span></a></li>'));
+		fileMenu.append($('<li><a href="#" id="jqdl-add" class="hoverbtn" data-id="' + _ctrl.id + '"><span class="glyphicon glyphicon-plus"></span></a></li>'));
 
-			var div_btnGroup = $('<div class="dropup" style="display:inline;"></div>');
-			div_btnGroup.append(fileDD, fileMenu);
+		var span_label = document.createElement('span');
+		span_label.setAttribute('id', 'span_display_' + _ctrl.id);
+		span_label.setAttribute('data-toggle', 'tooltip');
+		span_label.style['margin-right'] = '8px';
+		span_label.style['font-size'] = '0.85em';
+		span_label.style['font-style'] = 'italic';
 
-			var span_label = document.createElement('span');
-			span_label.setAttribute('id', 'span_display_' + id);
-			span_label.setAttribute('data-toggle', 'tooltip');
-			span_label.style['margin-right'] = '8px';
-			span_label.style['font-size'] = '0.85em';
-			span_label.style['font-style'] = 'italic';
-
-			//Dom changes
-			_ctrl.style.display = 'none';
-			$(_ctrl).after(div_btnGroup).after(span_label);
-		}
+		//Dom changes
+		$(_ctrl).after(fileMenu).after(fileBtn);
+		$(_ctrl).parent().parent().prepend(span_label);
 
 		//Functions
 		jd.files.btnAdd_click = function (input) {
-			input.click();
+			$(input).click();
 		};
 		jd.files.btnRemove_click = function (input) {
 			input.value = '';
@@ -737,6 +802,7 @@ var wysihtml5ParserRules = {
 				span_label.innerHTML = '';
 				span_label.setAttribute('title', '');
 				span_label.setAttribute('data-original-title', '');
+				$('#jqdl-delete').parent()[0].style.display = 'none';
 			} else {
 				var file_files = input.files.length === 1 ? 'file' : 'files';
 				span_label.innerHTML = input.files.length + ' ' + file_files;
@@ -745,6 +811,7 @@ var wysihtml5ParserRules = {
 				var filesNamesStr = fileNames.join('\r\n');
 				span_label.setAttribute('title', filesNamesStr);
 				span_label.setAttribute('data-original-title', filesNamesStr);
+				$('#jqdl-delete').parent()[0].style.display = '';
 			}
 		};
 		jd.files.clearAllFiles = function () {
@@ -773,6 +840,7 @@ var wysihtml5ParserRules = {
 $(document).ready(function () {
 	$('input[type=file]').files();
 });
+//$(document).ready(function(){$('input[type=file]').files();});
 ;
 'use strict';
 
@@ -806,15 +874,15 @@ function init_main() {
 		function setContainers() {
 			switch (jd.controls.resizers.state) {
 				case 0:
-					outputW = 'calc(10% - 2px)';inputW = 'calc(90% - 2px)';outputH = '12vh';inputH = '80vh';break;
+					outputW = 'calc(10% - 2px)';inputW = 'calc(90% - 2px)';outputH = '10vh';inputH = '80vh';break;
 				case 1:
-					outputW = 'calc(25% - 2px)';inputW = 'calc(75% - 2px)';outputH = '23vh';inputH = '69vh';break;
+					outputW = 'calc(25% - 2px)';inputW = 'calc(75% - 2px)';outputH = '25vh';inputH = '65vh';break;
 				case 2:
-					outputW = 'calc(50% - 2px)';inputW = 'calc(50% - 2px)';outputH = '46vh';inputH = '46vh';break;
+					outputW = 'calc(50% - 2px)';inputW = 'calc(50% - 2px)';outputH = '45vh';inputH = '45vh';break; //
 				case 3:
-					outputW = 'calc(75% - 2px)';inputW = 'calc(25% - 2px)';outputH = '69vh';inputH = '23vh';break;
+					outputW = 'calc(75% - 2px)';inputW = 'calc(25% - 2px)';outputH = '65vh';inputH = '25vh';break;
 				case 4:
-					outputW = 'calc(90% - 2px)';inputW = 'calc(10% - 2px)';outputH = '80vh';inputH = '12vh';
+					outputW = 'calc(90% - 2px)';inputW = 'calc(10% - 2px)';outputH = '80vh';inputH = '10vh';
 			}
 			if (JD.isMobile()) {
 				jd.page.mainContainers[0].style.height = outputH;
@@ -830,7 +898,7 @@ function init_main() {
 				var saveState = jd.controls.resizers.state;
 				jd.controls.resizers.state = 0;
 
-				outputH = '12vh';
+				outputH = '10vh';
 				inputH = '80vh';
 				jd.page.editor.on('blur', function () {
 					jd.controls.resizers.state = saveState;
@@ -842,11 +910,11 @@ function init_main() {
 			case 'resize':
 				jd.controls.resizers.state = 2;
 				if (JD.isMobile()) {
-					$(jd.page.mainContainers[0]).css({ width: '100%', height: '46vh' });
-					$(jd.page.mainContainers[1]).css({ width: '100%', height: '46vh' });
+					$(jd.page.mainContainers[0]).css({ width: '100%', height: '45vh' });
+					$(jd.page.mainContainers[1]).css({ width: '100%', height: '45vh' });
 				} else {
-					$(jd.page.mainContainers[0]).css({ width: 'calc(50% - 2px)', height: '94vh' });
-					$(jd.page.mainContainers[1]).css({ width: 'calc(50% - 2px)', height: '94vh' });
+					$(jd.page.mainContainers[0]).css({ width: 'calc(50% - 2px)', height: '92vh' });
+					$(jd.page.mainContainers[1]).css({ width: 'calc(50% - 2px)', height: '92vh' });
 				}
 				break;
 			case 'click':

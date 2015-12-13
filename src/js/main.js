@@ -25,11 +25,11 @@
 		let outputW, outputH, inputW, inputH;
 		function setContainers(){
 			switch(jd.controls.resizers.state){
-				case 0: outputW = 'calc(10% - 2px)'; inputW = 'calc(90% - 2px)'; outputH = '12vh'; inputH = '80vh'; break;
-				case 1: outputW = 'calc(25% - 2px)'; inputW = 'calc(75% - 2px)'; outputH = '23vh'; inputH = '69vh'; break;
-				case 2: outputW = 'calc(50% - 2px)'; inputW = 'calc(50% - 2px)'; outputH = '46vh'; inputH = '46vh'; break;
-				case 3: outputW = 'calc(75% - 2px)'; inputW = 'calc(25% - 2px)'; outputH = '69vh'; inputH = '23vh'; break;
-				case 4: outputW = 'calc(90% - 2px)'; inputW = 'calc(10% - 2px)'; outputH = '80vh'; inputH = '12vh';
+				case 0: outputW = 'calc(10% - 2px)'; inputW = 'calc(90% - 2px)'; outputH = '10vh'; inputH = '80vh'; break;
+				case 1: outputW = 'calc(25% - 2px)'; inputW = 'calc(75% - 2px)'; outputH = '25vh'; inputH = '65vh'; break;
+				case 2: outputW = 'calc(50% - 2px)'; inputW = 'calc(50% - 2px)'; outputH = '45vh'; inputH = '45vh'; break;//
+				case 3: outputW = 'calc(75% - 2px)'; inputW = 'calc(25% - 2px)'; outputH = '65vh'; inputH = '25vh'; break;
+				case 4: outputW = 'calc(90% - 2px)'; inputW = 'calc(10% - 2px)'; outputH = '80vh'; inputH = '10vh';
 			}
 			if(JD.isMobile()){
 				jd.page.mainContainers[0].style.height = outputH;
@@ -46,7 +46,7 @@
 				let saveState = jd.controls.resizers.state;
 				jd.controls.resizers.state = 0;
 
-				outputH = '12vh';
+				outputH = '10vh';
 				inputH = '80vh';
 				jd.page.editor.on('blur', function(){
 					jd.controls.resizers.state = saveState;
@@ -58,12 +58,12 @@
 			case 'resize':
 				jd.controls.resizers.state = 2;
 				if(JD.isMobile()){
-					$(jd.page.mainContainers[0]).css({width: '100%', height: '46vh'});
-					$(jd.page.mainContainers[1]).css({width: '100%', height: '46vh'});
+					$(jd.page.mainContainers[0]).css({width: '100%', height: '45vh'});
+					$(jd.page.mainContainers[1]).css({width: '100%', height: '45vh'});
 				}
 				else{
-					$(jd.page.mainContainers[0]).css({width: 'calc(50% - 2px)', height: '94vh'});
-					$(jd.page.mainContainers[1]).css({width: 'calc(50% - 2px)', height: '94vh'});
+					$(jd.page.mainContainers[0]).css({width: 'calc(50% - 2px)', height: '92vh'});
+					$(jd.page.mainContainers[1]).css({width: 'calc(50% - 2px)', height: '92vh'});
 				}
 				break;
 			case 'click':

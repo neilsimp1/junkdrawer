@@ -1,0 +1,48 @@
+﻿@import 'colors';
+
+#h3_loginregister{
+color:$grey-dark;
+margin:0;
+padding-top:14px;
+height:45px;
+}
+#span_loginregister{
+position:absolute;
+left:5%;
+display:block;
+white-space:nowrap;
+overflow:hidden;
+}
+#span_backToLogin{
+display:none;
+position:absolute;
+left:5%;
+white-space:nowrap;
+overflow:hidden;
+}
+
+.logobar{
+height:22px;
+background-color:$purple-med;
+font-size:1.2em;
+}
+.logobar img{height:20px;margin:0 2px 3px 1px;}
+.logobar label{color:$green-dark;}
+.div_loginregister{background-color:$green-light;}
+
+#div_registerform, #div_needhelp{display:none;}
+
+
+.oauth-menu{margin:8px 0 36px;padding:0 0 20px;}
+.oauth-menu .col-xs-3{max-height:44px;}
+
+label.loginwith.control-label{margin-bottom:4px;color:initial;font-size:0.85em;}
+a.oauth{display:inline-block;width:42px;height:42px;border:2px solid $green-light;}
+a.oauth:visited{border-color:$green-med;}
+a.oauth:hover{border-color:$link-blue;}
+a.oauth:active{border-color:$green-dark;}
+
+$providers: (google, facebook, twitter, github);
+@each $provider in $providers{
+	a.oauth-#{$provider}{background-image:url("/img/oauth-#{$provider}.png");}
+}
