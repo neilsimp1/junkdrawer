@@ -1,4 +1,8 @@
-﻿#h3_loginregister{
+﻿@import 'colors';
+
+#div_logincontainer{position:absolute;top:30%;transform:translateY(-30%);padding:0;}
+#wrapper_login{position:relative;height:100%;width:100%;}
+#h3_loginregister{
 color:$grey-dark;
 margin:0;
 padding-top:14px;
