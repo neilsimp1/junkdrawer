@@ -11,6 +11,7 @@ module.exports.User = mongoose.model('User'
 		,email: {type: String, unique: true}
 		,password: {type: String}
 		,settings: {type: [Schema.Types.Mixed], required: '{PATH} is required.'}
+		,folders: [{type: ObjectId, ref: 'Folder'}]
 	})
 	,'user'
 );
@@ -20,6 +21,8 @@ module.exports.Folder = mongoose.model('Folder'
 		id: ObjectId
 		,userid: {type: ObjectId, required: '{PATH} is required.', ref: 'User'}
 		,name: {type: String, required: '{PATH} is required.'}
+		,active: {type: Boolean, required: '{PATH} is required.', default: true}
+		,posts: [{type: ObjectId, ref: 'Post'}]
 	})
 	,'folder'
 );

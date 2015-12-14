@@ -50,7 +50,7 @@ module.exports.createFolder = function(req, res, folderName, callback){
 }
 
 module.exports.getFolders = function(req, res, callback){
-	models.Folder.find({userid: req.user._id}, '_id name', function(err, folders){
+	models.Folder.find({userid: req.user._id}, '_id name active', function(err, folders){
 		if(!folders){//error username
 			var error = new Error('register', 'finduser', 'Error finding user.');
 			res.render('index.ejs', {csrfToken: req.csrfToken(), error: error});

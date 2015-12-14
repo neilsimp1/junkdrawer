@@ -1,13 +1,12 @@
-var bcrypt = require('bcryptjs');
 var express = require('express');
 
-var models = require('../models');
-var utils = require('../utils');
+var models = require('../models')
+	,utils = require('../utils');
 
 var router = express.Router();
 
 //POST /post
-router.post('/post', function(req, res){
+router.post('/post/', function(req, res){
 	var post = new models.Post({
 		folderid: req.body.folderid
 		,datetime: new Date()

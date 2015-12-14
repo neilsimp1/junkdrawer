@@ -856,7 +856,7 @@ function init_main() {
 	if (jd.page.mainContainers.length === 0) return;
 
 	//functions
-	(jd.page.setDraggerIcons = function () {
+	jd.page.setDraggerIcons = function () {
 		if (JD.isMobile()) {
 			jd.controls.resizers[0].children[0].className = jd.controls.resizers[0].children[0].className.replace('left', 'up');
 			jd.controls.resizers[1].children[0].className = jd.controls.resizers[1].children[0].className.replace('right', 'down');
@@ -864,7 +864,7 @@ function init_main() {
 			jd.controls.resizers[0].children[0].className = jd.controls.resizers[0].children[0].className.replace('up', 'left');
 			jd.controls.resizers[1].children[0].className = jd.controls.resizers[1].children[0].className.replace('down', 'right');
 		}
-	})();
+	};
 
 	jd.page.resize = function (e) {
 		var outputW = undefined,
@@ -929,20 +929,68 @@ function init_main() {
 		}
 	};
 
-	jd.page.post = function () {
-		var text = document.querySelector('.wysihtml5-sandbox').contentDocument.body.innerHTML,
-		    files = $I('fileinput').files,
-		    user = getUser();
+	jd.post = function () {
+		if (!jd.validator.post()) {
+			//let files = $I('fileinput').files;
 
-		$.post('/post', {
-			id: user._id,
-			text: text,
-			files: files
-		}, function (ret) {
-			console.log(ret);
-		}).fail(function () {
-			alert('what the fuck');
+			$.post('post', {
+				id: jd.user._id,
+				folderid: 123, ///?????????????????
+				text: document.querySelector('.wysihtml5-sandbox').contentDocument.body.innerHTML,
+				//,files: files
+				_csrf: jd.csrf
+			}).done(function (ret) {
+				var asd = 123;
+			}).fail(function (ret) {
+				alert('what the fuck');
+			});
+		}
+	};
+
+	jd.getFolder = function (id) {
+		function getActiveFolder() {
+			var folders = jd.user.folders;
+			var _iteratorNormalCompletion = true;
+			var _didIteratorError = false;
+			var _iteratorError = undefined;
+
+			try {
+				for (var _iterator = folders[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+					var folder = _step.value;
+					if (folder.active) return folder._id;
+				}
+			} catch (err) {
+				_didIteratorError = true;
+				_iteratorError = err;
+			} finally {
+				try {
+					if (!_iteratorNormalCompletion && _iterator['return']) {
+						_iterator['return']();
+					}
+				} finally {
+					if (_didIteratorError) {
+						throw _iteratorError;
+					}
+				}
+			}
+		}
+
+		id = id || getActiveFolder();
+
+		$.get('folder/' + id).done(function (ret, statusText, xhr) {
+			if (xhr.status === 204) {
+				//empty folder
+				$I('output').innerHTML = 'Empty folder mother fucker';
+			} else {
+				console.log('posts found homie');
+			}
+		}).fail(function (ret, statusText, xhr) {
+			console.log(ret.error.message);
 		});
+	};
+
+	jd.validator.post = function () {
+		return jd.page.editor.composer.element.innerHTML === '' || jd.page.editor.composer.element.innerHTML === 'Put stuff here, bro...';
 	};
 
 	//wysihtml
@@ -959,11 +1007,14 @@ function init_main() {
 	$('#input').bind('dragover drop', function (e) {
 		e.preventDefault();return false;
 	});
-	$('#post').on('click', jd.page.post);
+	$('#button_post').on('click', jd.post);
 	$('#button_clear').on('click', jd.page.clear);
 	jd.page.editor.on('focus', jd.page.resize);
 	$('#button_clear').on('click', function () {
 		jd.page.editor.composer.clear();
 	});
 	$(jd.controls.resizers).on('click', jd.page.resize);
+
+	jd.page.setDraggerIcons();
+	jd.getFolder();
 }

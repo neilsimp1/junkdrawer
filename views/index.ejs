@@ -21,7 +21,7 @@
         <% } %>
     </div>
 	<div style="display:none;">
-		<input type="hidden" id="_user" value="<%= user || '' %>" />
+		<input type="hidden" id="_user" value="<%= user? JSON.stringify(user): '' %>" />
         <input type="hidden" id="_error" value="<%= error? JSON.stringify(error): '' %>" />
 		<input type="hidden" id="_action" value="<%= flash.action? flash.action: '' %>" />
 		<input type="hidden" id="_html" value="<%= html? JSON.stringify(html): '' %>" />

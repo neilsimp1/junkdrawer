@@ -10,7 +10,7 @@
 var middleware = require('./middleware/middleware')
 	,oauth = require('./middleware/oauth')
 	,utils = require('./utils')
-	,config = require('../protected/jd-config')
+	,config = require('../protected/jd-config');
 
 mongoose.connect(config.db.dev.url);
 
@@ -37,8 +37,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 //routes
+//app.use(require('./routes/http'));
 app.use(require('./routes/auth'));
 app.use(require('./routes/index'));
+app.use(require('./routes/post'));
+app.use(require('./routes/folder'));
 
 
 app.listen(1337);

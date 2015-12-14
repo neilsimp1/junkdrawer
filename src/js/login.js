@@ -1,5 +1,6 @@
 ﻿function init_login(){
 
+	//functions
 	jd.validator.login = function(){
 		if($I('textbox_username_login').value === ''){
 			var error = {
@@ -22,7 +23,6 @@
 	};
 
 	jd.validator.register = function(){
-		return false;
 		if($I('textbox_username_register').value === ''){
 			var error = {
 				'page': 'register'
