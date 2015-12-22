@@ -934,13 +934,12 @@ function init_main() {
 			//let files = $I('fileinput').files;
 
 			$.post('post', {
-				id: jd.user._id,
-				folderid: 123, ///?????????????????
+				folderid: jd.getActiveFolderID(),
 				text: document.querySelector('.wysihtml5-sandbox').contentDocument.body.innerHTML,
 				//,files: files
 				_csrf: jd.csrf
 			}).done(function (ret) {
-				var asd = 123;
+				jd.showPosts(ret);
 			}).fail(function (ret) {
 				alert('what the fuck');
 			});
@@ -948,34 +947,7 @@ function init_main() {
 	};
 
 	jd.getFolder = function (id) {
-		function getActiveFolder() {
-			var folders = jd.user.folders;
-			var _iteratorNormalCompletion = true;
-			var _didIteratorError = false;
-			var _iteratorError = undefined;
-
-			try {
-				for (var _iterator = folders[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-					var folder = _step.value;
-					if (folder.active) return folder._id;
-				}
-			} catch (err) {
-				_didIteratorError = true;
-				_iteratorError = err;
-			} finally {
-				try {
-					if (!_iteratorNormalCompletion && _iterator['return']) {
-						_iterator['return']();
-					}
-				} finally {
-					if (_didIteratorError) {
-						throw _iteratorError;
-					}
-				}
-			}
-		}
-
-		id = id || getActiveFolder();
+		id = id || jd.getActiveFolderID();
 
 		$.get('folder/' + id).done(function (ret, statusText, xhr) {
 			if (xhr.status === 204) {
@@ -987,6 +959,13 @@ function init_main() {
 		}).fail(function (ret, statusText, xhr) {
 			console.log(ret.error.message);
 		});
+	};
+
+	jd.getActiveFolderID = function () {
+		var folders = jd.user.folders;
+		for (var i = 0; i < folders.length; i++) {
+			if (folders[i].active) return folders[i]._id;
+		}
 	};
 
 	jd.validator.post = function () {

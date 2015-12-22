@@ -8,16 +8,6 @@ var passport = require('passport')
 var models = require('./models')
 	,config = require('../protected/jd-config');
 
-module.exports.Error = function(page, origin, message){
-	return {
-		page: page
-		,origin: origin
-		,message: message
-	};
-};
-
-module.exports.isLoggedIn = function(req){return !!req.user;};
-
 module.exports.createFolder = function(req, res, folderName, callback){
 	var folder = new models.Folder({
 		userid: req.user._id
@@ -75,6 +65,14 @@ module.exports.getUser = function(req, res, callback){
 		}
 	});
 }
+
+module.exports.Error = function(page, origin, message){
+	return {
+		page: page
+		,origin: origin
+		,message: message
+	};
+};
 
 module.exports.sanitizeUser = function(user){
 	if(user._doc.hasOwnProperty('oauthID')) delete user._doc.oauthID;

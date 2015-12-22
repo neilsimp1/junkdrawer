@@ -95,6 +95,8 @@ function init_login() {
 		if (error) jd.showError(error);else {
 			$.post('login', $(this.form).serialize() + '&' + $.param({ '_csrf': jd.csrf })).done(function (ret) {
 				jd.changeScreen(ret.html);
+				jd.user = ret.user;
+				jd.csrf = ret._csrf;
 			}).fail(function (ret) {
 				if (typeof ret.responseJSON !== 'undefined') {
 					if (typeof ret.responseJSON.error === 'object') jd.showError(ret.responseJSON.error);
@@ -108,6 +110,8 @@ function init_login() {
 		if (error) jd.showError(error);else {
 			$.post('register', $(this.form).serialize() + '&' + $.param({ '_csrf': jd.csrf })).done(function (ret) {
 				jd.changeScreen(ret.html);
+				jd.user = ret.user;
+				jd.csrf = ret._csrf;
 			}).fail(function (ret) {
 				if (typeof ret.responseJSON !== 'undefined') {
 					if (typeof ret.responseJSON.error === 'object') jd.showError(ret.responseJSON.error);
@@ -127,7 +131,8 @@ function init_login() {
 	//bindings
 	$('.changeMenu').on('click', function () {
 		if (this.parentNode.tagName === 'A') jd.login.changeMenu(500, $(this).data('form'), $('.login-toggle.active').data('form'));
-	});$('#button_resetpassword').on('click', function () {});
+	});
+	$('#button_resetpassword').on('click', function () {});
 	$('#button_login').on('click', jd.login.login);
 	$('#button_register').on('click', jd.login.register);
 

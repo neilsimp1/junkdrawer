@@ -13,10 +13,10 @@
 		this._hash = window.location.hash;
 	}
 	
-	get user(){return JSON.parse(_user.value || null);}
+	get user(){return _user.value !== ''? JSON.parse(_user.value): null;}
 	set user(user){this._user.value = JSON.stringify(user);}
 
-	get error(){return JSON.parse(_error.value || null);}
+	get error(){return _error.value !== ''? JSON.parse(_error.value): null;}
 	set error(error){this._error.value = JSON.stringify(error);}
 
 	get csrf(){return _csrf.value || null;}

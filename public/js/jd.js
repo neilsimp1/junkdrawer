@@ -103,7 +103,7 @@ var JD = (function () {
 	}, {
 		key: 'user',
 		get: function get() {
-			return JSON.parse(_user.value || null);
+			return _user.value !== '' ? JSON.parse(_user.value) : null;
 		},
 		set: function set(user) {
 			this._user.value = JSON.stringify(user);
@@ -111,7 +111,7 @@ var JD = (function () {
 	}, {
 		key: 'error',
 		get: function get() {
-			return JSON.parse(_error.value || null);
+			return _error.value !== '' ? JSON.parse(_error.value) : null;
 		},
 		set: function set(error) {
 			this._error.value = JSON.stringify(error);

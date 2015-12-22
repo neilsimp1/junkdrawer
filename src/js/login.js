@@ -97,6 +97,8 @@
 			$.post('login', $(this.form).serialize()+'&'+$.param({'_csrf': jd.csrf}))
 			.done(function(ret){
 				jd.changeScreen(ret.html);
+				jd.user = ret.user;
+				jd.csrf = ret._csrf;
 			})
 			.fail(function(ret){
 				if(typeof ret.responseJSON !== 'undefined'){
@@ -113,6 +115,8 @@
 			$.post('register', $(this.form).serialize()+'&'+$.param({'_csrf': jd.csrf}))
 			.done(function(ret){
 				jd.changeScreen(ret.html);
+				jd.user = ret.user;
+				jd.csrf = ret._csrf;
 			})
 			.fail(function(ret){
 				if(typeof ret.responseJSON !== 'undefined'){
@@ -132,7 +136,8 @@
 	$('.changeMenu').on('click', function(){
 		if(this.parentNode.tagName === 'A')
 			jd.login.changeMenu(500, $(this).data('form'), $('.login-toggle.active').data('form'));
-	});$('#button_resetpassword').on('click', function(){
+	});
+	$('#button_resetpassword').on('click', function(){
 		
 	});
 	$('#button_login').on('click', jd.login.login);

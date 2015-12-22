@@ -82,14 +82,13 @@
 			//let files = $I('fileinput').files;
 			
 			$.post('post', {
-				id: jd.user._id
-				,folderid: 123///?????????????????
+				folderid: jd.getActiveFolderID()
 				,text: document.querySelector('.wysihtml5-sandbox').contentDocument.body.innerHTML
 				//,files: files
 				,_csrf: jd.csrf
 			})
 			.done(function(ret){
-				var asd = 123;
+				jd.showPosts(ret);
 			})
 			.fail(function(ret){
 				alert('what the fuck');
@@ -98,12 +97,7 @@
 	};
 
 	jd.getFolder = function(id){
-		function getActiveFolder(){
-			let folders = jd.user.folders;
-			for(let folder of folders) if(folder.active) return folder._id;
-		}
-
-		id = id || getActiveFolder();
+		id = id || jd.getActiveFolderID();
 
 		$.get('folder/' + id)
 		.done(function(ret, statusText, xhr){
@@ -117,6 +111,11 @@
 		.fail(function(ret, statusText, xhr){
 			console.log(ret.error.message);
 		});
+	};
+
+	jd.getActiveFolderID = function(){
+		let folders = jd.user.folders;
+		for(let i = 0; i < folders.length; i++){if(folders[i].active) return folders[i]._id;}
 	};
 
 	jd.validator.post = function(){

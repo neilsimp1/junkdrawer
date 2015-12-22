@@ -31,8 +31,8 @@ function oauthLoginReg(provider, req, res, next){
 				else if(!err && user !== null){//login
 					req.user = user;
 					req.flash('action');
-					req.flash('action', 'login');				
-					utils.getFolders(req, res, function(folders){
+					req.flash('action', 'login');
+					models.Folder.find({userid: user._id}, '_id name active', function(err, folders){//get folders
 						req.user._doc.folders = folders;
 						req.login(user, function(err){
 							if(err){
@@ -48,7 +48,7 @@ function oauthLoginReg(provider, req, res, next){
 				}
 				else{//register
 					user = new models.User(profile);
-					user.save(function(err){
+					user.save(function(err, user){
 						if(err){//error
 							var origin = 'unknown';
 							var message = 'Something bad happened! Please try again';
@@ -61,18 +61,34 @@ function oauthLoginReg(provider, req, res, next){
 							res.redirect('/#register');
 						}
 						else{//user created
+							var defaultFolderName = 'Home';
 							req.user = user;
-							utils.createFolder(req, res, 'Home', function(folders){
-								req.user._doc.folders = folders;
-								req.login(user, function(err){
-									if(err){
-										var origin = 'unknown';
-										var message = 'Something bad happened! Please try again';
-										console.log(message);
-										req.flash('error', JSON.stringify(new utils.Error('login', origin, message)));
-									}
-									res.redirect('/');
-								});
+							var folder = new models.Folder({
+								userid: user._id
+								,name: defaultFolderName
+							});
+
+							folder.save(function(err, folder){//create default folder
+								if(err){//error
+									var origin = 'foldercreation';
+									var errMess = 'Folder creation error.';
+									console.log(message);
+									req.flash('error', new utils.Error('register', origin, message));
+									res.redirect('/#register');
+								}
+								else{//folder created
+									req.user._doc.folders = [folder];
+									req.user = utils.sanitizeUser(req.user);
+									req.login(user, function(err){
+										if(err){
+											var origin = 'unknown';
+											var message = 'Something bad happened! Please try again';
+											console.log(message);
+											req.flash('error', JSON.stringify(new utils.Error('login', origin, message)));
+										}
+										res.redirect('/');
+									});
+								}
 							});
 						}
 					});
@@ -164,7 +180,7 @@ router.post('/login', function(req, res){
 				}
 				else{
 					req.user = user;
-					utils.getFolders(req, res, function(folders){
+					models.Folder.find({userid: req.user._id}, '_id name active', function(err, folders){//get folders
 						req.user._doc.folders = folders;
 						req.user = utils.sanitizeUser(req.user);
 						req.login(user, function(err){
@@ -179,7 +195,7 @@ router.post('/login', function(req, res){
 								,function(err, html){
 									var ret = {
 										html: html
-										,user: user
+										,user: req.user
 										,_csrf: req._csrf
 									}
 
@@ -250,32 +266,43 @@ router.post('/register', function(req, res){
 				var error = new utils.Error('register', origin, message);
 				res.status(500).json({error: error}).end();
 			}
-			req.user = user;
-			utils.createFolder(req, res, 'Home', function(folders){
-				req.user._doc.folders = folders;
-				req.user = utils.sanitizeUser(req.user);
-				req.login(user, function(err){
-					if(err){
-						var origin = 'unknown';
-						var message = 'Something bad happened! Please try again';
-						console.log(message);
-						var error = new utils.Error('register', origin, message);
-						res.status(500).json({error: error}).end();
-					}
-					res.render('main.ejs', {user: user, _csrf: req._csrf}
-						,function(err, html){
-							var ret = {
-								html: html
-								,user: user
-								,_csrf: req._csrf
-							}
-
-							res.setHeader('Content-Type', 'application/json');
-							res.status(200).send(ret).end();
-						}
-					);
+			else{
+				var defaultFolderName = 'Home';
+				req.user = user;
+				var folder = new models.Folder({
+					userid: req.user._id
+					,name: defaultFolderName
 				});
-			});
+				folder.save(function(err, folder){//create default folder
+					if(err){//error
+						var origin = 'foldercreation';
+						var errMess = 'Folder creation error.';
+						var error = new utils.Error('register', origin, message);
+						res.status(500).json(error).end();
+					}
+					else{//folder created
+						req.user._doc.folders = [{
+							_id: folder._id
+							,name: defaultFolderName
+							,active: true
+						}];
+						req.user = utils.sanitizeUser(req.user);
+						req.login(user, function(err){
+							res.render('main.ejs', {user: user, _csrf: req._csrf}
+								,function(err, html){
+									var ret = {
+										html: html
+										,user: req.user
+										,_csrf: req._csrf
+									}
+
+									res.status(200).json(ret).end();
+								}
+							);
+						});
+					}
+				});
+			}
 		});
 	}
 });
