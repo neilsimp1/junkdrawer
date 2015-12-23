@@ -40,30 +40,6 @@ router.get('/', function (req, res){
 				}
 			});
 		});
-		//models.Folder.find({userid: req.user._id}, '_id name active', function(err, folders){//get folders
-		//	req.user._doc.folders = folders;
-		//	req.user = utils.sanitizeUser(req.user);
-		//	if(res.locals.flash.action === 'login' || res.locals.flash.action === 'register'){
-		//		res.render('main', function(err, html){
-		//			res.render('index', {
-		//				isLoggedIn: true
-		//				,user: req.user
-		//				,error: error
-		//				,html: html
-		//				,_csrf: req._csrf
-		//			});
-		//		});
-		//	}
-		//	else{
-		//		res.render('index', {
-		//			isLoggedIn: true
-		//			,user: req.user
-		//			,error: error
-		//			,html: null
-		//			,_csrf: req._csrf
-		//		});
-		//	}
-		//});
 	}
 });
 
