@@ -75,11 +75,11 @@ module.exports.Error = function(page, origin, message){
 };
 
 module.exports.sanitizeUser = function(user){
-	if(user._doc.hasOwnProperty('oauthID')) delete user._doc.oauthID;
-	if(user._doc.hasOwnProperty('settings')) delete user._doc.settings;
-	if(user._doc.hasOwnProperty('password')) delete user._doc.password;
-	if(user._doc.hasOwnProperty('__v')) delete user._doc.__v;
-
+	delete user._doc.oauthID;
+	delete user._doc.settings;
+	delete user._doc.password;
+	delete user._doc.__v;
+	
 	return user;
 }
 
