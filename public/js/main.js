@@ -939,7 +939,7 @@ function init_main() {
 				//,files: files
 				_csrf: jd.csrf
 			}).done(function (ret) {
-				jd.showPosts(ret);
+				jd.showPost(ret);
 			}).fail(function (ret) {
 				alert('what the fuck');
 			});
@@ -953,13 +953,31 @@ function init_main() {
 			if (xhr.status === 204) {
 				//empty folder
 				$I('output').innerHTML = 'Empty folder mother fucker';
-			} else {
-
-				jd.showPosts();
-			}
+			} else jd.showFolder(ret.folder);
 		}).fail(function (ret, statusText, xhr) {
 			console.log(ret.error.message);
 		});
+	};
+
+	jd.showFolder = function (folder) {
+		$I('span_foldername').innerHTML = folder.name;
+		for (var i = 0; i < folder.posts.length; i++) {
+			jd.showPost(folder.posts[i]);
+		}
+	};
+
+	jd.showPost = function (post) {
+		var $div = $('<div class="post"></div>');
+		$div.html(post.text).append('<span class="post-dt">' + post.datetime + '</span>');
+		$('#output').append($div);
+
+		//EXAMPLE OF WHAT"S PUT INTO #output
+		//<div id="output" class="shadow">
+		//	<div class="post">
+		//		rherherherherherherh
+		//		<span class="post-dt">2015-12-31T04:25:09.357Z</span>
+		//	</div>
+		//</div>
 	};
 
 	jd.getActiveFolderID = function () {
