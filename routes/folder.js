@@ -1,38 +1,47 @@
-var express = require('express');
+'use strict';
 
-var models = require('../models')
+let express = require('express');
+
+let models = require('../models')
 	,utils = require('../utils');
 
-var router = express.Router();
+let router = express.Router();
 
 //GET /folder/:id
 router.get('/folder/:id', function(req, res, next){
-	var id = req.params.id
-		,userid = req.user._id;
-
-	models.Folder.findOne({_id: id, userid: userid})
+	let id = req.params.id, userid = req.user._id;
+	
+	let getFolder = new Promise(function(resolve, reject){
+		models.Folder.findOne({_id: id, userid: userid})
 		.populate({path: 'posts', options: {sort:{'timestamp': -1}, limit: 10}})
 		.exec(function(err, folder){
 			if(err){//error
-				var error = new utils.Error('getfolder', 'ff', 'Error finding folder');
-				res.status(500).json({error: error}).end();
+				let error = new utils.Error('getfolder', 'ff', 'Error finding folder');
+				error.status = 500;
+				reject(error);
 			}
 			else if(!folder){//no folder
-				var error = new utils.Error('getfolder', 'nf', 'Cannot find this folder');
-				res.status(403).json({error: error}).end();
+				let error = new utils.Error('getfolder', 'nf', 'Cannot find this folder');
+				error.status = 403;
+				reject(error);
 			}
-			else{
-				if(!folder.posts.length) res.status(204).end();//empty folder
-				else{
-					var ret = {
-						folder: folder
-						,csrf: req._csrf
-					}
-					res.status(200).json(ret).end();
-				}
+			else resolve(folder);
+		});
+	});
+	
+	getFolder.then(function(folder){
+		if(!folder.posts.length) res.status(204).end();//empty folder
+		else{
+			let ret = {
+				folder: folder
+				,csrf: req._csrf
 			}
+			res.status(200).json(ret).end();
 		}
-	);
+	})
+	.catch(function(error){
+		res.status(error.status).json({error: error}).end();
+	});
 });
 
 module.exports = router;

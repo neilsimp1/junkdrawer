@@ -1,0 +1,327 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <Name>junkdrawer</Name>
+    <RootNamespace>junkdrawer</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>767a9660-0b9a-4dc3-a971-3e288075b036</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <StartupFile>app.js</StartupFile>
+    <SearchPath>
+    </SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
+    <ProjectView>ShowAllFiles</ProjectView>
+    <NodejsPort>1337</NodejsPort>
+    <StartWebBrowser>True</StartWebBrowser>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="package.json" />
+    <Content Include="public\css\jd.css" />
+    <Content Include="public\css\wysihtml.css" />
+    <Content Include="public\favicon.ico" />
+    <Content Include="public\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="public\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="public\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="public\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="public\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="public\img\oauth-facebook.png" />
+    <Content Include="public\img\oauth-github.png" />
+    <Content Include="public\img\oauth-google.png" />
+    <Content Include="public\img\oauth-twitter.png" />
+    <Content Include="README.md" />
+    <Content Include="src\css\bootstrap-theme.min.css" />
+    <Content Include="src\css\bootstrap.min.css" />
+    <Content Include="src\js\wysihtml\.gitignore" />
+    <Content Include="src\js\wysihtml\bower.json" />
+    <Content Include="src\js\wysihtml\CHANGELOG.textile" />
+    <Content Include="src\js\wysihtml\dist\wysihtml-toolbar.min.map" />
+    <Content Include="src\js\wysihtml\dist\wysihtml.min.map" />
+    <Content Include="src\js\wysihtml\examples\advanced.html" />
+    <Content Include="src\js\wysihtml\examples\advanced_div.html" />
+    <Content Include="src\js\wysihtml\examples\css\stylesheet.css" />
+    <Content Include="src\js\wysihtml\examples\simple.html" />
+    <Content Include="src\js\wysihtml\examples\wotoolbar.html" />
+    <Content Include="src\js\wysihtml\LICENSE" />
+    <Content Include="src\js\wysihtml\package.json" />
+    <Content Include="src\js\wysihtml\README.markdown" />
+    <Content Include="src\js\wysihtml\test\index.html" />
+    <Content Include="src\sass\antibs.scss" />
+    <Content Include="src\sass\colors.scss" />
+    <Content Include="src\sass\site.scss" />
+    <Content Include="src\sass\app.scss" />
+    <Content Include="src\sass\login.scss" />
+    <Content Include="src\sass\jd.scss" />
+    <Content Include="src\sass\wysihtml.scss" />
+    <Content Include="views\index.ejs" />
+    <Content Include="views\login.ejs" />
+    <Content Include="views\main.ejs" />
+    <Content Include="views\templates\oauth.ejs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="middleware\" />
+    <Folder Include="public\" />
+    <Folder Include="public\css\" />
+    <Folder Include="public\fonts\" />
+    <Folder Include="public\img\" />
+    <Folder Include="public\js\" />
+    <Folder Include="routes\" />
+    <Folder Include="src\" />
+    <Folder Include="src\js\" />
+    <Folder Include="src\js\wysihtml\" />
+    <Folder Include="src\js\wysihtml\dist\" />
+    <Folder Include="src\js\wysihtml\examples\" />
+    <Folder Include="src\js\wysihtml\examples\css\" />
+    <Folder Include="src\js\wysihtml\lib\" />
+    <Folder Include="src\js\wysihtml\lib\base\" />
+    <Folder Include="src\js\wysihtml\parser_rules\" />
+    <Folder Include="src\js\wysihtml\src\" />
+    <Folder Include="src\js\wysihtml\src\assert\" />
+    <Folder Include="src\js\wysihtml\src\commands\" />
+    <Folder Include="src\js\wysihtml\src\dom\" />
+    <Folder Include="src\js\wysihtml\src\lang\" />
+    <Folder Include="src\js\wysihtml\src\quirks\" />
+    <Folder Include="src\js\wysihtml\src\selection\" />
+    <Folder Include="src\js\wysihtml\src\toolbar\" />
+    <Folder Include="src\js\wysihtml\src\views\" />
+    <Folder Include="src\js\wysihtml\test\" />
+    <Folder Include="src\js\wysihtml\test\commands\" />
+    <Folder Include="src\js\wysihtml\test\dom\" />
+    <Folder Include="src\js\wysihtml\test\lang\" />
+    <Folder Include="src\js\wysihtml\test\quirks\" />
+    <Folder Include="src\css\" />
+    <Folder Include="src\sass\" />
+    <Folder Include="views\" />
+    <Folder Include="views\templates\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="app.js" />
+    <Compile Include="Gruntfile.js" />
+    <Compile Include="middleware\oauth.js" />
+    <Compile Include="middleware\middleware.js" />
+    <Compile Include="models.js" />
+    <Compile Include="routes\auth.js" />
+    <Compile Include="routes\http.js" />
+    <Compile Include="routes\index.js" />
+    <Compile Include="routes\folder.js" />
+    <Compile Include="routes\post.js" />
+    <Compile Include="src\js\bootstrap.min.js" />
+    <Compile Include="src\js\files.js" />
+    <Compile Include="src\js\jd.js" />
+    <Compile Include="src\js\jquery-1.11.3.min.js" />
+    <Compile Include="src\js\login.js" />
+    <Compile Include="src\js\main.js" />
+    <Compile Include="src\js\wysihtml\dist\wysihtml-toolbar.js" />
+    <Compile Include="src\js\wysihtml\dist\wysihtml-toolbar.min.js" />
+    <Compile Include="src\js\wysihtml\dist\wysihtml.js" />
+    <Compile Include="src\js\wysihtml\dist\wysihtml.min.js" />
+    <Compile Include="src\js\wysihtml\examples\jquery.1.10.2.js" />
+    <Compile Include="src\js\wysihtml\Gruntfile.js" />
+    <Compile Include="src\js\wysihtml\lib\base\base.js" />
+    <Compile Include="src\js\wysihtml\parser_rules\advanced.js" />
+    <Compile Include="src\js\wysihtml\parser_rules\advanced_and_extended.js" />
+    <Compile Include="src\js\wysihtml\parser_rules\advanced_unwrap.js" />
+    <Compile Include="src\js\wysihtml\parser_rules\simple.js" />
+    <Compile Include="src\js\wysihtml\src\assert\html_equal.js" />
+    <Compile Include="src\js\wysihtml\src\browser.js" />
+    <Compile Include="src\js\wysihtml\src\commands.js" />
+    <Compile Include="src\js\wysihtml\src\commands\addTableCells.js" />
+    <Compile Include="src\js\wysihtml\src\commands\alignCenterStyle.js" />
+    <Compile Include="src\js\wysihtml\src\commands\alignJustifyStyle.js" />
+    <Compile Include="src\js\wysihtml\src\commands\alignLeftStyle.js" />
+    <Compile Include="src\js\wysihtml\src\commands\alignRightStyle.js" />
+    <Compile Include="src\js\wysihtml\src\commands\bgColorStyle.js" />
+    <Compile Include="src\js\wysihtml\src\commands\bold.js" />
+    <Compile Include="src\js\wysihtml\src\commands\createLink.js" />
+    <Compile Include="src\js\wysihtml\src\commands\createTable.js" />
+    <Compile Include="src\js\wysihtml\src\commands\deleteTableCells.js" />
+    <Compile Include="src\js\wysihtml\src\commands\fontSize.js" />
+    <Compile Include="src\js\wysihtml\src\commands\fontSizeStyle.js" />
+    <Compile Include="src\js\wysihtml\src\commands\foreColor.js" />
+    <Compile Include="src\js\wysihtml\src\commands\foreColorStyle.js" />
+    <Compile Include="src\js\wysihtml\src\commands\formatBlock.js" />
+    <Compile Include="src\js\wysihtml\src\commands\formatCode.js" />
+    <Compile Include="src\js\wysihtml\src\commands\formatInline.js" />
+    <Compile Include="src\js\wysihtml\src\commands\indentList.js" />
+    <Compile Include="src\js\wysihtml\src\commands\insertBlockQuote.js" />
+    <Compile Include="src\js\wysihtml\src\commands\insertHTML.js" />
+    <Compile Include="src\js\wysihtml\src\commands\insertImage.js" />
+    <Compile Include="src\js\wysihtml\src\commands\insertLineBreak.js" />
+    <Compile Include="src\js\wysihtml\src\commands\insertList.js" />
+    <Compile Include="src\js\wysihtml\src\commands\insertOrderedList.js" />
+    <Compile Include="src\js\wysihtml\src\commands\insertUnorderedList.js" />
+    <Compile Include="src\js\wysihtml\src\commands\italic.js" />
+    <Compile Include="src\js\wysihtml\src\commands\justifyCenter.js" />
+    <Compile Include="src\js\wysihtml\src\commands\justifyFull.js" />
+    <Compile Include="src\js\wysihtml\src\commands\justifyLeft.js" />
+    <Compile Include="src\js\wysihtml\src\commands\justifyRight.js" />
+    <Compile Include="src\js\wysihtml\src\commands\mergeTableCells.js" />
+    <Compile Include="src\js\wysihtml\src\commands\outdentList.js" />
+    <Compile Include="src\js\wysihtml\src\commands\redo.js" />
+    <Compile Include="src\js\wysihtml\src\commands\removeLink.js" />
+    <Compile Include="src\js\wysihtml\src\commands\subscript.js" />
+    <Compile Include="src\js\wysihtml\src\commands\superscript.js" />
+    <Compile Include="src\js\wysihtml\src\commands\underline.js" />
+    <Compile Include="src\js\wysihtml\src\commands\undo.js" />
+    <Compile Include="src\js\wysihtml\src\dom\auto_link.js" />
+    <Compile Include="src\js\wysihtml\src\dom\class.js" />
+    <Compile Include="src\js\wysihtml\src\dom\compare_document_position.js" />
+    <Compile Include="src\js\wysihtml\src\dom\contains.js" />
+    <Compile Include="src\js\wysihtml\src\dom\contenteditable_area.js" />
+    <Compile Include="src\js\wysihtml\src\dom\convert_to_list.js" />
+    <Compile Include="src\js\wysihtml\src\dom\copy_attributes.js" />
+    <Compile Include="src\js\wysihtml\src\dom\copy_styles.js" />
+    <Compile Include="src\js\wysihtml\src\dom\delegate.js" />
+    <Compile Include="src\js\wysihtml\src\dom\dom_node.js" />
+    <Compile Include="src\js\wysihtml\src\dom\get_as_dom.js" />
+    <Compile Include="src\js\wysihtml\src\dom\get_attribute.js" />
+    <Compile Include="src\js\wysihtml\src\dom\get_attributes.js" />
+    <Compile Include="src\js\wysihtml\src\dom\get_parent_element.js" />
+    <Compile Include="src\js\wysihtml\src\dom\get_pasted_html.js" />
+    <Compile Include="src\js\wysihtml\src\dom\get_style.js" />
+    <Compile Include="src\js\wysihtml\src\dom\get_textnodes.js" />
+    <Compile Include="src\js\wysihtml\src\dom\has_element_with_class_name.js" />
+    <Compile Include="src\js\wysihtml\src\dom\has_element_with_tag_name.js" />
+    <Compile Include="src\js\wysihtml\src\dom\insert.js" />
+    <Compile Include="src\js\wysihtml\src\dom\insert_css.js" />
+    <Compile Include="src\js\wysihtml\src\dom\is_loaded_image.js" />
+    <Compile Include="src\js\wysihtml\src\dom\line_breaks.js" />
+    <Compile Include="src\js\wysihtml\src\dom\observe.js" />
+    <Compile Include="src\js\wysihtml\src\dom\parse.js" />
+    <Compile Include="src\js\wysihtml\src\dom\query.js" />
+    <Compile Include="src\js\wysihtml\src\dom\remove_empty_text_nodes.js" />
+    <Compile Include="src\js\wysihtml\src\dom\remove_invisible_spaces.js" />
+    <Compile Include="src\js\wysihtml\src\dom\rename_element.js" />
+    <Compile Include="src\js\wysihtml\src\dom\replace_with_child_nodes.js" />
+    <Compile Include="src\js\wysihtml\src\dom\resolve_list.js" />
+    <Compile Include="src\js\wysihtml\src\dom\sandbox.js" />
+    <Compile Include="src\js\wysihtml\src\dom\set_attributes.js" />
+    <Compile Include="src\js\wysihtml\src\dom\set_styles.js" />
+    <Compile Include="src\js\wysihtml\src\dom\simulate_placeholder.js" />
+    <Compile Include="src\js\wysihtml\src\dom\table.js" />
+    <Compile Include="src\js\wysihtml\src\dom\text_content.js" />
+    <Compile Include="src\js\wysihtml\src\dom\unwrap.js" />
+    <Compile Include="src\js\wysihtml\src\editor.js" />
+    <Compile Include="src\js\wysihtml\src\lang\array.js" />
+    <Compile Include="src\js\wysihtml\src\lang\dispatcher.js" />
+    <Compile Include="src\js\wysihtml\src\lang\object.js" />
+    <Compile Include="src\js\wysihtml\src\lang\string.js" />
+    <Compile Include="src\js\wysihtml\src\polyfills.js" />
+    <Compile Include="src\js\wysihtml\src\quirks\clean_pasted_html.js" />
+    <Compile Include="src\js\wysihtml\src\quirks\ensure_proper_clearing.js" />
+    <Compile Include="src\js\wysihtml\src\quirks\get_correct_inner_html.js" />
+    <Compile Include="src\js\wysihtml\src\quirks\redraw.js" />
+    <Compile Include="src\js\wysihtml\src\quirks\style_parser.js" />
+    <Compile Include="src\js\wysihtml\src\quirks\table_cells_selection.js" />
+    <Compile Include="src\js\wysihtml\src\selection\html_applier.js" />
+    <Compile Include="src\js\wysihtml\src\selection\selection.js" />
+    <Compile Include="src\js\wysihtml\src\toolbar\dialog.js" />
+    <Compile Include="src\js\wysihtml\src\toolbar\dialog_bgColorStyle.js" />
+    <Compile Include="src\js\wysihtml\src\toolbar\dialog_createTable.js" />
+    <Compile Include="src\js\wysihtml\src\toolbar\dialog_fontSizeStyle.js" />
+    <Compile Include="src\js\wysihtml\src\toolbar\dialog_foreColorStyle.js" />
+    <Compile Include="src\js\wysihtml\src\toolbar\speech.js" />
+    <Compile Include="src\js\wysihtml\src\toolbar\toolbar.js" />
+    <Compile Include="src\js\wysihtml\src\undo_manager.js" />
+    <Compile Include="src\js\wysihtml\src\views\composer.js" />
+    <Compile Include="src\js\wysihtml\src\views\composer.observe.js" />
+    <Compile Include="src\js\wysihtml\src\views\composer.style.js" />
+    <Compile Include="src\js\wysihtml\src\views\sourceview.js" />
+    <Compile Include="src\js\wysihtml\src\views\synchronizer.js" />
+    <Compile Include="src\js\wysihtml\src\views\textarea.js" />
+    <Compile Include="src\js\wysihtml\src\views\view.js" />
+    <Compile Include="src\js\wysihtml\src\wysihtml5.js" />
+    <Compile Include="src\js\wysihtml\test\browser_test.js" />
+    <Compile Include="src\js\wysihtml\test\commands\formatBlock_test.js" />
+    <Compile Include="src\js\wysihtml\test\commands\formatInline_test.js" />
+    <Compile Include="src\js\wysihtml\test\dom\auto_link_test.js" />
+    <Compile Include="src\js\wysihtml\test\dom\compare_document_position_test.js" />
+    <Compile Include="src\js\wysihtml\test\dom\contains_test.js" />
+    <Compile Include="src\js\wysihtml\test\dom\convert_to_list_test.js" />
+    <Compile Include="src\js\wysihtml\test\dom\copy_attributes_test.js" />
+    <Compile Include="src\js\wysihtml\test\dom\copy_styles_test.js" />
+    <Compile Include="src\js\wysihtml\test\dom\delegate_test.js" />
+    <Compile Include="src\js\wysihtml\test\dom\dom_node_test.js" />
+    <Compile Include="src\js\wysihtml\test\dom\get_as_dom_test.js" />
+    <Compile Include="src\js\wysihtml\test\dom\get_parent_element_test.js" />
+    <Compile Include="src\js\wysihtml\test\dom\get_style_test.js" />
+    <Compile Include="src\js\wysihtml\test\dom\has_element_with_class_name_test.js" />
+    <Compile Include="src\js\wysihtml\test\dom\has_element_with_tag_name_test.js" />
+    <Compile Include="src\js\wysihtml\test\dom\insert_css_test.js" />
+    <Compile Include="src\js\wysihtml\test\dom\observe_test.js" />
+    <Compile Include="src\js\wysihtml\test\dom\parse_test.js" />
+    <Compile Include="src\js\wysihtml\test\dom\rename_element_test.js" />
+    <Compile Include="src\js\wysihtml\test\dom\resolve_list_test.js" />
+    <Compile Include="src\js\wysihtml\test\dom\sandbox_test.js" />
+    <Compile Include="src\js\wysihtml\test\dom\set_attributes_test.js" />
+    <Compile Include="src\js\wysihtml\test\dom\set_styles_test.js" />
+    <Compile Include="src\js\wysihtml\test\dom\table_test.js" />
+    <Compile Include="src\js\wysihtml\test\dom\unwrap_test.js" />
+    <Compile Include="src\js\wysihtml\test\editor_commands_test.js" />
+    <Compile Include="src\js\wysihtml\test\editor_contenteditablemode_test.js" />
+    <Compile Include="src\js\wysihtml\test\editor_test.js" />
+    <Compile Include="src\js\wysihtml\test\incompatible_test.js" />
+    <Compile Include="src\js\wysihtml\test\lang\array_test.js" />
+    <Compile Include="src\js\wysihtml\test\lang\object_test.js" />
+    <Compile Include="src\js\wysihtml\test\lang\string_test.js" />
+    <Compile Include="src\js\wysihtml\test\polyfills_test.js" />
+    <Compile Include="src\js\wysihtml\test\quirks\clean_pasted_html_test.js" />
+    <Compile Include="src\js\wysihtml\test\undo_manager_test.js" />
+    <Compile Include="utils.js" />
+  </ItemGroup>
+  <!-- Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them. -->
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="False" />
+  <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsTools.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:48022/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://localhost:1337</CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}" User="">
+        <WebProjectProperties>
+          <StartPageUrl>
+          </StartPageUrl>
+          <StartAction>CurrentPage</StartAction>
+          <AspNetDebugging>True</AspNetDebugging>
+          <SilverlightDebugging>False</SilverlightDebugging>
+          <NativeDebugging>False</NativeDebugging>
+          <SQLDebugging>False</SQLDebugging>
+          <ExternalProgram>
+          </ExternalProgram>
+          <StartExternalURL>
+          </StartExternalURL>
+          <StartCmdLineArguments>
+          </StartCmdLineArguments>
+          <StartWorkingDirectory>
+          </StartWorkingDirectory>
+          <EnableENC>False</EnableENC>
+          <AlwaysStartWebServerOnDebug>False</AlwaysStartWebServerOnDebug>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

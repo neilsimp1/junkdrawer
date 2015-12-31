@@ -1,4 +1,6 @@
-var models = require('../models')
+'use strict';
+
+let models = require('../models')
 	,utils = require('../utils');
 
 module.exports.makeCsrf = function(req, res, next){

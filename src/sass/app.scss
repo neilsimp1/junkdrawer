@@ -1,0 +1,122 @@
+﻿@import 'colors.scss';
+
+/*Output*/
+#output{
+background-color:$background-white;
+opacity:0.8;
+overflow-y:auto;
+min-height:100%;
+padding:0 4px;
+}
+#output:hover{opacity:1;}
+#output_toolbar{
+float:right;
+background-color:$green-grey;
+color:$grey-dark;
+border:1px solid $grey-dark;
+border-right:none;
+border-bottom:none;
+border-top-left-radius:8px;
+padding:0 2px;
+position:absolute;
+right:12px;bottom:12px;/*maincontainer padding is 12px*/
+opacity:0.9;
+}
+@media(max-width:768px){
+	#output_toolbar{
+	float:left;
+	right:initial;
+	left:12px;
+	border-left:none;
+	border-top-left-radius:initial;
+	border-top-right-radius:8px;
+	border-right:1px solid;
+	}
+}
+
+#button_folder{
+background-color:$green-grey;
+width:initial;
+height:initial;
+font-size:1.1em;
+}
+
+/*Input*/
+.textcontainer{height:100%;}
+#inputcontainer{width:100%;height:calc(100% - 29px);}
+.input{
+width:100%;
+height:100%;
+background-color:$green-light;
+resize:none;
+overflow-y:auto;
+color:$wrapper-gradient2;
+outline:none;
+font-size:1.1em;
+padding:2px 4px;
+opacity:0.9;
+}
+#input:hover, .input:hover{opacity:1;}
+iframe.wysihtml5-sandbox{width:100% !important;height:100% !important;}
+
+/*Menus*/
+.menubtn{
+border:0;
+background-color:$purple-med;/*//TODO: MAKE THIS LESS INTENSE*/
+opacity:0.7;
+width:40px;
+height:40px;
+font-size:1.75em;
+padding:5px;
+}
+.menubtncontainer{padding:0;max-height:40px;}
+.menubtncontainer div.open #button_menu{background-color:#CDCDCD;}
+.mainmenu{
+border-radius:0;
+background-color:#D8D8D8;
+}
+.mainmenu .divider{margin:4px auto;visibility:visible;border-color:#A7A7A7;}
+.mainmenu li a{padding:3px 10px 3px 15px;}
+.mainmenu li:hover, .mainmenu li a:hover{
+color:$green-med;
+background-color:$purple-grey;
+background-image:none;
+font-weight:bold;
+}
+.mainmenu span.glyphicon{float:right;padding-top:2px;}
+
+.filemenu, .filemenu li, .filemenu li a{width:40px;min-width:40px;margin:0;padding:0;overflow:hidden;}
+.filemenu li, .filemenu li a{height:40px;color:initial;}
+.filemenu span.glyphicon{font-size:1.75em;float:none;}
+#jqdl-add span.glyphicon{padding:7px 9px;}
+#jqdl-delete span.glyphicon{padding:7px 7px;}
+.dropup.open .glyphicon{opacity:1;}
+.filemenu li:hover{color:$green-med;}
+ul.filemenu.dropdown-menu{border:0;}
+
+#wysihtml5-toolbar{font-size:1.3em;}
+.toolbar{
+padding:0 4px;
+background-color:$green-grey;
+color:$grey-light;
+margin-bottom:2px;
+height:28px;
+opacity:1;
+overflow:hidden;
+opacity:0.9;
+}
+.toolbar:hover{opacity:1;}
+.btn-glyph{background:none;border:none;padding:1px;width:20px;height:20px;}
+.btn-glyph.wysihtml5-command-active{background-color:$grey-light;color:$background-white}
+#button_clear span.glyphicon{padding-top:3px;}
+#button_post span.glyphicon{margin-left:-3px;}
+
+
+/*Misc*/
+.middlebar{margin:0;padding:0;}
+.resize{
+font-size:1.5em;
+position:absolute;
+}
+.resize a:hover{text-decoration:none;}
+.bottombar{padding:0 12px;height:8vh;}

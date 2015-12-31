@@ -1,11 +1,13 @@
-var passport = require('passport')
+'use strict';
+
+let passport = require('passport')
 	,GoogleStrategy = require('passport-google-oauth2').Strategy
 	,FacebookStrategy = require('passport-facebook').Strategy
 	,TwitterStrategy = require('passport-twitter').Strategy
 	,GithubStrategy = require('passport-github2').Strategy
 	,config = require('../../protected/jd-config');
 
-var models = require('../models');
+let models = require('../models');
 
 function oauthSuccess(profile, done){
 	if(profile.emails){
@@ -17,7 +19,7 @@ function oauthSuccess(profile, done){
 		var email = null;
 	}
 
-	var ret = {
+	let ret = {
 		oauthID: profile.id
 		,username: username
 		,email: email
@@ -30,14 +32,35 @@ function oauthSuccess(profile, done){
 
 //serializers
 passport.serializeUser(function(user, done){
-	//console.log('serializeUser: ' + user._id);
 	done(null, user._id);
 });
 passport.deserializeUser(function(id, done){
-	models.User.findById(id, function(err, user){
-		//console.log(user);
-		if(!err) done(null, user);
-		else done(err, null);
+	let getUser = new Promise(function(resolve, reject){
+		models.User.findById(id, function(err, user){
+			if(err) reject('Error finding user');
+			else if(!user) reject();
+			else resolve(user);
+		});
+	});
+
+	let getFolders = new Promise(function(resolve, reject){
+		models.Folder.find({userid: id}, function(err, folders){
+			if(err) reject('Error finding folders');
+			else if(!folders) reject();
+			else resolve(folders);
+		});
+	});
+
+	Promise.all([getUser, getFolders])
+	.then(function(data){
+		//let [user, folders] = data; TODO: this won't work here for some reason
+		let user = data[0], folders = data[1];
+		user._doc.folders = folders;
+		done(null, user);
+	})
+	.catch(function(err){
+		console.error(err);
+		done(err, null);
 	});
 });
 
