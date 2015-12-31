@@ -375,7 +375,7 @@ router.post('/register', function(req, res){
 
 			let insertFolder = new Promise(function(resolve, reject){
 				folder.save(function(err, folder){//create default folder
-					if(err){//error
+					if(err){
 						let origin = 'foldercreation';
 						let errMess = 'Folder creation error.';
 						let error = new utils.Error('register', origin, message);
