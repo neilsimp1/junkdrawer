@@ -352,17 +352,18 @@ router.post('/register', function(req, res){
 
 		let insertUser = new Promise(function(resolve, reject){
 			user.save(function(err, user){
-			if(err){
-				let origin = 'unknown';
-				let errMess = 'Something bad happened! Please try again';
-				if(err.code === 11000){//error un or email taken
-					origin = 'ue';
-					message = 'Username or email is already taken, please try another';
+				if(err){
+					let origin = 'unknown';
+					let errMess = 'Something bad happened! Please try again';
+					if(err.code === 11000){//error un or email taken
+						origin = 'ue';
+						message = 'Username or email is already taken, please try another';
+					}
+					let error = new utils.Error('register', origin, message);
+					reject(error);
 				}
-				let error = new utils.Error('register', origin, message);
-				reject(error);
-			}
-			else resolve(user);
+				else resolve(user);
+			});
 		});
 		
 		insertUser.then(function(user){
@@ -414,99 +415,6 @@ router.post('/register', function(req, res){
 			res.status(500).json({error: error}).end();
 		});
 	}
-
-	//function validateRegister(){
-	//	if(req.body.username === ''){
-	//		let error = {
-	//			'page': 'register'
-	//			,'origin': 'u'
-	//			,'message': 'Please enter a username'
-	//		};
-	//		return error;
-	//	}
-	//	else if(req.body.email === ''){
-	//		let error = {
-	//			'page': 'register'
-	//			,'origin': 'e'
-	//			,'message': 'Please enter an email'
-	//		};
-	//		return error;
-	//	}
-	//	else if(req.body.password !== req.body.confirmpassword){
-	//		let error = {
-	//			'page': 'register'
-	//			,'origin': 'pw'
-	//			,'message': 'Please confirm your password'
-	//		};
-	//		return error;
-	//	}
-		
-	//	return false;
-	//}
-	
-	//let error = validateRegister();
-	//if(error) res.status(500).json({error: error}).end();
-	//else{
-	//	let salt = bcrypt.genSaltSync(10);
-	//	let hash = bcrypt.hashSync(req.body.password, salt);
-
-	//	let user = new models.User({
-	//		username: req.body.username
-	//		,password: hash
-	//		,email: req.body.email
-	//		,settings: {}//TODO: Get default settings json doc here
-	//	});
-
-	//	user.save(function(err, user){
-	//		if(err){
-	//			let origin = 'unknown';
-	//			let errMess = 'Something bad happened! Please try again';
-	//			if(err.code === 11000){//error un or email taken
-	//				origin = 'ue';
-	//				message = 'Username or email is already taken, please try another';
-	//			}
-	//			let error = new utils.Error('register', origin, message);
-	//			res.status(500).json({error: error}).end();
-	//		}
-	//		else{
-	//			let defaultFolderName = 'Home';
-	//			req.user = user;
-	//			let folder = new models.Folder({
-	//				userid: req.user._id
-	//				,name: defaultFolderName
-	//			});
-	//			folder.save(function(err, folder){//create default folder
-	//				if(err){//error
-	//					let origin = 'foldercreation';
-	//					let errMess = 'Folder creation error.';
-	//					let error = new utils.Error('register', origin, message);
-	//					res.status(500).json(error).end();
-	//				}
-	//				else{//folder created
-	//					req.user._doc.folders = [{
-	//						_id: folder._id
-	//						,name: defaultFolderName
-	//						,active: true
-	//					}];
-	//					req.user = utils.sanitizeUser(req.user);
-	//					req.login(user, function(err){
-	//						res.render('main.ejs', {user: user, _csrf: req._csrf}
-	//							,function(err, html){
-	//								let ret = {
-	//									html: html
-	//									,user: req.user
-	//									,_csrf: req._csrf
-	//								}
-
-	//								res.status(200).json(ret).end();
-	//							}
-	//						);
-	//					});
-	//				}
-	//			});
-	//		}
-	//	});
-	//}
 });
 
 

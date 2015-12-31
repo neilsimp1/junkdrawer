@@ -954,7 +954,8 @@ function init_main() {
 				//empty folder
 				$I('output').innerHTML = 'Empty folder mother fucker';
 			} else {
-				console.log('posts found homie');
+
+				jd.showPosts();
 			}
 		}).fail(function (ret, statusText, xhr) {
 			console.log(ret.error.message);
