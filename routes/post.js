@@ -11,9 +11,9 @@ let router = express.Router();
 router.post('/post', function(req, res){
 	let post = new models.Post({
 		userid: req.user._id
-		,folderid: req.body.folderid
+		,folderid: req.body.post.folderid		
+		,text: req.body.post.text
 		,datetime: new Date()
-		,text: req.body.text
 	});
 	
 	let insertPost = new Promise(function(resolve, reject){
@@ -38,7 +38,7 @@ router.post('/post', function(req, res){
 		});
 		
 		updateFoldersPosts.then(function(){
-			let ret = {id: post._id, csrf: req._csrf}
+			let ret = {id: post._id, datetime: post.datetime, csrf: req._csrf}
 			res.status(200).json(ret).end();
 		})
 		.catch(function(error){

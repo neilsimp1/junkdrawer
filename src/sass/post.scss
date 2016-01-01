@@ -1,0 +1,24 @@
+﻿@import 'colors';
+
+.post{
+width:100%;
+min-height:40px;
+max-height:120px;
+margin-bottom:4px;
+padding:2px;
+background-color:$green-light;
+color:$purple-grey;
+overflow:hidden;
+-webkit-transition:max-height 0.8s;
+-moz-transition:max-height 0.8s;
+transition:max-height 0.8s;
+}
+.post-max{
+max-height:1000px;
+}
+
+.post-dt{
+float:right;
+font-size:0.8em;
+font-style:italic;
+}

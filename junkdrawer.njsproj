@@ -62,6 +62,7 @@
     <Content Include="src\js\wysihtml\test\index.html" />
     <Content Include="src\sass\antibs.scss" />
     <Content Include="src\sass\colors.scss" />
+    <Content Include="src\sass\post.scss" />
     <Content Include="src\sass\site.scss" />
     <Content Include="src\sass\app.scss" />
     <Content Include="src\sass\login.scss" />

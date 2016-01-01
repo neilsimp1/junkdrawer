@@ -895,17 +895,21 @@ function init_main() {
 
 		switch (e.type) {
 			case 'focus':
-				var saveState = jd.controls.resizers.state;
-				jd.controls.resizers.state = 0;
+				if (JD.isMobile()) {
+					(function () {
+						var saveState = jd.controls.resizers.state;
+						jd.controls.resizers.state = 0;
 
-				outputH = '10vh';
-				inputH = '80vh';
-				jd.page.editor.on('blur', function () {
-					jd.controls.resizers.state = saveState;
-					jd.page.editor.off('blur');
-					setContainers();
-				});
-				setContainers();
+						outputH = '10vh';
+						inputH = '80vh';
+						jd.page.editor.on('blur', function () {
+							jd.controls.resizers.state = saveState;
+							jd.page.editor.off('blur');
+							setContainers();
+						});
+						setContainers();
+					})();
+				}
 				break;
 			case 'resize':
 				jd.controls.resizers.state = 2;
@@ -929,20 +933,46 @@ function init_main() {
 		}
 	};
 
+	jd.date.format = function (datetime) {
+		var dt = new Date(datetime);
+		var mm = dt.getMonth() + 1,
+		    dd = dt.getDate(),
+		    yy = dt.getFullYear(),
+		    h = dt.getHours() > 12 ? dt.getHours() - 12 : dt.getHours(),
+		    m = dt.getMinutes() < 10 ? '0' + (dt.getMinutes() + 1) : dt.getMinutes(),
+		    ap = dt.getHours() < 12 ? 'am' : 'pm';
+
+		return mm + '/' + dd + '/' + yy + ' ' + h + ':' + m + ' ' + ap;
+	};
+
+	jd.togglePost = function (post) {
+		if (!post.classList.contains('post-max')) post.classList.add('post-max');else post.classList.remove('post-max');
+	};
+
 	jd.post = function () {
 		if (!jd.validator.post()) {
-			//let files = $I('fileinput').files;
+			(function () {
+				//let files = $I('fileinput').files;
 
-			$.post('post', {
-				folderid: jd.getActiveFolderID(),
-				text: document.querySelector('.wysihtml5-sandbox').contentDocument.body.innerHTML,
-				//,files: files
-				_csrf: jd.csrf
-			}).done(function (ret) {
-				jd.showPost(ret);
-			}).fail(function (ret) {
-				alert('what the fuck');
-			});
+				var post = {
+					folderid: jd.getActiveFolderID(),
+					text: document.querySelector('.wysihtml5-sandbox').contentDocument.body.innerHTML
+					//,files: files
+				};
+
+				$.post('post', {
+					post: post,
+					_csrf: jd.csrf
+				}).done(function (ret) {
+					jd.csrf = ret.csrf;
+					post.id = ret.id;
+					post.datetime = ret.datetime;
+					document.querySelector('.wysihtml5-sandbox').contentDocument.body.innerHTML = '';
+					jd.showPost(post);
+				}).fail(function (ret) {
+					alert('what the fuck');
+				});
+			})();
 		}
 	};
 
@@ -967,17 +997,10 @@ function init_main() {
 	};
 
 	jd.showPost = function (post) {
-		var $div = $('<div class="post"></div>');
-		$div.html(post.text).append('<span class="post-dt">' + post.datetime + '</span>');
-		$('#output').append($div);
-
-		//EXAMPLE OF WHAT"S PUT INTO #output
-		//<div id="output" class="shadow">
-		//	<div class="post">
-		//		rherherherherherherh
-		//		<span class="post-dt">2015-12-31T04:25:09.357Z</span>
-		//	</div>
-		//</div>
+		var $div = $('<div class="post" style="display:none;"></div>');
+		$div.append('<span class="post-dt">' + jd.date.format(post.datetime) + '</span>').append(post.text);
+		$('#output').prepend($div);
+		$div.slideDown();
 	};
 
 	jd.getActiveFolderID = function () {
@@ -1012,6 +1035,10 @@ function init_main() {
 		jd.page.editor.composer.clear();
 	});
 	$(jd.controls.resizers).on('click', jd.page.resize);
+
+	$('#output').on('click', '.post', function () {
+		jd.togglePost(this);
+	});
 
 	jd.page.setDraggerIcons();
 	jd.getFolder();
