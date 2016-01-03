@@ -76,7 +76,6 @@
     <Content Include="views\templates\oauth.ejs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="middleware\" />
     <Folder Include="public\" />
     <Folder Include="public\css\" />
     <Folder Include="public\fonts\" />
@@ -114,8 +113,7 @@
   <ItemGroup>
     <Compile Include="app.js" />
     <Compile Include="Gruntfile.js" />
-    <Compile Include="middleware\oauth.js" />
-    <Compile Include="middleware\middleware.js" />
+    <Compile Include="middleware.js" />
     <Compile Include="models.js" />
     <Compile Include="routes\auth.js" />
     <Compile Include="routes\http.js" />

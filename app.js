@@ -8,8 +8,7 @@
 	,session = require('client-sessions')
 	,passport = require('passport');
 
-var middleware = require('./middleware/middleware')
-	,oauth = require('./middleware/oauth')
+var middleware = require('./middleware')
 	,utils = require('./utils')
 	,config = require('../protected/jd-config');
 
