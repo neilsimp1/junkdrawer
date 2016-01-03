@@ -113,6 +113,6 @@
 
 $(document).ready(function(){
 	JD.loadScripts();
-	jd = new JD();
+	window.jd = new JD();
 });
 function $I(i){return document.getElementById(i);}

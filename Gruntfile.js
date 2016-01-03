@@ -28,9 +28,7 @@ module.exports = function(grunt){
 			}
 			,basic: {
 				src: [
-						'src/js/jquery-1.11.3.min.js'
-						,'src/js/bootstrap.min.js'
-						,'dist/jd.js'
+						'dist/<%= pkg.shortname %>.js'
 					], dest: 'dist/<%= pkg.shortname %>.js'
 			}
 			,extras: {
