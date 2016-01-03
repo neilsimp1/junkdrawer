@@ -1,7 +1,7 @@
 ﻿class Post{
 
 	constructor(){
-		
+
 	}
 
 	add(){
@@ -53,10 +53,25 @@
 		$template.slideDown();
 	}
 
+	fullscreen(post){
+		$('#modal_post-text').html(post.text);
+		$('#modal_post').modal();
+	}
+
 	template($template, post){
-		$template.html(function(index, html){return html.replace(':id:', post.id);})
-		.html(function(index, html){return html.replace(':dt:', jd.date.format(post.datetime));})
+		$template[0].id = post._id;
+		$template.html(function(index, html){return html.replace(':dt:', jd.date.format(post.datetime));})
 		.html(function(index, html){return html.replace(':text:', post.text);});
+	}
+
+	toJSON(div){
+		let post = {
+			_id: div.id
+			,datetime: div.children[0].innerHTML
+			,text: div.children[1].innerHTML
+		};
+
+		return post;
 	}
 
 }

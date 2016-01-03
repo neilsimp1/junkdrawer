@@ -947,15 +947,31 @@ var Post = (function () {
 			$template.slideDown();
 		}
 	}, {
+		key: 'fullscreen',
+		value: function fullscreen(post) {
+			$('#modal_post-text').html(post.text);
+			$('#modal_post').modal();
+		}
+	}, {
 		key: 'template',
 		value: function template($template, post) {
+			$template[0].id = post._id;
 			$template.html(function (index, html) {
-				return html.replace(':id:', post.id);
-			}).html(function (index, html) {
 				return html.replace(':dt:', jd.date.format(post.datetime));
 			}).html(function (index, html) {
 				return html.replace(':text:', post.text);
 			});
+		}
+	}, {
+		key: 'toJSON',
+		value: function toJSON(div) {
+			var post = {
+				_id: div.id,
+				datetime: div.children[0].innerHTML,
+				text: div.children[1].innerHTML
+			};
+
+			return post;
 		}
 	}]);
 
@@ -965,7 +981,6 @@ var Post = (function () {
 'use strict';
 
 function init_main() {
-
 	jd.folder = new Folder();
 	jd.post = new Post();
 
@@ -1086,23 +1101,26 @@ function init_main() {
 		stylesheets: ['css/wysihtml.css']
 	});
 
-	//bindings
+	//		bindings
 	window.onresize = function (e) {
 		jd.page.setDraggerIcons();jd.page.resize(e);
 	};
 	$('#input').bind('dragover drop', function (e) {
 		e.preventDefault();return false;
 	});
-	$('#button_post').on('click', jd.post.add);
 	$('#button_clear').on('click', jd.page.clear);
 	jd.page.editor.on('focus', jd.page.resize);
 	$('#button_clear').on('click', function () {
 		jd.page.editor.composer.clear();
 	});
 	$(jd.controls.resizers).on('click', jd.page.resize);
-
+	//post
+	$('#button_post').on('click', jd.post.add);
 	$('#output').on('click', '.post', function () {
 		jd.post.toggle(this);
+	});
+	$('#output').on('click', '.post-fullscreen', function () {
+		jd.post.fullscreen(jd.post.toJSON($(this).parents('div.post')[0]));
 	});
 
 	jd.page.setDraggerIcons();

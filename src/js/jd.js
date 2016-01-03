@@ -41,7 +41,7 @@
 			var script = document.createElement('script');
 			script.src = scripts[i];
 			script.setAttribute('defer', 'defer');
-			script.onload = function () { cnt++; callInit(); }
+			script.onload = function (){cnt++; callInit();}
 			document.head.appendChild(script);
 		}
 
@@ -61,7 +61,7 @@
 		wrapper.appendChild(div);
 		$(div).animate({top: '0'}, 500
 			, function(){
-				$(this).replaceWith(function () { return $(this.children, this); });
+				$(this).replaceWith(function(){return $(this.children, this);});
 				JD.loadScripts();
 			}
 		);

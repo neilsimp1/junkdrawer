@@ -22,6 +22,7 @@ background-color:$green-light;
 @include transition(background-color 500ms linear);
 position:relative;
 }
+.post:last-of-type{margin-bottom:40px;}
 
 .post-dt{
 float:right;
@@ -32,7 +33,7 @@ font-style:italic;
 .post-text{
 /*overflow-y:scroll;*/   /*TODO: style scrollbars*/
 margin-bottom:20px;
-} 
+}
 
 .post-max{
 background-color:$green-grey;
@@ -45,4 +46,18 @@ height:20px;
 position:absolute; 
 bottom:0; 
 display:none;
+}
+
+#modal_post .modal-header{
+	background-color:$yellow-postit;
+	border-bottom:4px solid $purple-med;
+	button{
+		margin:-10px -4px 0 0;
+		span{color:$grey-dark;}
+	}
+} 
+#modal_post .modal-content{
+border-radius:0;
+color:$purple-grey;
+background-color:$green-light;
 }

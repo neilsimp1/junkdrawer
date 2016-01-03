@@ -71,6 +71,7 @@
     <Content Include="views\index.ejs" />
     <Content Include="views\login.ejs" />
     <Content Include="views\main.ejs" />
+    <Content Include="views\templates\modal-post.ejs" />
     <Content Include="views\templates\post.ejs" />
     <Content Include="views\templates\oauth.ejs" />
   </ItemGroup>
