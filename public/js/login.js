@@ -96,7 +96,7 @@ function init_login() {
 			$.post('login', $(this.form).serialize() + '&' + $.param({ '_csrf': jd.csrf })).done(function (ret) {
 				jd.changeScreen(ret.html);
 				jd.user = ret.user;
-				jd.csrf = ret._csrf;
+				jd.csrf = ret.csrf;
 			}).fail(function (ret) {
 				if (typeof ret.responseJSON !== 'undefined') {
 					if (typeof ret.responseJSON.error === 'object') jd.showError(ret.responseJSON.error);
@@ -111,7 +111,7 @@ function init_login() {
 			$.post('register', $(this.form).serialize() + '&' + $.param({ '_csrf': jd.csrf })).done(function (ret) {
 				jd.changeScreen(ret.html);
 				jd.user = ret.user;
-				jd.csrf = ret._csrf;
+				jd.csrf = ret.csrf;
 			}).fail(function (ret) {
 				if (typeof ret.responseJSON !== 'undefined') {
 					if (typeof ret.responseJSON.error === 'object') jd.showError(ret.responseJSON.error);

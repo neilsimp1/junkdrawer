@@ -38,7 +38,7 @@ router.post('/post', function(req, res){
 		});
 		
 		updateFoldersPosts.then(function(){
-			let ret = {id: post._id, datetime: post.datetime, csrf: req._csrf}
+			let ret = {id: post._id, datetime: post.datetime, csrf: req.csrf}
 			res.status(200).json(ret).end();
 		})
 		.catch(function(error){

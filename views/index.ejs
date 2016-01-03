@@ -25,7 +25,7 @@
         <input type="hidden" id="_error" value="<%= error? JSON.stringify(error): '' %>" />
 		<input type="hidden" id="_action" value="<%= flash.action? flash.action: '' %>" />
 		<input type="hidden" id="_html" value="<%= html? JSON.stringify(html): '' %>" />
-		<input type="hidden" id="_csrf" value="<%= _csrf; %>" />
+		<input type="hidden" id="_csrf" value="<%= csrf; %>" />
 	</div>
 </body>
 </html>

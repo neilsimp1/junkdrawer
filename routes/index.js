@@ -14,7 +14,7 @@ router.get('/', function (req, res){
 	let error = req.error;
 	if(res.locals.flash.error) error = res.locals.flash.error;
 
-	if(!req.user) res.render('index', {user: null, error: error, action: null, html: null, _csrf: req._csrf});
+	if(!req.user) res.render('index', {user: null, error: error, action: null, html: null, csrf: req.csrf});
 	else{
 		req.user = utils.sanitizeUser(req.user);
 		if(res.locals.flash.action === 'login' || res.locals.flash.action === 'register'){
@@ -24,7 +24,7 @@ router.get('/', function (req, res){
 					,user: req.user
 					,error: error
 					,html: html
-					,_csrf: req._csrf
+					,csrf: req.csrf
 				});
 			});
 		}
@@ -34,7 +34,7 @@ router.get('/', function (req, res){
 				,user: req.user
 				,error: error
 				,html: null
-				,_csrf: req._csrf
+				,csrf: req.csrf
 			});
 		}
 	}

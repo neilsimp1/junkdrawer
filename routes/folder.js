@@ -34,7 +34,7 @@ router.get('/folder/:id', function(req, res, next){
 		else{
 			let ret = {
 				folder: folder
-				,csrf: req._csrf
+				,csrf: req.csrf
 			}
 			res.status(200).json(ret).end();
 		}

@@ -98,7 +98,7 @@
 			.done(function(ret){
 				jd.changeScreen(ret.html);
 				jd.user = ret.user;
-				jd.csrf = ret._csrf;
+				jd.csrf = ret.csrf;
 			})
 			.fail(function(ret){
 				if(typeof ret.responseJSON !== 'undefined'){
@@ -116,7 +116,7 @@
 			.done(function(ret){
 				jd.changeScreen(ret.html);
 				jd.user = ret.user;
-				jd.csrf = ret._csrf;
+				jd.csrf = ret.csrf;
 			})
 			.fail(function(ret){
 				if(typeof ret.responseJSON !== 'undefined'){

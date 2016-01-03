@@ -281,12 +281,12 @@ router.post('/login', function(req, res){
 						res.status(500).json({error: error}).end();
 					}
 					else{
-						res.render('main.ejs', {user: user, _csrf: req._csrf}
+						res.render('main.ejs'
 							,function(err, html){
 								let ret = {
 									html: html
 									,user: req.user
-									,_csrf: req._csrf
+									,csrf: req.csrf
 								}
 
 								res.setHeader('Content-Type', 'application/json');
@@ -394,12 +394,12 @@ router.post('/register', function(req, res){
 				}];
 				req.user = utils.sanitizeUser(req.user);
 				req.login(user, function(err){
-					res.render('main.ejs', {user: user, _csrf: req._csrf}
+					res.render('main.ejs'
 						,function(err, html){
 							let ret = {
 								html: html
 								,user: req.user
-								,_csrf: req._csrf
+								,csrf: req.csrf
 							}
 
 							res.status(200).json(ret).end();

@@ -4,7 +4,7 @@ let models = require('../models')
 	,utils = require('../utils');
 
 module.exports.makeCsrf = function(req, res, next){
-	req._csrf = req.csrfToken();
+	req.csrf = req.csrfToken();
 	next();
 };
 

@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports.Error = function(page, origin, message){
 	return {
 		page: page
