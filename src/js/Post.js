@@ -10,7 +10,7 @@
 
 			let post = {
 				folderid: jd.getActiveFolderID()
-				,text: document.querySelector('.wysihtml5-sandbox').contentDocument.body.innerHTML
+				,text: jd.page.editor.composer.getValue()
 				//,files: files
 			};
 			
@@ -22,7 +22,7 @@
 				jd.csrf = ret.csrf;
 				post.id = ret.id;
 				post.datetime = ret.datetime;
-				document.querySelector('.wysihtml5-sandbox').contentDocument.body.innerHTML = '';
+				jd.page.editor.composer.clear();
 				jd.post.show(post);
 			})
 			.fail(function(ret){
