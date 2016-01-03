@@ -1,5 +1,8 @@
 ﻿function init_main(){
 
+	jd.folder = new Folder();
+	jd.post = new Post();
+
 	//controls
 	jd.controls.clear = $I('button_clear');
 	jd.controls.resizers = document.querySelectorAll('.resize a');
@@ -91,64 +94,78 @@
 		return mm + '/' + dd + '/' + yy + ' ' + h + ':' + m + ' ' + ap;
 	};
 
-	jd.togglePost = function(post){
-		if(!post.classList.contains('post-max')) post.classList.add('post-max');
-		else post.classList.remove('post-max');
-	};
+	//jd.togglePost = function(post){
+	//	if(!post.classList.contains('post-max')){
+	//		let asas = $(post).find('.post-text');
+	//		let height = $(post).find('.post-text')[0].clientHeight + 20;
+	//		post.classList.add('post-max');			
+	//		$(post).animate({'max-height': height + 'px', 'min-height': '60px'}, 250);
+	//		$(post).find('.post-toolbar').slideDown(250);
+	//	}
+	//	else{
+	//		post.classList.remove('post-max');			
+	//		$(post).animate({'max-height': '120px', 'min-height': '40px'}, 250);
+	//		$(post).find('.post-toolbar').slideUp(250);
+	//	}
+	//};
 
-	jd.post = function(){
-		if(!jd.validator.post()){
-			//let files = $I('fileinput').files;
+	//jd.post = function(){
+	//	if(!jd.validator.post()){
+	//		//let files = $I('fileinput').files;
 
-			let post = {
-				folderid: jd.getActiveFolderID()
-				,text: document.querySelector('.wysihtml5-sandbox').contentDocument.body.innerHTML
-				//,files: files
-			};
+	//		let post = {
+	//			folderid: jd.getActiveFolderID()
+	//			,text: document.querySelector('.wysihtml5-sandbox').contentDocument.body.innerHTML
+	//			//,files: files
+	//		};
 			
-			$.post('post', {
-				post: post
-				,_csrf: jd.csrf
-			})
-			.done(function(ret){
-				jd.csrf = ret.csrf;
-				post.id = ret.id;
-				post.datetime = ret.datetime;
-				document.querySelector('.wysihtml5-sandbox').contentDocument.body.innerHTML = '';
-				jd.showPost(post);
-			})
-			.fail(function(ret){
-				alert('what the fuck');
-			});
-		}
-	};
+	//		$.post('post', {
+	//			post: post
+	//			,_csrf: jd.csrf
+	//		})
+	//		.done(function(ret){
+	//			jd.csrf = ret.csrf;
+	//			post.id = ret.id;
+	//			post.datetime = ret.datetime;
+	//			document.querySelector('.wysihtml5-sandbox').contentDocument.body.innerHTML = '';
+	//			jd.showPost(post);
+	//		})
+	//		.fail(function(ret){
+	//			alert('what the fuck');
+	//		});
+	//	}
+	//};
 
-	jd.getFolder = function(id){
-		id = id || jd.getActiveFolderID();
+	//jd.getFolder = function(id){
+	//	id = id || jd.getActiveFolderID();
 
-		$.get('folder/' + id)
-		.done(function(ret, statusText, xhr){
-			if(xhr.status === 204){//empty folder
-				$I('output').innerHTML = 'Empty folder mother fucker';
-			}
-			else jd.showFolder(ret.folder);
-		})
-		.fail(function(ret, statusText, xhr){
-			console.log(ret.error.message);
-		});
-	};
+	//	$.get('folder/' + id)
+	//	.done(function(ret, statusText, xhr){
+	//		if(xhr.status === 204){//empty folder
+	//			$I('output').innerHTML = 'Empty folder mother fucker';
+	//		}
+	//		else jd.showFolder(ret.folder);
+	//	})
+	//	.fail(function(ret, statusText, xhr){
+	//		console.log(ret.error.message);
+	//	});
+	//};
 
-	jd.showFolder = function(folder){
-		$I('span_foldername').innerHTML = folder.name;
-		for(let i = 0; i < folder.posts.length; i++) jd.showPost(folder.posts[i]);
-	};
+	//jd.showFolder = function(folder){
+	//	$I('span_foldername').innerHTML = folder.name;
+	//	folder.posts.reverse();
+	//	for(let i = 0; i < folder.posts.length; i++) jd.showPost(folder.posts[i]);
+	//};
 
-	jd.showPost = function(post){
-		let $div = $('<div class="post" style="display:none;"></div>');
-		$div.append('<span class="post-dt">' + jd.date.format(post.datetime) + '</span>').append(post.text);
-		$('#output').prepend($div);
-		$div.slideDown();
-	};
+	//jd.showPost = function(post){
+	//	let $template = $($I('template_post').innerHTML);
+	//	$template.html(function(index, html){return html.replace(':id:', post.id);});//TODO this stuff can be in Post.template()
+	//	$template.html(function(index, html){return html.replace(':dt:', jd.date.format(post.datetime));});
+	//	$template.html(function(index, html){return html.replace(':text:', post.text);});
+
+	//	$('#output').prepend($template);
+	//	$template.slideDown();
+	//};
 
 	jd.getActiveFolderID = function(){
 		let folders = jd.user.folders;
@@ -169,15 +186,15 @@
 	//bindings
 	window.onresize = function(e){jd.page.setDraggerIcons(); jd.page.resize(e);};
     $('#input').bind('dragover drop', function(e){e.preventDefault(); return false;});
-	$('#button_post').on('click', jd.post);
+	$('#button_post').on('click', jd.post.add);
 	$('#button_clear').on('click', jd.page.clear);
 	jd.page.editor.on('focus', jd.page.resize);
 	$('#button_clear').on('click', function(){jd.page.editor.composer.clear();});
 	$(jd.controls.resizers).on('click', jd.page.resize);
 
-	$('#output').on('click', '.post', function(){jd.togglePost(this);});
+	$('#output').on('click', '.post', function(){jd.post.toggle(this);});
 
 
 	jd.page.setDraggerIcons();
-	jd.getFolder();
+	jd.folder.get();
 }

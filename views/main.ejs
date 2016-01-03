@@ -66,15 +66,15 @@
                 </button>
                 <ul class="mainmenu dropdown-menu">
                     <li>
-                        <a href="#">Settings<span class="glyphicon glyphicon-user"></span></a>
-                    </li>
-                    <li>
-                        <a href="#">Folders<span class="glyphicon glyphicon-folder-open"></span></a>
-                    </li>
-                    <li role="separator" class="divider"></li>
-                    <li>
-                        <a href="./logout">Logout<span class="glyphicon glyphicon-log-out"></span></a>
-                    </li>
+						<a href="#"><span class="pull-right glyphicon glyphicon-user"></span><span>Settings</span></a>
+					</li>
+					<li>
+						<a href="#"><span class="pull-right glyphicon glyphicon-folder-open"></span><span>Folders</span></a>
+					</li>
+					<li role="separator" class="divider"></li>
+					<li>
+						<a href="./logout"><span class="pull-right glyphicon glyphicon-log-out"></span><span>Logout</span></a>
+					</li>
                 </ul>
             </div>
         </div>
@@ -89,3 +89,7 @@
     </div>
 </div>
 <input type="hidden" id="_scripts" data-init="init_main" value="js/main.js" />
+
+<div style="display:none;">
+	<% include templates/post %>
+</div>

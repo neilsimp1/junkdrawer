@@ -6,6 +6,8 @@
 		this.validator = {};
 		this.login = {};
 		this.date = {};
+		this.post = {};
+		this.folder = {};
 		this._user = $I('_user');
 		this._error = $I('_error');
 		this._csrf = $I('_csrf');

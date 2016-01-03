@@ -844,7 +844,130 @@ $(document).ready(function () {
 ;
 'use strict';
 
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var Folder = (function () {
+	function Folder() {
+		_classCallCheck(this, Folder);
+	}
+
+	_createClass(Folder, [{
+		key: 'get',
+		value: function get(id) {
+			id = id || jd.getActiveFolderID();
+
+			$.get('folder/' + id).done(function (ret, statusText, xhr) {
+				if (xhr.status === 204) {
+					//empty folder
+					$I('output').innerHTML = 'Empty folder mother fucker';
+				} else jd.folder.show(ret.folder);
+			}).fail(function (ret, statusText, xhr) {
+				console.log(ret.error.message);
+			});
+		}
+	}, {
+		key: 'add',
+		value: function add() {}
+	}, {
+		key: 'show',
+		value: function show(folder) {
+			$I('span_foldername').innerHTML = folder.name;
+			folder.posts.reverse();
+			for (var i = 0; i < folder.posts.length; i++) {
+				jd.post.show(folder.posts[i]);
+			}
+		}
+	}]);
+
+	return Folder;
+})();
+;
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var Post = (function () {
+	function Post() {
+		_classCallCheck(this, Post);
+	}
+
+	_createClass(Post, [{
+		key: 'add',
+		value: function add() {
+			if (!jd.validator.post()) {
+				(function () {
+					//let files = $I('fileinput').files;
+
+					var post = {
+						folderid: jd.getActiveFolderID(),
+						text: document.querySelector('.wysihtml5-sandbox').contentDocument.body.innerHTML
+						//,files: files
+					};
+
+					$.post('post', {
+						post: post,
+						_csrf: jd.csrf
+					}).done(function (ret) {
+						jd.csrf = ret.csrf;
+						post.id = ret.id;
+						post.datetime = ret.datetime;
+						document.querySelector('.wysihtml5-sandbox').contentDocument.body.innerHTML = '';
+						jd.post.show(post);
+					}).fail(function (ret) {
+						alert('what the fuck');
+					});
+				})();
+			}
+		}
+	}, {
+		key: 'toggle',
+		value: function toggle(post) {
+			if (!post.classList.contains('post-max')) {
+				var asas = $(post).find('.post-text');
+				var height = $(post).find('.post-text')[0].clientHeight + 20;
+				post.classList.add('post-max');
+				$(post).animate({ 'max-height': height + 'px', 'min-height': '60px' }, 250);
+				$(post).find('.post-toolbar').slideDown(250);
+			} else {
+				post.classList.remove('post-max');
+				$(post).animate({ 'max-height': '120px', 'min-height': '40px' }, 250);
+				$(post).find('.post-toolbar').slideUp(250);
+			}
+		}
+	}, {
+		key: 'show',
+		value: function show(post) {
+			var $template = $($I('template_post').innerHTML);
+			jd.post.template($template, post);
+			$('#output').prepend($template);
+			$template.slideDown();
+		}
+	}, {
+		key: 'template',
+		value: function template($template, post) {
+			$template.html(function (index, html) {
+				return html.replace(':id:', post.id);
+			}).html(function (index, html) {
+				return html.replace(':dt:', jd.date.format(post.datetime));
+			}).html(function (index, html) {
+				return html.replace(':text:', post.text);
+			});
+		}
+	}]);
+
+	return Post;
+})();
+;
+'use strict';
+
 function init_main() {
+
+	jd.folder = new Folder();
+	jd.post = new Post();
 
 	//controls
 	jd.controls.clear = $I('button_clear');
@@ -945,63 +1068,78 @@ function init_main() {
 		return mm + '/' + dd + '/' + yy + ' ' + h + ':' + m + ' ' + ap;
 	};
 
-	jd.togglePost = function (post) {
-		if (!post.classList.contains('post-max')) post.classList.add('post-max');else post.classList.remove('post-max');
-	};
+	//jd.togglePost = function(post){
+	//	if(!post.classList.contains('post-max')){
+	//		let asas = $(post).find('.post-text');
+	//		let height = $(post).find('.post-text')[0].clientHeight + 20;
+	//		post.classList.add('post-max');			
+	//		$(post).animate({'max-height': height + 'px', 'min-height': '60px'}, 250);
+	//		$(post).find('.post-toolbar').slideDown(250);
+	//	}
+	//	else{
+	//		post.classList.remove('post-max');			
+	//		$(post).animate({'max-height': '120px', 'min-height': '40px'}, 250);
+	//		$(post).find('.post-toolbar').slideUp(250);
+	//	}
+	//};
 
-	jd.post = function () {
-		if (!jd.validator.post()) {
-			(function () {
-				//let files = $I('fileinput').files;
+	//jd.post = function(){
+	//	if(!jd.validator.post()){
+	//		//let files = $I('fileinput').files;
 
-				var post = {
-					folderid: jd.getActiveFolderID(),
-					text: document.querySelector('.wysihtml5-sandbox').contentDocument.body.innerHTML
-					//,files: files
-				};
+	//		let post = {
+	//			folderid: jd.getActiveFolderID()
+	//			,text: document.querySelector('.wysihtml5-sandbox').contentDocument.body.innerHTML
+	//			//,files: files
+	//		};
 
-				$.post('post', {
-					post: post,
-					_csrf: jd.csrf
-				}).done(function (ret) {
-					jd.csrf = ret.csrf;
-					post.id = ret.id;
-					post.datetime = ret.datetime;
-					document.querySelector('.wysihtml5-sandbox').contentDocument.body.innerHTML = '';
-					jd.showPost(post);
-				}).fail(function (ret) {
-					alert('what the fuck');
-				});
-			})();
-		}
-	};
+	//		$.post('post', {
+	//			post: post
+	//			,_csrf: jd.csrf
+	//		})
+	//		.done(function(ret){
+	//			jd.csrf = ret.csrf;
+	//			post.id = ret.id;
+	//			post.datetime = ret.datetime;
+	//			document.querySelector('.wysihtml5-sandbox').contentDocument.body.innerHTML = '';
+	//			jd.showPost(post);
+	//		})
+	//		.fail(function(ret){
+	//			alert('what the fuck');
+	//		});
+	//	}
+	//};
 
-	jd.getFolder = function (id) {
-		id = id || jd.getActiveFolderID();
+	//jd.getFolder = function(id){
+	//	id = id || jd.getActiveFolderID();
 
-		$.get('folder/' + id).done(function (ret, statusText, xhr) {
-			if (xhr.status === 204) {
-				//empty folder
-				$I('output').innerHTML = 'Empty folder mother fucker';
-			} else jd.showFolder(ret.folder);
-		}).fail(function (ret, statusText, xhr) {
-			console.log(ret.error.message);
-		});
-	};
+	//	$.get('folder/' + id)
+	//	.done(function(ret, statusText, xhr){
+	//		if(xhr.status === 204){//empty folder
+	//			$I('output').innerHTML = 'Empty folder mother fucker';
+	//		}
+	//		else jd.showFolder(ret.folder);
+	//	})
+	//	.fail(function(ret, statusText, xhr){
+	//		console.log(ret.error.message);
+	//	});
+	//};
 
-	jd.showFolder = function (folder) {
-		$I('span_foldername').innerHTML = folder.name;
-		for (var i = 0; i < folder.posts.length; i++) {
-			jd.showPost(folder.posts[i]);
-		}
-	};
+	//jd.showFolder = function(folder){
+	//	$I('span_foldername').innerHTML = folder.name;
+	//	folder.posts.reverse();
+	//	for(let i = 0; i < folder.posts.length; i++) jd.showPost(folder.posts[i]);
+	//};
 
-	jd.showPost = function (post) {
-		var $div = $('<div class="post" style="display:none;"></div>');
-		$div.append('<span class="post-dt">' + jd.date.format(post.datetime) + '</span>').append(post.text);
-		$('#output').prepend($div);
-		$div.slideDown();
-	};
+	//jd.showPost = function(post){
+	//	let $template = $($I('template_post').innerHTML);
+	//	$template.html(function(index, html){return html.replace(':id:', post.id);});//TODO this stuff can be in Post.template()
+	//	$template.html(function(index, html){return html.replace(':dt:', jd.date.format(post.datetime));});
+	//	$template.html(function(index, html){return html.replace(':text:', post.text);});
+
+	//	$('#output').prepend($template);
+	//	$template.slideDown();
+	//};
 
 	jd.getActiveFolderID = function () {
 		var folders = jd.user.folders;
@@ -1028,7 +1166,7 @@ function init_main() {
 	$('#input').bind('dragover drop', function (e) {
 		e.preventDefault();return false;
 	});
-	$('#button_post').on('click', jd.post);
+	$('#button_post').on('click', jd.post.add);
 	$('#button_clear').on('click', jd.page.clear);
 	jd.page.editor.on('focus', jd.page.resize);
 	$('#button_clear').on('click', function () {
@@ -1037,9 +1175,9 @@ function init_main() {
 	$(jd.controls.resizers).on('click', jd.page.resize);
 
 	$('#output').on('click', '.post', function () {
-		jd.togglePost(this);
+		jd.post.toggle(this);
 	});
 
 	jd.page.setDraggerIcons();
-	jd.getFolder();
+	jd.folder.get();
 }

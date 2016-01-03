@@ -7,6 +7,8 @@ module.exports = function(grunt){
 		,babel: {
 			login: {files: {'dist/login.js': 'src/js/login.js'}}
 			,main: {files: {'dist/main.js': 'src/js/main.js'}}
+			,Post: {files: {'dist/Post.js': 'src/js/Post.js'}}
+			,Folder: {files: {'dist/Folder.js': 'src/js/Folder.js'}}
 			,jd: {files: {'dist/jd.js': 'src/js/jd.js'}}
 			,files: {files: {'dist/files.js': 'src/js/files.js'}}
 		}
@@ -36,6 +38,8 @@ module.exports = function(grunt){
 					'src/js/wysihtml/dist/wysihtml-toolbar.min.js'
 					,'src/js/wysihtml/parser_rules/advanced_and_extended.js'
 					,'dist/files.js'
+					,'dist/Folder.js'
+					,'dist/Post.js'
 					,'dist/main.js'
 				], dest: 'dist/main.js'
 			}

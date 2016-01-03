@@ -1,24 +1,48 @@
 ﻿@import 'colors';
 
+@mixin transition($val){
+-webkit-transition:$val;
+-moz-transition:$val;
+-o-transition:$val;
+-ms-transition:$val;
+transition:$val;
+}
+
+
 .post{
+display:none;
 width:100%;
 min-height:40px;
 max-height:120px;
 margin-bottom:4px;
 padding:2px;
-background-color:$green-light;
-color:$purple-grey;
 overflow:hidden;
--webkit-transition:max-height 0.8s;
--moz-transition:max-height 0.8s;
-transition:max-height 0.8s;
-}
-.post-max{
-max-height:1000px;
+color:$purple-grey;
+background-color:$green-light;
+@include transition(background-color 500ms linear);
+position:relative;
 }
 
 .post-dt{
 float:right;
 font-size:0.8em;
 font-style:italic;
+}
+
+.post-text{
+/*overflow-y:scroll;*/   /*TODO: style scrollbars*/
+margin-bottom:20px;
+} 
+
+.post-max{
+background-color:$green-grey;
+@include transition(background-color 500ms linear);
+}
+
+.post-toolbar{
+width:100%;
+height:20px;
+position:absolute; 
+bottom:0; 
+display:none;
 }

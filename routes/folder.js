@@ -13,7 +13,7 @@ router.get('/folder/:id', function(req, res, next){
 	
 	let getFolder = new Promise(function(resolve, reject){
 		models.Folder.findOne({_id: id, userid: userid})
-		.populate({path: 'posts', options: {sort:{'timestamp': -1}, limit: 10}})
+		.populate({path: 'posts', options: {limit: 10, sort: '-datetime'}})
 		.exec(function(err, folder){
 			if(err){//error
 				let error = new utils.Error('getfolder', 'ff', 'Error finding folder');

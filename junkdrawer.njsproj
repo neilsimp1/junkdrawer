@@ -71,6 +71,7 @@
     <Content Include="views\index.ejs" />
     <Content Include="views\login.ejs" />
     <Content Include="views\main.ejs" />
+    <Content Include="views\templates\post.ejs" />
     <Content Include="views\templates\oauth.ejs" />
   </ItemGroup>
   <ItemGroup>
@@ -122,6 +123,8 @@
     <Compile Include="routes\post.js" />
     <Compile Include="src\js\bootstrap.min.js" />
     <Compile Include="src\js\files.js" />
+    <Compile Include="src\js\Folder.js" />
+    <Compile Include="src\js\Post.js" />
     <Compile Include="src\js\jd.js" />
     <Compile Include="src\js\jquery-1.11.3.min.js" />
     <Compile Include="src\js\login.js" />
