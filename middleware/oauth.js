@@ -43,20 +43,23 @@ passport.deserializeUser(function(id, done){
 		});
 	});
 
-	let getFolders = new Promise(function(resolve, reject){
-		models.Folder.find({userid: id}, '_id, name, active', function(err, folders){
-			if(err) reject('Error finding folders');
-			else if(!folders) reject();
-			else resolve(folders);
+	getUser.then(function(user){
+		let getFolders = new Promise(function(resolve, reject){
+			models.Folder.find({userid: id}, '_id, name, active', function(err, folders){
+				if(err) reject('Error finding folders');
+				else if(!folders) reject();
+				else resolve(folders);
+			});
 		});
-	});
 
-	Promise.all([getUser, getFolders])
-	.then(function(data){
-		//let [user, folders] = data; TODO: this won't work here for some reason
-		let user = data[0], folders = data[1];
-		user._doc.folders = folders;
-		done(null, user);
+		getFolders.then(function(folders){
+			user._doc.folders = folders;
+			done(null, user);
+		})
+		.catch(function(err){
+			console.error(err);
+			done(err, null);
+		});
 	})
 	.catch(function(err){
 		console.error(err);

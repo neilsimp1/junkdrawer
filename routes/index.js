@@ -16,7 +16,7 @@ router.get('/', function (req, res){
 
 	if(!req.user) res.render('index', {user: null, error: error, action: null, html: null, csrf: req.csrf});
 	else{
-		req.user = utils.sanitizeUser(req.user);
+		utils.sanitizeUser(req.user);
 		if(res.locals.flash.action === 'login' || res.locals.flash.action === 'register'){
 			res.render('main', function(err, html){
 				res.render('index', {

@@ -139,7 +139,7 @@ function oauthLoginReg(provider, req, res, next){
 					//let [user, folder] = data; TODO: this won't work here for some reason
 					let user = data[0], folder = data[1];
 					req.user._doc.folders = [folder];
-					req.user = utils.sanitizeUser(req.user);
+					utils.sanitizeUser(req.user);
 					req.login(user, function(err){
 						if(err){
 							let origin = 'unknown';
@@ -271,7 +271,7 @@ router.post('/login', function(req, res){
 
 			getFolders.then(function(folders){
 				req.user._doc.folders = folders;
-				req.user = utils.sanitizeUser(req.user);
+				utils.sanitizeUser(req.user);
 				req.login(user, function(err){
 					if(err){
 						let origin = 'u';
@@ -392,7 +392,7 @@ router.post('/register', function(req, res){
 					,name: defaultFolderName
 					,active: true
 				}];
-				req.user = utils.sanitizeUser(req.user);
+				utils.sanitizeUser(req.user);
 				req.login(user, function(err){
 					res.render('main.ejs'
 						,function(err, html){
