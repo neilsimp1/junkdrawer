@@ -1,5 +1,6 @@
 ﻿var bodyParser = require('body-parser')
 	,mongoose = require('mongoose')
+	,favicon = require('serve-favicon')
 	,csrf = require('csurf')
 	,express = require('express')
 	,flash = require('connect-flash')

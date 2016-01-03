@@ -1,7 +1,9 @@
-var mongoose = require('mongoose');
+'use strict';
 
-var Schema = mongoose.Schema;
-var ObjectId = Schema.ObjectId;
+let mongoose = require('mongoose');
+
+let Schema = mongoose.Schema
+	,ObjectId = Schema.ObjectId;
 
 module.exports.User = mongoose.model('User'
 	,new Schema({

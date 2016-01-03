@@ -44,7 +44,7 @@ passport.deserializeUser(function(id, done){
 	});
 
 	let getFolders = new Promise(function(resolve, reject){
-		models.Folder.find({userid: id}, function(err, folders){
+		models.Folder.find({userid: id}, '_id, name, active', function(err, folders){
 			if(err) reject('Error finding folders');
 			else if(!folders) reject();
 			else resolve(folders);
