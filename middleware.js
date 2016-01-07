@@ -18,7 +18,7 @@ module.exports.makeCsrf = function(req, res, next){
 module.exports.csrfError = function(err, req, res, next){
 	if(err.code !== 'EBADCSRFTOKEN') return next(err);
 	res.status(403);
-	res.send('Potential csrf attack');
+	res.send('Potential csrf attack').end();
 };
 
 module.exports.setFlash = function(req, res, next){
