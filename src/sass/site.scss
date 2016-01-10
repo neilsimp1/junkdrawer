@@ -18,20 +18,6 @@ background:-ms-linear-gradient(top, $wrapper-gradient1 5%,$wrapper-gradient2 16%
 background:linear-gradient(to bottom, $wrapper-gradient1 5%,$wrapper-gradient2 16%,$wrapper-gradient3 27%,$wrapper-gradient4 51%,$wrapper-gradient5 78%);
 filter:progid:DXImageTransform.Microsoft.gradient( startColorstr='$wrapper-gradient1', endColorstr='$wrapper-gradient5',GradientType=0);
 }
-.main-container{padding:12px;}
-@media(max-width:768px){
-    .main-container{height:45vh;}
-    .inputwrap{padding-top:0;margin-bottom:-8px;}
-    .middlebar{height:2vh;text-align:center;}
-    .resize{top:-14px;margin-left:-24px;left:50%;}
-    .wysihtml5-sandbox{width:100% !important;}
-}
-@media(min-width:768px){
-    .main-container, .middlebar{height:92vh;}
-    .middlebar{width:4px;}
-    .resize{left:-7px;top:45%;padding:8px 0;}
-    .inputwrap, .outputwrap{width:calc(50% - 2px);}
-}
 
 .unselectable, .unselectable *{
 -moz-user-select:-moz-none;

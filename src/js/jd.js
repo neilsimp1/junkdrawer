@@ -1,13 +1,19 @@
 ﻿class JD{
 
 	constructor(){
+		this.page = {
+			isResizing: false
+			,lastDownX: 0
+			,lastDownY: 0
+			,ratio: 1
+		};
 		this.controls = {};
-		this.page = {};
 		this.validator = {};
 		this.login = {};
 		this.date = {};
 		this.post = {};
 		this.folder = {};
+
 		this._user = $I('_user');
 		this._error = $I('_error');
 		this._csrf = $I('_csrf');

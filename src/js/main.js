@@ -4,79 +4,106 @@
 
 	//controls
 	jd.controls.clear = $I('button_clear');
-	jd.controls.resizers = document.querySelectorAll('.resize a');
-    jd.controls.resizers.state = 2;
-
-	//page
-    jd.page.mainContainers = document.querySelectorAll('.main-container');
-	if(jd.page.mainContainers.length === 0) return;
-
-	//functions
-	jd.page.setDraggerIcons = function(){
-		if(JD.isMobile()){
-			jd.controls.resizers[0].children[0].className = jd.controls.resizers[0].children[0].className.replace('left', 'up');
-			jd.controls.resizers[1].children[0].className = jd.controls.resizers[1].children[0].className.replace('right', 'down');
-		}
-		else{
-			jd.controls.resizers[0].children[0].className = jd.controls.resizers[0].children[0].className.replace('up', 'left');
-			jd.controls.resizers[1].children[0].className = jd.controls.resizers[1].children[0].className.replace('down', 'right');
-		}
-	};
+	jd.page.$wrapper = $('#wrapper');
+    jd.page.$output = jd.page.$wrapper.children().eq(0);
+    jd.page.$middlebar = jd.page.$wrapper.children().eq(1);
+    jd.page.$input = jd.page.$wrapper.children().eq(2);
 	
+	//functions
 	jd.page.resize = function(e){
-		let outputW, outputH, inputW, inputH;
-		function setContainers(){
-			switch(jd.controls.resizers.state){
-				case 0: outputW = 'calc(10% - 2px)'; inputW = 'calc(90% - 2px)'; outputH = '10vh'; inputH = '80vh'; break;
-				case 1: outputW = 'calc(25% - 2px)'; inputW = 'calc(75% - 2px)'; outputH = '25vh'; inputH = '65vh'; break;
-				case 2: outputW = 'calc(50% - 2px)'; inputW = 'calc(50% - 2px)'; outputH = '45vh'; inputH = '45vh'; break;//
-				case 3: outputW = 'calc(75% - 2px)'; inputW = 'calc(25% - 2px)'; outputH = '65vh'; inputH = '25vh'; break;
-				case 4: outputW = 'calc(90% - 2px)'; inputW = 'calc(10% - 2px)'; outputH = '80vh'; inputH = '10vh';
-			}
-			if(JD.isMobile()){
-				jd.page.mainContainers[0].style.height = outputH;
-				jd.page.mainContainers[1].style.height = inputH;
-			}
-			else{
-				jd.page.mainContainers[0].style.width = outputW;
-				jd.page.mainContainers[1].style.width = inputW;
-			}
-		}
-
 		switch(e.type){
 			case 'focus':
 				if(JD.isMobile()){
-					let saveState = jd.controls.resizers.state;
-					jd.controls.resizers.state = 0;
+					//let saveState = jd.controls.resizers.state;
+					//jd.controls.resizers.state = 0;
 
-					outputH = '10vh';
-					inputH = '80vh';
-					jd.page.editor.on('blur', function(){
-						jd.controls.resizers.state = saveState;
-						jd.page.editor.off('blur');
-						setContainers();
-					});
-					setContainers();
+					//outputH = '10vh';
+					//inputH = '80vh';
+					//jd.page.editor.on('blur', function(){
+					//	jd.controls.resizers.state = saveState;
+					//	jd.page.editor.off('blur');
+					//	setContainers();
+					//});
+					//setContainers();
 				}
 				break;
 			case 'resize':
-				jd.controls.resizers.state = 2;
+				let ratio = jd.page.ratio;
 				if(JD.isMobile()){
-					$(jd.page.mainContainers[0]).css({width: '100%', height: '45vh'});
-					$(jd.page.mainContainers[1]).css({width: '100%', height: '45vh'});
+					//jd.page.$output.css('height', (ratio / 2) - (window.clientHeight * 0.1));
+					//$(jd.page.$middlebar).css('top', jd.page.$output[0].clientHeight);
+					//$(jd.page.mainContainers[1]).css({width: '100%', height: '45vh'});
+
+					//TODO: this shit's all fucked
+					////if(ratio > 0 && ratio <= 0.5){
+					////	jd.page.$output.css('height', '10vh');
+					////	jd.page.$middlebar.css('top', '10vh');
+					////	jd.page.$input.css({height: '80vh', top: '12vh'});
+					////}
+					////else if(ratio > 0.5 && ratio <= 1){
+					////	jd.page.$output.css('height', '30vh');
+					////	jd.page.$middlebar.css('top', '30vh');
+					////	jd.page.$input.css({height: '60vh', top: '32vh'});
+					////}
+					////else if(ratio > 1 && ratio <= 1.5){
+					////	jd.page.$output.css('height', '60vh');
+					////	jd.page.$middlebar.css('top', '60vh');
+					////	jd.page.$input.css({height: '30vh', top: '62vh'});
+					////}
+					////else if(ratio > 1.5 && ratio <= 2){
+					////	jd.page.$output.css('height', '80vh');
+					////	jd.page.$middlebar.css('top', '80vh');
+					////	jd.page.$input.css({height: '10vh', top: '82vh'});
+					////}
 				}
 				else{
-					$(jd.page.mainContainers[0]).css({width: 'calc(50% - 2px)', height: '92vh'});
-					$(jd.page.mainContainers[1]).css({width: 'calc(50% - 2px)', height: '92vh'});
+					$(jd.page.mainContainers[0]).css({width: 'calc(50% - 4px)', height: '92vh'});
+					$(jd.page.mainContainers[1]).css({width: 'calc(50% - 4px)', height: '92vh'});
 				}
 				break;
-			case 'click':
-				let dir = $(e.currentTarget).data('dir');
-				if(dir){
-					if(dir === 'rd'){if(jd.controls.resizers.state < 4) jd.controls.resizers.state++;}
-					else if(jd.controls.resizers.state > 0) jd.controls.resizers.state--;
+			case 'mousedown':
+				let lastDownXY, clientXY, widthHeight, leftTop, clientWH;
+				let isMobile = JD.isMobile();
+				if(isMobile){
+					lastDownXY = 'lastDownY';
+					clientXY = 'clientY';
+					widthHeight = 'height';
+					leftTop = 'top';
+					clientWH = 'clientHeight';
 				}
-				setContainers();
+				else{
+					lastDownXY = 'lastDownX';
+					clientXY = 'clientX';
+					widthHeight = 'width';
+					leftTop = 'left';
+					clientWH = 'clientWidth';
+				}
+
+				jd.page.isResizing = true;
+				jd.page[lastDownXY] = e[clientXY];
+				jd.page.editor.composer.editableArea.style.display = 'none';
+				$(document).on('mousemove', function(e){
+					if(!jd.page.isResizing) return;
+					let offset = jd.page.$wrapper[widthHeight]() - (e[clientXY] - jd.page.$wrapper.offset()[leftTop]);
+					
+					if(isMobile){
+						//jd.page.$output.css('bottom', offset);
+						jd.page.$output.css({bottom: offset, height: window.innerHeight - offset});
+						jd.page.$middlebar.css('top', jd.page.$output[0][clientWH]);
+						jd.page.$input.css({top: jd.page.$output[0][clientWH] + jd.page.$middlebar[0][clientWH], height: offset});
+
+						//TODO: this is fucked
+					}
+					else{
+						jd.page.$output.css('right', offset + 4);
+						jd.page.$input.css('width', offset - 4);
+						jd.page.$middlebar.css('left', jd.page.$output[0][clientWH]);
+					}
+				}).on('mouseup', function(e){
+					jd.page.isResizing = false;
+					jd.page.editor.composer.editableArea.style.display = 'inline-block';
+					jd.page.updateRatio();
+				});
 				break;
 		}
 	};
@@ -101,6 +128,10 @@
 	jd.validator.post = function(){
 		return jd.page.editor.composer.element.innerHTML === '' || jd.page.editor.composer.element.innerHTML === 'Put stuff here, bro...';
 	};
+
+	jd.page.updateRatio = function(){
+		jd.page.ratio = jd.page.$output[0].clientWidth / jd.page.$input[0].clientWidth;
+	};
     
 	//wysihtml
 	jd.page.editor = new wysihtml5.Editor('input', {
@@ -109,18 +140,38 @@
         ,stylesheets: ['css/wysihtml.css']
     });
 
-	//		bindings
-	window.onresize = function(e){jd.page.setDraggerIcons(); jd.page.resize(e);};
+	//bindings
+	window.onresize = function(e){jd.page.resize(e);};
     $('#input').bind('dragover drop', function(e){e.preventDefault(); return false;});
 	$('#button_clear').on('click', jd.page.clear);
-	jd.page.editor.on('focus', jd.page.resize);
-	$('#button_clear').on('click', function(){jd.page.editor.composer.clear();});
-	$(jd.controls.resizers).on('click', jd.page.resize);
-	//post
+	//jd.page.editor.on('focus', jd.page.resize);
+	$(jd.controls.clear).on('click', function(){jd.page.editor.composer.clear();});
 	$('#button_post').on('click', jd.post.add);
 	$('#output').on('click', '.post', function(){jd.post.toggle(this);});
 	$('#output').on('click', '.post-fullscreen', function(){jd.post.fullscreen(jd.post.toJSON($(this).parents('div.post')[0]));});
+	jd.page.$middlebar.on('mousedown', jd.page.resize);
 
-	jd.page.setDraggerIcons();
+
+
+	//jd.page.$middlebar.on('mousedown', function(e){
+ //       jd.page.isResizing = true;
+ //       jd.page.lastDownX = e.clientX;
+	//	jd.page.editor.composer.editableArea.style.display = 'none';
+	//	$(document).on('mousemove', function(e){
+	//		if(!jd.page.isResizing) return;
+	//		let offsetRight = jd.page.$wrapper.width() - (e.clientX - jd.page.$wrapper.offset().left);
+	//		jd.page.$output.css('right', offsetRight + 4);
+	//		jd.page.$input.css('width', offsetRight - 4);
+	//		jd.page.$middlebar.css('left', jd.page.$output[0].clientWidth);
+	//	}).on('mouseup', function(e){
+	//		jd.page.isResizing = false;
+	//		jd.page.editor.composer.editableArea.style.display = 'inline-block';
+	//	});
+ //   });
+    
+
+
+
+
 	jd.folder.get();
 }
