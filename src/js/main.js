@@ -8,6 +8,7 @@
     jd.page.$output = jd.page.$wrapper.children().eq(0);
     jd.page.$middlebar = jd.page.$wrapper.children().eq(1);
     jd.page.$input = jd.page.$wrapper.children().eq(2);
+	jd.page.$bottombar = jd.page.$wrapper.children().eq(3);
 	
 	//functions
 	jd.page.resize = function(e){
@@ -62,42 +63,45 @@
 				}
 				break;
 			case 'mousedown':
-				let lastDownXY, clientXY, widthHeight, leftTop, clientWH;
+				let clientXY, innerWH;
 				let isMobile = JD.isMobile();
 				if(isMobile){
-					lastDownXY = 'lastDownY';
 					clientXY = 'clientY';
-					widthHeight = 'height';
-					leftTop = 'top';
-					clientWH = 'clientHeight';
+					innerWH = 'innerHeight';
 				}
 				else{
-					lastDownXY = 'lastDownX';
 					clientXY = 'clientX';
-					widthHeight = 'width';
-					leftTop = 'left';
-					clientWH = 'clientWidth';
+					innerWH = 'innerWidth';
 				}
 
 				jd.page.isResizing = true;
-				jd.page[lastDownXY] = e[clientXY];
 				jd.page.editor.composer.editableArea.style.display = 'none';
 				$(document).on('mousemove', function(e){
+					function takeItToTheLimit(){
+						if(isMobile){
+							let minH = window.innerHeight * 0.1;
+							return e.clientY >= minH && e.clientY < (window.innerHeight - (minH * 1.7))
+						}
+						else return e.clientX >= window.innerWidth * 0.1 && e.clientX < window.innerWidth * 0.9
+					}
+					
 					if(!jd.page.isResizing) return;
-					let offset = jd.page.$wrapper[widthHeight]() - (e[clientXY] - jd.page.$wrapper.offset()[leftTop]);
+					if(!takeItToTheLimit()) return;
+					let offset = window[innerWH] - e[clientXY];
 					
 					if(isMobile){
-						//jd.page.$output.css('bottom', offset);
-						jd.page.$output.css({bottom: offset, height: window.innerHeight - offset});
-						jd.page.$middlebar.css('top', jd.page.$output[0][clientWH]);
-						jd.page.$input.css({top: jd.page.$output[0][clientWH] + jd.page.$middlebar[0][clientWH], height: offset});
-
-						//TODO: this is fucked
+						let outputHeight = window.innerHeight - offset;
+						jd.page.$output.css({bottom: offset, height: outputHeight});
+						jd.page.$middlebar.css('top', jd.page.$output[0].clientHeight);
+						jd.page.$input.css({
+							top: jd.page.$output[0].clientHeight + jd.page.$middlebar[0].clientHeight
+							,height: (window.innerHeight - jd.page.$bottombar[0].clientHeight) - (outputHeight + jd.page.$middlebar[0].clientHeight)
+						});						
 					}
 					else{
 						jd.page.$output.css('right', offset + 4);
 						jd.page.$input.css('width', offset - 4);
-						jd.page.$middlebar.css('left', jd.page.$output[0][clientWH]);
+						jd.page.$middlebar.css('left', jd.page.$output[0].clientWidth);
 					}
 				}).on('mouseup', function(e){
 					jd.page.isResizing = false;
