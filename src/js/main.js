@@ -96,12 +96,14 @@
 						jd.page.$input.css({
 							top: jd.page.$output[0].clientHeight + jd.page.$middlebar[0].clientHeight
 							,height: (window.innerHeight - jd.page.$bottombar[0].clientHeight) - (outputHeight + jd.page.$middlebar[0].clientHeight)
-						});						
+						});
+						jd.page.ratio = jd.page.$output[0].clientHeight / jd.page.$input[0].clientHeight;
 					}
 					else{
 						jd.page.$output.css('right', offset + 4);
 						jd.page.$input.css('width', offset - 4);
 						jd.page.$middlebar.css('left', jd.page.$output[0].clientWidth);
+						jd.page.ratio = jd.page.$output[0].clientWidth / jd.page.$input[0].clientWidth;
 					}
 				}).on('mouseup', function(e){
 					jd.page.isResizing = false;
@@ -131,10 +133,6 @@
 
 	jd.validator.post = function(){
 		return jd.page.editor.composer.element.innerHTML === '' || jd.page.editor.composer.element.innerHTML === 'Put stuff here, bro...';
-	};
-
-	jd.page.updateRatio = function(){
-		jd.page.ratio = jd.page.$output[0].clientWidth / jd.page.$input[0].clientWidth;
 	};
     
 	//wysihtml
