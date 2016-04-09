@@ -12,7 +12,7 @@ var JD = (function () {
 			isResizing: false,
 			lastDownX: 0,
 			lastDownY: 0,
-			ratio: 1
+			ratio: 0.5
 		};
 		this.controls = {};
 		this.validator = {};

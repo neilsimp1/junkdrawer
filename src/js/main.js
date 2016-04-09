@@ -15,47 +15,84 @@
 		switch(e.type){
 			case 'focus':
 				if(JD.isMobile()){
-					//let saveState = jd.controls.resizers.state;
-					//jd.controls.resizers.state = 0;
+					let outputH = jd.page.$output[0].clientHeight, inputH = jd.page.$input[0].clientHeight;
 
-					//outputH = '10vh';
-					//inputH = '80vh';
-					//jd.page.editor.on('blur', function(){
-					//	jd.controls.resizers.state = saveState;
-					//	jd.page.editor.off('blur');
-					//	setContainers();
-					//});
-					//setContainers();
+					jd.page.$output.css('height', window.innerHeight * 0.1);
+					jd.page.$middlebar.css('top', jd.page.$output[0].clientHeight);
+					jd.page.$input.css({
+						height: (window.innerHeight - jd.page.$bottombar[0].clientHeight) - (jd.page.$output[0].clientHeight + jd.page.$middlebar[0].clientHeight)
+						,top: jd.page.$output[0].clientHeight + jd.page.$middlebar[0].clientHeight
+					});
+					
+					jd.page.editor.on('blur', function(){
+						jd.page.$output.css('height', outputH);
+						jd.page.$middlebar.css('top', jd.page.$output[0].clientHeight);
+						jd.page.$input.css({height: inputH, top: jd.page.$output[0].clientHeight + jd.page.$middlebar[0].clientHeight});
+						jd.page.editor.off('blur');
+					});
 				}
 				break;
 			case 'resize':
 				let ratio = jd.page.ratio;
 				if(JD.isMobile()){
+					let outputH = (window.innerHeight - jd.page.$bottombar[0].clientHeight) * ratio;
 					$(jd.page.$output).css({
 						width: '100%'
-						,height: '45vh'
+						,height: outputH
 						,left: 0
 					});
-					$(jd.page.$middlebar).css({top: '45vh', left: 0});
+					$(jd.page.$middlebar).css({top: outputH, left: 0});
 					$(jd.page.$input).css({
 						width: '100%'
-						,height: '45vh'
-						,top: '47vh'
+						,height: window.innerHeight - outputH - jd.page.$middlebar[0].clientHeight - jd.page.$bottombar[0].clientHeight
+						,top: outputH + jd.page.$middlebar[0].clientHeight
 					});
+					jd.page.updateRatio(true);
 				}
 				else{
+					let outputW = (window.innerWidth - jd.page.$middlebar[0].clientWidth) * ratio;
 					$(jd.page.$output).css({
-						width: 'calc(50% - 4px)'
+						width: outputW
 						,height: '92vh'
 						,bottom: jd.page.$bottombar[0].clientHeight
 					});
 					$(jd.page.$middlebar).css({top: 0, left: jd.page.$output[0].clientWidth});
 					$(jd.page.$input).css({
-						width: 'calc(50% - 4px)'
+						width: window.innerWidth - outputW - jd.page.$middlebar[0].clientWidth
 						,height: '92vh'
 						,top: 0
 					});
+					jd.page.updateRatio(false);
 				}
+
+				//if(JD.isMobile()){
+				//	$(jd.page.$output).css({
+				//		width: '100%'
+				//		,height: '45vh'
+				//		,left: 0
+				//	});
+				//	$(jd.page.$middlebar).css({top: '45vh', left: 0});
+				//	$(jd.page.$input).css({
+				//		width: '100%'
+				//		,height: '45vh'
+				//		,top: '47vh'
+				//	});
+				//	jd.page.updateRatio(true);
+				//}
+				//else{
+				//	$(jd.page.$output).css({
+				//		width: 'calc(50% - 4px)'
+				//		,height: '92vh'
+				//		,bottom: jd.page.$bottombar[0].clientHeight
+				//	});
+				//	$(jd.page.$middlebar).css({top: 0, left: jd.page.$output[0].clientWidth});
+				//	$(jd.page.$input).css({
+				//		width: 'calc(50% - 4px)'
+				//		,height: '92vh'
+				//		,top: 0
+				//	});
+				//	jd.page.updateRatio(false);
+				//}
 				break;
 			case 'mousedown':
 				let clientXY, innerWH;
@@ -102,8 +139,7 @@
 				}).on('mouseup', function(e){
 					jd.page.isResizing = false;
 					jd.page.editor.composer.editableArea.style.display = 'inline-block';
-					if(isMobile) jd.page.ratio = jd.page.$output[0].clientHeight / jd.page.$input[0].clientHeight;
-					else jd.page.ratio = jd.page.$output[0].clientWidth / jd.page.$input[0].clientWidth;
+					jd.page.updateRatio(isMobile);
 				});
 				break;
 		}
@@ -118,7 +154,7 @@
 			,m = dt.getMinutes() < 10? '0' + (dt.getMinutes() + 1): dt.getMinutes()
 			,ap = dt.getHours() < 12? 'am': 'pm'
 
-		return mm + '/' + dd + '/' + yy + ' ' + h + ':' + m + ' ' + ap;
+		return mm + '/' + dd + '/' + yy + ' ' + h + ':' + m + ap;
 	};
 	
 	jd.getActiveFolderID = function(){
@@ -128,6 +164,15 @@
 
 	jd.validator.post = function(){
 		return jd.page.editor.composer.element.innerHTML === '' || jd.page.editor.composer.element.innerHTML === 'Put stuff here, bro...';
+	};
+
+	jd.page.updateRatio = function(isMobile){
+		if(typeof isMobile === 'undefined') isMobile = JD.isMobile();
+		let ratio = isMobile? jd.page.$output[0].clientHeight / jd.page.$input[0].clientHeight: jd.page.ratio = jd.page.$output[0].clientWidth / jd.page.$input[0].clientWidth;
+		//let ratio = isMobile?
+		//	(window.innerHeight - jd.page.$bottombar[0].clientHeight) / (jd.page.$output[0].clientHeight + jd.page.$middlebar[0].clientHeight / 2):
+		//	(window.inner - jd.page.$middlebar[0].clientWidth) / jd.page.$output[0].clientWidth;
+		jd.page.ratio = (Math.floor(ratio) * 50) / 100;
 	};
     
 	//wysihtml
@@ -141,7 +186,7 @@
 	window.onresize = function(e){jd.page.resize(e);};
     $('#input').bind('dragover drop', function(e){e.preventDefault(); return false;});
 	$('#button_clear').on('click', jd.page.clear);
-	//jd.page.editor.on('focus', jd.page.resize);
+	jd.page.editor.on('focus', jd.page.resize);
 	$(jd.controls.clear).on('click', function(){jd.page.editor.composer.clear();});
 	$('#button_post').on('click', jd.post.add);
 	$('#output').on('click', '.post', function(){jd.post.toggle(this);});
