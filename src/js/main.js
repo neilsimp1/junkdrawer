@@ -189,7 +189,11 @@
 	jd.page.editor.on('focus', jd.page.resize);
 	$(jd.controls.clear).on('click', function(){jd.page.editor.composer.clear();});
 	$('#button_post').on('click', jd.post.add);
-	$('#output').on('click', '.post', function(){jd.post.toggle(this);});
+	$('#output').on('click', '.post', function(e){
+		if(e.target.className.indexOf('post-btn') !== -1) return false;
+		if(getSelection().toString()) return false;
+		if(e.target.tagName.toUpperCase() !== 'A') jd.post.toggle(this);
+	});
 	$('#output').on('click', '.post-fullscreen', function(){jd.post.fullscreen(jd.post.toJSON($(this).parents('div.post')[0]));});
 	jd.page.$middlebar.on('mousedown', jd.page.resize);
 	

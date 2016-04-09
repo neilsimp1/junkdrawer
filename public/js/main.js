@@ -1152,7 +1152,10 @@ function init_main() {
 
 	jd.page.updateRatio = function (isMobile) {
 		if (typeof isMobile === 'undefined') isMobile = JD.isMobile();
-		var ratio = isMobile ? (window.innerHeight - jd.page.$bottombar[0].clientHeight) / (jd.page.$output[0].clientHeight + jd.page.$middlebar[0].clientHeight / 2) : (window.inner - jd.page.$middlebar[0].clientWidth) / jd.page.$output[0].clientWidth;
+		var ratio = isMobile ? jd.page.$output[0].clientHeight / jd.page.$input[0].clientHeight : jd.page.ratio = jd.page.$output[0].clientWidth / jd.page.$input[0].clientWidth;
+		//let ratio = isMobile?
+		//	(window.innerHeight - jd.page.$bottombar[0].clientHeight) / (jd.page.$output[0].clientHeight + jd.page.$middlebar[0].clientHeight / 2):
+		//	(window.inner - jd.page.$middlebar[0].clientWidth) / jd.page.$output[0].clientWidth;
 		jd.page.ratio = Math.floor(ratio) * 50 / 100;
 	};
 
@@ -1176,8 +1179,10 @@ function init_main() {
 		jd.page.editor.composer.clear();
 	});
 	$('#button_post').on('click', jd.post.add);
-	$('#output').on('click', '.post', function () {
-		jd.post.toggle(this);
+	$('#output').on('click', '.post', function (e) {
+		if (e.target.className.indexOf('post-btn') !== -1) return false;
+		if (getSelection().toString()) return false;
+		if (e.target.tagName.toUpperCase() !== 'A') jd.post.toggle(this);
 	});
 	$('#output').on('click', '.post-fullscreen', function () {
 		jd.post.fullscreen(jd.post.toJSON($(this).parents('div.post')[0]));
