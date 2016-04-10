@@ -5,7 +5,7 @@ let passport = require('passport')
 	,FacebookStrategy = require('passport-facebook').Strategy
 	,TwitterStrategy = require('passport-twitter').Strategy
 	,GithubStrategy = require('passport-github2').Strategy
-	,config = require('../protected/jd-config');
+	,config = require('./config');
 
 let models = require('./models')
 	,utils = require('./utils');

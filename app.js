@@ -1,16 +1,16 @@
 ﻿var bodyParser = require('body-parser')
-	,mongoose = require('mongoose')
-	,favicon = require('serve-favicon')
-	,csrf = require('csurf')
-	,express = require('express')
-	,flash = require('connect-flash')
-	,path = require('path')
-	,session = require('client-sessions')
-	,passport = require('passport');
+	, mongoose = require('mongoose')
+	, favicon = require('serve-favicon')
+	, csrf = require('csurf')
+	, express = require('express')
+	, flash = require('connect-flash')
+	, path = require('path')
+	, session = require('client-sessions')
+	, passport = require('passport');
 
 var middleware = require('./middleware')
-	,utils = require('./utils')
-	,config = require('../protected/jd-config');
+	, utils = require('./utils')
+	, config = require('./config');
 
 mongoose.connect(config.db.dev.url);
 
@@ -22,9 +22,9 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(session({
 	cookieName: 'session'
-	,secret: 'this is a secret'
-	,duration: 30 * 60 * 1000
-	,activeDuration: 5 * 60 * 1000
+	, secret: 'this is a secret'
+	, duration: 30 * 60 * 1000
+	, activeDuration: 5 * 60 * 1000
 }));
 app.use(flash());
 app.use(passport.initialize());

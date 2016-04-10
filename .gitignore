@@ -213,3 +213,5 @@ ModelManifest.xml
 /dist
 *.njsproj
 *.sln
+.vscode/
+config.js

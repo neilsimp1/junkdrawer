@@ -10,7 +10,7 @@ let bcrypt = require('bcryptjs')
 
 let models = require('../models')
 	,utils = require('../utils')
-	,config = require('../../protected/jd-config');
+	,config = require('../config');
 
 let router = express.Router();
 
