@@ -896,31 +896,34 @@ var Post = (function () {
 	}
 
 	_createClass(Post, [{
-		key: 'add',
-		value: function add() {
+		key: 'save',
+		value: function save() {
+			//let files = $I('fileinput').files;
+			var post = {
+				_id: jd.getActivePostID(),
+				folderid: jd.getActiveFolderID(),
+				text: jd.page.editor.composer.getValue()
+				//, files: files
+			};
+
 			if (!jd.validator.post()) {
-				(function () {
-					//let files = $I('fileinput').files;
+				if (post._id) {
+					return;
+					//ask to overwrite, slide up menu from > button		< Overwrite? Yes | No >
+				}
 
-					var post = {
-						folderid: jd.getActiveFolderID(),
-						text: jd.page.editor.composer.getValue()
-						//,files: files
-					};
-
-					$.post('post', {
-						post: post,
-						_csrf: jd.csrf
-					}).done(function (ret) {
-						jd.csrf = ret.csrf;
-						post.id = ret.id;
-						post.datetime = ret.datetime;
-						jd.page.editor.composer.clear();
-						jd.post.show(post);
-					}).fail(function (ret) {
-						alert('what the fuck');
-					});
-				})();
+				$.post('post', {
+					post: post,
+					_csrf: jd.csrf
+				}).done(function (ret) {
+					jd.csrf = ret.csrf;
+					post.id = ret.id;
+					post.datetime = ret.datetime;
+					jd.page.editor.composer.clear();
+					jd.post.show(post);
+				}).fail(function (ret) {
+					alert('what the fuck');
+				});
 			}
 		}
 	}, {
@@ -951,6 +954,12 @@ var Post = (function () {
 		value: function fullscreen(post) {
 			$('#modal_post-text').html(post.text);
 			$('#modal_post').modal();
+		}
+	}, {
+		key: 'edit',
+		value: function edit(post) {
+			jd.page.editor.composer.element.innerHTML = post.text;
+			jd.controls.post_id.value = post._id;
 		}
 	}, {
 		key: 'template',
@@ -986,6 +995,7 @@ function init_main() {
 
 	//controls
 	jd.controls.clear = $I('button_clear');
+	jd.controls.post_id = $I('post_id');
 	jd.page.$wrapper = $('#wrapper');
 	jd.page.$output = jd.page.$wrapper.children().eq(0);
 	jd.page.$middlebar = jd.page.$wrapper.children().eq(1);
@@ -1145,9 +1155,15 @@ function init_main() {
 			if (folders[i].active) return folders[i]._id;
 		}
 	};
+	jd.getActivePostID = function () {
+		if (jd.page.editor.isEmpty()) {
+			jd.controls.post_id.value = '';
+		}
+		return jd.controls.post_id.value;
+	};
 
 	jd.validator.post = function () {
-		return jd.page.editor.composer.element.innerHTML === '' || jd.page.editor.composer.element.innerHTML === 'Put stuff here, bro...';
+		return jd.page.editor.isEmpty();
 	};
 
 	jd.page.updateRatio = function (isMobile) {
@@ -1165,6 +1181,9 @@ function init_main() {
 		parserRules: wysihtml5ParserRules,
 		stylesheets: ['css/wysihtml.css']
 	});
+	jd.page.editor.isEmpty = function () {
+		return jd.page.editor.composer.element.innerHTML === '' || jd.page.editor.composer.element.innerHTML === 'Put stuff here, bro...';
+	};
 
 	//bindings
 	window.onresize = function (e) {
@@ -1178,7 +1197,7 @@ function init_main() {
 	$(jd.controls.clear).on('click', function () {
 		jd.page.editor.composer.clear();
 	});
-	$('#button_post').on('click', jd.post.add);
+	$('#button_post').on('click', jd.post.save);
 	$('#output').on('click', '.post', function (e) {
 		if (e.target.className.indexOf('post-btn') !== -1) return false;
 		if (getSelection().toString()) return false;
@@ -1186,6 +1205,9 @@ function init_main() {
 	});
 	$('#output').on('click', '.post-fullscreen', function () {
 		jd.post.fullscreen(jd.post.toJSON($(this).parents('div.post')[0]));
+	});
+	$('#output').on('click', '.post-edit', function () {
+		jd.post.edit(jd.post.toJSON($(this).parents('div.post')[0]));
 	});
 	jd.page.$middlebar.on('mousedown', jd.page.resize);
 

@@ -4,19 +4,23 @@
 
 	}
 
-	add(){
-		if(!jd.validator.post()){
-			//let files = $I('fileinput').files;
+	save(){
+		//let files = $I('fileinput').files;
+		let post = {
+			_id: jd.getActivePostID()
+			, folderid: jd.getActiveFolderID()
+			, text: jd.page.editor.composer.getValue()
+			//, files: files
+		};
 
-			let post = {
-				folderid: jd.getActiveFolderID()
-				,text: jd.page.editor.composer.getValue()
-				//,files: files
-			};
+		if(!jd.validator.post()){
+			if(post._id){return;
+				//ask to overwrite, slide up menu from > button		< Overwrite? Yes | No >
+			}
 			
 			$.post('post', {
 				post: post
-				,_csrf: jd.csrf
+				, _csrf: jd.csrf
 			})
 			.done(function(ret){
 				jd.csrf = ret.csrf;
@@ -56,6 +60,11 @@
 	fullscreen(post){
 		$('#modal_post-text').html(post.text);
 		$('#modal_post').modal();
+	}
+
+	edit(post){
+		jd.page.editor.composer.element.innerHTML = post.text;
+		jd.controls.post_id.value = post._id;
 	}
 
 	template($template, post){

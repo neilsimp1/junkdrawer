@@ -4,6 +4,7 @@
 
 	//controls
 	jd.controls.clear = $I('button_clear');
+	jd.controls.post_id = $I('post_id');
 	jd.page.$wrapper = $('#wrapper');
     jd.page.$output = jd.page.$wrapper.children().eq(0);
     jd.page.$middlebar = jd.page.$wrapper.children().eq(1);
@@ -161,9 +162,15 @@
 		let folders = jd.user.folders;
 		for(let i = 0; i < folders.length; i++){if(folders[i].active) return folders[i]._id;}
 	};
+	jd.getActivePostID = function(){
+		if(jd.page.editor.isEmpty()){
+			jd.controls.post_id.value = '';
+		}
+		return jd.controls.post_id.value;
+	};
 
 	jd.validator.post = function(){
-		return jd.page.editor.composer.element.innerHTML === '' || jd.page.editor.composer.element.innerHTML === 'Put stuff here, bro...';
+		return jd.page.editor.isEmpty();
 	};
 
 	jd.page.updateRatio = function(isMobile){
@@ -181,6 +188,9 @@
         ,parserRules:  wysihtml5ParserRules
         ,stylesheets: ['css/wysihtml.css']
     });
+	jd.page.editor.isEmpty = function(){
+		return jd.page.editor.composer.element.innerHTML === '' || jd.page.editor.composer.element.innerHTML === 'Put stuff here, bro...';
+	};
 
 	//bindings
 	window.onresize = function(e){jd.page.resize(e);};
@@ -188,13 +198,14 @@
 	$('#button_clear').on('click', jd.page.clear);
 	jd.page.editor.on('focus', jd.page.resize);
 	$(jd.controls.clear).on('click', function(){jd.page.editor.composer.clear();});
-	$('#button_post').on('click', jd.post.add);
+	$('#button_post').on('click', jd.post.save);
 	$('#output').on('click', '.post', function(e){
 		if(e.target.className.indexOf('post-btn') !== -1) return false;
 		if(getSelection().toString()) return false;
 		if(e.target.tagName.toUpperCase() !== 'A') jd.post.toggle(this);
 	});
 	$('#output').on('click', '.post-fullscreen', function(){jd.post.fullscreen(jd.post.toJSON($(this).parents('div.post')[0]));});
+	$('#output').on('click', '.post-edit', function(){jd.post.edit(jd.post.toJSON($(this).parents('div.post')[0]));});
 	jd.page.$middlebar.on('mousedown', jd.page.resize);
 	
 	jd.folder.get();
