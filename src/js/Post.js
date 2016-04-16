@@ -4,20 +4,8 @@
 
 	}
 
-	save(){
-		//let files = $I('fileinput').files;
-		let post = {
-			_id: jd.getActivePostID()
-			, folderid: jd.getActiveFolderID()
-			, text: jd.page.editor.composer.getValue()
-			//, files: files
-		};
-
+	save(post){
 		if(!jd.validator.post()){
-			if(post._id){return;
-				//ask to overwrite, slide up menu from > button		< Overwrite? Yes | No >
-			}
-			
 			$.post('post', {
 				post: post
 				, _csrf: jd.csrf

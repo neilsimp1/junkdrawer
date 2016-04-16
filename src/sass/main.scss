@@ -104,29 +104,39 @@ opacity:0.9;
 iframe.wysihtml5-sandbox{width:100% !important;height:100% !important;}
 
 /*Menus*/
-.menubtn{
-border:0;
-background-color:$purple-med;/*//TODO: MAKE THIS LESS INTENSE*/
-opacity:0.7;
-width:40px;
-height:40px;
-font-size:1.75em;
-padding:5px;
-outline:none;
+.menubtn {
+    border: 0;
+    background-color: $purple-med;/*//TODO: MAKE THIS LESS INTENSE*/
+    opacity: 0.7;
+    width: 40px;
+    height: 40px;
+    font-size: 1.75em;
+    padding: 5px;
+    outline: none;
 }
-.menubtncontainer{padding:0;max-height:40px;}
-.menubtncontainer div.open #button_menu{background-color:#CDCDCD;}
-.mainmenu{
-border-radius:0;
-background-color:#D8D8D8;
+.menubtncontainer {padding: 0; max-height: 40px;}
+.menubtncontainer div.open #button_menu {background-color: #CDCDCD;}
+
+.menubtn-slide {
+    display: inline-block;
+    opacity: 0.7;
+    height: 40px;
+    // font-size: 1.75em;
+    padding: 5px;
+    outline: none;
+}
+
+.mainmenu {
+    border-radius: 0;
+    background-color: #D8D8D8;
 }
 .mainmenu .divider{margin:4px auto;visibility:visible;border-color:#A7A7A7;}
 .mainmenu li a{padding:3px 10px 3px 15px;}
-.mainmenu li:hover, .mainmenu li a:hover{
-color:$green-med;
-background-color:$purple-grey;
-background-image:none;
-font-weight:bold;
+.mainmenu li:hover, .mainmenu li a:hover {
+    color: $green-med;
+    background-color: $purple-grey;
+    background-image: none;
+    font-weight: bold;
 }
 .mainmenu span.glyphicon{float:right;padding-top:2px;}
 
@@ -139,19 +149,30 @@ font-weight:bold;
 .filemenu li:hover{color:$green-med;}
 ul.filemenu.dropdown-menu{border:0;}
 
-#wysihtml5-toolbar{font-size:1.3em;}
-.toolbar{
-padding:0 4px;
-background-color:$green-grey;
-color:$grey-light;
-margin-bottom:2px;
-height:28px;
-opacity:1;
-overflow:hidden;
-opacity:0.9;
+#wysihtml5-toolbar {font-size: 1.3em;}
+.toolbar {
+    padding: 0 4px;
+    background-color: $green-grey;
+    color: $grey-light;
+    margin-bottom: 2px;
+    height: 28px;
+    opacity: 1;
+    overflow: hidden;
+    opacity: 0.9;
 }
-.toolbar:hover{opacity:1;}
-.btn-glyph{background:none;border:none;padding:1px;width:20px;height:20px;}
-.btn-glyph.wysihtml5-command-active{background-color:$grey-light;color:$background-white}
-#button_clear span.glyphicon{padding-top:3px;}
-#button_post span.glyphicon{margin-left:-3px;}
+.toolbar:hover {opacity: 1;}
+.btn-glyph {background: none;border: none;padding: 1px;width: 20px;height: 20px;}
+.btn-glyph.wysihtml5-command-active {background-color: $grey-light;color: $background-white}
+#button_clear span.glyphicon {padding-top: 3px;}
+#button_post span.glyphicon {margin-left: -3px;}
+
+.edit-post-confirm {
+    display: none;
+    span.input-group-addon {
+        width: auto;
+        background-color: $purple-med;
+        border: none;
+        border-radius: 0;
+        display: inline;
+    }
+}

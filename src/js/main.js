@@ -22,7 +22,7 @@
 					jd.page.$middlebar.css('top', jd.page.$output[0].clientHeight);
 					jd.page.$input.css({
 						height: (window.innerHeight - jd.page.$bottombar[0].clientHeight) - (jd.page.$output[0].clientHeight + jd.page.$middlebar[0].clientHeight)
-						,top: jd.page.$output[0].clientHeight + jd.page.$middlebar[0].clientHeight
+						, top: jd.page.$output[0].clientHeight + jd.page.$middlebar[0].clientHeight
 					});
 					
 					jd.page.editor.on('blur', function(){
@@ -39,14 +39,14 @@
 					let outputH = (window.innerHeight - jd.page.$bottombar[0].clientHeight) * ratio;
 					$(jd.page.$output).css({
 						width: '100%'
-						,height: outputH
-						,left: 0
+						, height: outputH
+						, left: 0
 					});
 					$(jd.page.$middlebar).css({top: outputH, left: 0});
 					$(jd.page.$input).css({
 						width: '100%'
-						,height: window.innerHeight - outputH - jd.page.$middlebar[0].clientHeight - jd.page.$bottombar[0].clientHeight
-						,top: outputH + jd.page.$middlebar[0].clientHeight
+						, height: window.innerHeight - outputH - jd.page.$middlebar[0].clientHeight - jd.page.$bottombar[0].clientHeight
+						, top: outputH + jd.page.$middlebar[0].clientHeight
 					});
 					jd.page.updateRatio(true);
 				}
@@ -54,14 +54,14 @@
 					let outputW = (window.innerWidth - jd.page.$middlebar[0].clientWidth) * ratio;
 					$(jd.page.$output).css({
 						width: outputW
-						,height: '92vh'
-						,bottom: jd.page.$bottombar[0].clientHeight
+						, height: '92vh'
+						, bottom: jd.page.$bottombar[0].clientHeight
 					});
 					$(jd.page.$middlebar).css({top: 0, left: jd.page.$output[0].clientWidth});
 					$(jd.page.$input).css({
 						width: window.innerWidth - outputW - jd.page.$middlebar[0].clientWidth
-						,height: '92vh'
-						,top: 0
+						, height: '92vh'
+						, top: 0
 					});
 					jd.page.updateRatio(false);
 				}
@@ -69,28 +69,28 @@
 				//if(JD.isMobile()){
 				//	$(jd.page.$output).css({
 				//		width: '100%'
-				//		,height: '45vh'
-				//		,left: 0
+				//		, height: '45vh'
+				//		, left: 0
 				//	});
 				//	$(jd.page.$middlebar).css({top: '45vh', left: 0});
 				//	$(jd.page.$input).css({
 				//		width: '100%'
-				//		,height: '45vh'
-				//		,top: '47vh'
+				//		, height: '45vh'
+				//		, top: '47vh'
 				//	});
 				//	jd.page.updateRatio(true);
 				//}
 				//else{
 				//	$(jd.page.$output).css({
 				//		width: 'calc(50% - 4px)'
-				//		,height: '92vh'
-				//		,bottom: jd.page.$bottombar[0].clientHeight
+				//		, height: '92vh'
+				//		, bottom: jd.page.$bottombar[0].clientHeight
 				//	});
 				//	$(jd.page.$middlebar).css({top: 0, left: jd.page.$output[0].clientWidth});
 				//	$(jd.page.$input).css({
 				//		width: 'calc(50% - 4px)'
-				//		,height: '92vh'
-				//		,top: 0
+				//		, height: '92vh'
+				//		, top: 0
 				//	});
 				//	jd.page.updateRatio(false);
 				//}
@@ -129,7 +129,7 @@
 						jd.page.$middlebar.css('top', jd.page.$output[0].clientHeight);
 						jd.page.$input.css({
 							top: jd.page.$output[0].clientHeight + jd.page.$middlebar[0].clientHeight
-							,height: (window.innerHeight - jd.page.$bottombar[0].clientHeight) - (outputHeight + jd.page.$middlebar[0].clientHeight)
+							, height: (window.innerHeight - jd.page.$bottombar[0].clientHeight) - (outputHeight + jd.page.$middlebar[0].clientHeight)
 						});
 					}
 					else{
@@ -149,11 +149,11 @@
 	jd.date.format = function(datetime){
 		let dt = new Date(datetime);
 		let mm = dt.getMonth() + 1
-			,dd = dt.getDate()
-			,yy = dt.getFullYear()
-			,h = dt.getHours() > 12? dt.getHours() - 12: dt.getHours()
-			,m = dt.getMinutes() < 10? '0' + (dt.getMinutes() + 1): dt.getMinutes()
-			,ap = dt.getHours() < 12? 'am': 'pm'
+			, dd = dt.getDate()
+			, yy = dt.getFullYear()
+			, h = dt.getHours() > 12? dt.getHours() - 12: dt.getHours()
+			, m = dt.getMinutes() < 10? '0' + (dt.getMinutes() + 1): dt.getMinutes()
+			, ap = dt.getHours() < 12? 'am': 'pm'
 
 		return mm + '/' + dd + '/' + yy + ' ' + h + ':' + m + ap;
 	};
@@ -185,8 +185,8 @@
 	//wysihtml
 	jd.page.editor = new wysihtml5.Editor('input', {
         toolbar: 'wysihtml5-toolbar'
-        ,parserRules:  wysihtml5ParserRules
-        ,stylesheets: ['css/wysihtml.css']
+        , parserRules:  wysihtml5ParserRules
+        , stylesheets: ['css/wysihtml.css']
     });
 	jd.page.editor.isEmpty = function(){
 		return jd.page.editor.composer.element.innerHTML === '' || jd.page.editor.composer.element.innerHTML === 'Put stuff here, bro...';
@@ -198,7 +198,25 @@
 	$('#button_clear').on('click', jd.page.clear);
 	jd.page.editor.on('focus', jd.page.resize);
 	$(jd.controls.clear).on('click', function(){jd.page.editor.composer.clear();});
-	$('#button_post').on('click', jd.post.save);
+	$('#button_post').on('click', function(){
+        //let files = $I('fileinput').files;
+		let post = {
+			_id: jd.getActivePostID()
+			, folderid: jd.getActiveFolderID()
+			, text: jd.page.editor.composer.getValue()
+			//, files: files
+		};
+        
+        if(post._id){
+            //$('.edit-post-confirm, #button_post, #button_filemenu').animate({width: 'toggle'});
+            $('.edit-post-confirm').animate({width: 'toggle'}, 250).css('display', 'inline-block');
+            
+            return;
+        }
+        
+        jd.post.save();
+        jd.controls.post_id.value = '';
+    });
 	$('#output').on('click', '.post', function(e){
 		if(e.target.className.indexOf('post-btn') !== -1) return false;
 		if(getSelection().toString()) return false;

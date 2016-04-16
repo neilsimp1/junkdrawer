@@ -897,21 +897,8 @@ var Post = (function () {
 
 	_createClass(Post, [{
 		key: 'save',
-		value: function save() {
-			//let files = $I('fileinput').files;
-			var post = {
-				_id: jd.getActivePostID(),
-				folderid: jd.getActiveFolderID(),
-				text: jd.page.editor.composer.getValue()
-				//, files: files
-			};
-
+		value: function save(post) {
 			if (!jd.validator.post()) {
-				if (post._id) {
-					return;
-					//ask to overwrite, slide up menu from > button		< Overwrite? Yes | No >
-				}
-
 				$.post('post', {
 					post: post,
 					_csrf: jd.csrf
@@ -1062,28 +1049,28 @@ function init_main() {
 				//if(JD.isMobile()){
 				//	$(jd.page.$output).css({
 				//		width: '100%'
-				//		,height: '45vh'
-				//		,left: 0
+				//		, height: '45vh'
+				//		, left: 0
 				//	});
 				//	$(jd.page.$middlebar).css({top: '45vh', left: 0});
 				//	$(jd.page.$input).css({
 				//		width: '100%'
-				//		,height: '45vh'
-				//		,top: '47vh'
+				//		, height: '45vh'
+				//		, top: '47vh'
 				//	});
 				//	jd.page.updateRatio(true);
 				//}
 				//else{
 				//	$(jd.page.$output).css({
 				//		width: 'calc(50% - 4px)'
-				//		,height: '92vh'
-				//		,bottom: jd.page.$bottombar[0].clientHeight
+				//		, height: '92vh'
+				//		, bottom: jd.page.$bottombar[0].clientHeight
 				//	});
 				//	$(jd.page.$middlebar).css({top: 0, left: jd.page.$output[0].clientWidth});
 				//	$(jd.page.$input).css({
 				//		width: 'calc(50% - 4px)'
-				//		,height: '92vh'
-				//		,top: 0
+				//		, height: '92vh'
+				//		, top: 0
 				//	});
 				//	jd.page.updateRatio(false);
 				//}
@@ -1197,7 +1184,25 @@ function init_main() {
 	$(jd.controls.clear).on('click', function () {
 		jd.page.editor.composer.clear();
 	});
-	$('#button_post').on('click', jd.post.save);
+	$('#button_post').on('click', function () {
+		//let files = $I('fileinput').files;
+		var post = {
+			_id: jd.getActivePostID(),
+			folderid: jd.getActiveFolderID(),
+			text: jd.page.editor.composer.getValue()
+			//, files: files
+		};
+
+		if (post._id) {
+			//$('.edit-post-confirm, #button_post, #button_filemenu').animate({width: 'toggle'});
+			$('.edit-post-confirm').animate({ width: 'toggle' }, 250).css('display', 'inline-block');
+
+			return;
+		}
+
+		jd.post.save();
+		jd.controls.post_id.value = '';
+	});
 	$('#output').on('click', '.post', function (e) {
 		if (e.target.className.indexOf('post-btn') !== -1) return false;
 		if (getSelection().toString()) return false;

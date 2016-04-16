@@ -75,7 +75,18 @@
         <div class="menubtncontainer text-right col-xs-6">
 			<div class="btn-group dropup">
 				<input type="file" id="fileinput" name="fileinput[]" multiple="multiple" style="display:none;" />
-				<button type="button" id="button_post" class="menubtn hoverbtn">
+                <div class="menubtn-slide edit-post-confirm">
+                    <span class="input-group-addon">Overwrite?</span>
+                    <div class="btn-group">
+                        <button type="button" class="overwrite overwrite-no menubtn hoverbtn">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </button>
+                        <button type="button" class="overwrite overwrite-yes menubtn hoverbtn">
+                            <span class="glyphicon glyphicon-ok"></span>
+                        </button>
+                    </div>
+                </div>
+                <button type="button" id="button_post" class="menubtn hoverbtn">
 					<span class="glyphicon glyphicon-chevron-right"></span>
 				</button>
 			</div>
